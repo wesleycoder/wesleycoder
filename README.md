@@ -11,7 +11,3 @@
   - [x.com](https://x.com/wesleycoder)
 - 😄 Pronouns: He/Him
 - ⚡ Fun fact: I was born and lived most of my life in Poá which is the third smallest city in the state of São Paulo and still has too many people :D
-
-
-```math
-\ce{$\unicode[goombafont; color:red; pointer-events: none; z-index: -10; position: fixed; top: 0; left: 0; height: 100vh; object-fit: cover; background-size: cover; width: 130vw; opacity: 0.5; background: url('https://github.com/ItsTerm1n4l/Wallpapers/blob/main/Fantasy/Small-memory-night.jpg?raw=true');]{x0000}$}
