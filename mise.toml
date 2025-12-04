@@ -1,0 +1,30 @@
+experimental_monorepo_root = true
+
+[tools]
+age = "latest"
+caddy = "latest"
+deno = "latest"
+sops = "latest"
+usage = "latest"
+
+[hooks]
+postinstall = "deno i"
+
+[settings.sops]
+rops = false
+age_key_file = "dev-age-id.key"
+age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p"
+
+[env]
+SOPS_AGE_KEY_FILE = "dev-age-id.key"
+'_'.file = [
+  { path = ".env.yaml" },
+]
+
+[tasks]
+deno = "deno"
+lint = "deno lint"
+caddy = "caddy run --config ./Caddyfile &> caddy.log"
+
+[tasks.dev]
+depends = [":caddy", "//apps/*:dev"]

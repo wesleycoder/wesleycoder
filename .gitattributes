@@ -1,0 +1,2 @@
+.env.yaml diff=sopsdiffer-yaml
+.env.json diff=sopsdiffer-json

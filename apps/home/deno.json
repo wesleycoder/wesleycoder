@@ -1,0 +1,22 @@
+{
+  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "name": "@wes/home",
+  "exports": "./index.html",
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "esnext"
+    ],
+    "types": [
+      "vite/client"
+    ]
+  },
+  "imports": {
+    "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.5",
+    "@unplugin/macros": "jsr:@unplugin/macros@^0.18.3",
+    "vite": "npm:vite@^7.1.10",
+    "vite-plugin-devtools-json": "npm:vite-plugin-devtools-json@^1.0.0"
+  }
+}

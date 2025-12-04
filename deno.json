@@ -1,0 +1,22 @@
+{
+  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "nodeModulesDir": "auto",
+  "workspace": [
+    "apps/*",
+    "pkgs/*"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "dom",
+      "deno.ns",
+      "esnext"
+    ]
+  },
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "lineWidth": 120,
+    "quoteProps": "asNeeded"
+  }
+}

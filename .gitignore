@@ -1,0 +1,24 @@
+# filesystem artifacts
+.DS_STORE
+
+# automation artifacts
+.vite/
+
+# build artifacts
+dist/
+
+# managed dependencies
+node_modules/
+
+# logs
+*.log
+
+# lockfiles
+*.lock
+
+# keys and local env
+*.key
+*.local
+
+# track encrypted files
+!.env.yaml

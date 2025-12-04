@@ -1,0 +1,8 @@
+[diff "sopsdiffer"]
+  textconv = ./bin/sops-git-diff
+
+[diff "sopsdiffer-yaml"]
+  textconv = ./bin/sops-git-diff --input-type yaml
+
+[diff "sopsdiffer-json"]
+  textconv = ./bin/sops-git-diff --input-type json
