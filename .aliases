@@ -1,0 +1,37 @@
+if ! command -v tap >/dev/null; then
+  function tap() {
+    local folder=$(dirname "$1")
+    mkdir -p "$folder"
+    echo '#!/usr/bin/env bash\n\necho "$@"' >"$1"
+    chmod +x "$1"
+  }
+fi
+
+if ! command -v on >/dev/null; then
+  function on() {
+    set -o localoptions -o localtraps
+    TRAPINT() {
+      popd &>/dev/null
+    }
+    TRAPQUIT() {
+      popd &>/dev/null
+    }
+    TRAPTERM() {
+      popd &>/dev/null
+    }
+    TRAPERR() {
+      popd &>/dev/null
+    }
+    TRAPZERR() {
+      popd &>/dev/null
+    }
+    TRAPEXIT() {
+      popd &>/dev/null
+    }
+
+    pushd $1 &>/dev/null
+    shift
+    $*
+    return 0
+  }
+fi

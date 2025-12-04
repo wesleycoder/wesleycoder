@@ -1,0 +1,11 @@
+stores:
+  yaml:
+    indent: 2
+  json:
+    indent: 2
+
+creation_rules:
+  - path_regex: ".*"
+    unencrypted_regex: "^(PUBLIC|VITE)_(.*)"
+    age: >-
+      age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p

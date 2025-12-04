@@ -1,0 +1,20 @@
+:root {
+  --color-fg: #343a40;
+  --color-bg: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-fg: #ffffff;
+    --color-bg: #343a40;
+  }
+}
+
+body {
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+html {
+  font-family: Roboto, sans-serif;
+}

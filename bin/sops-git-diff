@@ -1,0 +1,28 @@
+#!/bin/sh
+# # export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
+# SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# export SOPS_AGE_KEY_FILE="$SCRIPT_DIR/../dev-age-id.key"
+
+# echo "nok" >&2
+
+# exit 2
+
+# sops decrypt "$@"
+
+LOG="/tmp/sops-debug.log"
+echo "--- NEW RUN $(date) ---" >>"$LOG"
+echo "CWD: $(pwd)" >>"$LOG"
+echo "Script: $0" >>"$LOG"
+echo "Args: $@" >>"$LOG"
+echo "SOPS Path: $(which sops)" >>"$LOG"
+echo "SOPS Version: $(sops --version)" >>"$LOG"
+
+# 1. Setup Path
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+export SOPS_AGE_KEY_FILE="$SCRIPT_DIR/../dev-age-id.key"
+
+echo "Key File: $SOPS_AGE_KEY_FILE" >>"$LOG"
+
+# 2. Run sops and capture ONLY stderr to the log for debugging
+# We still need to output stdout for git to use!
+sops decrypt "$@" 2>>"$LOG"

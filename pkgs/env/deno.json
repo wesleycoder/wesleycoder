@@ -1,0 +1,15 @@
+{
+  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "name": "@wes/env",
+  "exports": "./index.ts",
+  "compilerOptions": {
+    "types": [
+      "./vite-env.d.ts"
+    ]
+  },
+  "imports": {
+    "@sinclair/typebox": "npm:@sinclair/typebox@^0.34.41",
+    "@zod/zod": "jsr:@zod/zod@^4.1.13",
+    "std-env": "npm:std-env@^3.10.0"
+  }
+}
