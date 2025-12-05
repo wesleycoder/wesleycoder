@@ -1,19 +1,21 @@
 --- ts
-import { env, publicEnv } from '@wes/env'
-console.log('publicEnv:', env, publicEnv)
-it.title = `Hello`
+import { publicEnv } from '@wes/env'
+console.log('publicEnv:', publicEnv)
+it.title = `world`
+it.publicEnv = publicEnv
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><!--= it.title --></title>
+    <title>Hello, <!--= it.title -->!</title>
     <link rel="stylesheet" href="./global.css" />
   </head>
 
   <body>
-    <h1>Hello from home!</h1>
+    <h1>Hello, <!--= it.title -->!</h1>
+  <pre><!--= it.publicEnv.PUBLIC_DEV_HOSTS --></pre>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>

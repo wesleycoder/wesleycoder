@@ -11,5 +11,19 @@ export default defineConfig({
     host: true,
     allowedHosts: ['localhost', ...env.DEV_HOSTS],
   },
-  plugins: [deno(), vitePluginDevtoolsJson(), Macros(), FrontmatterEta()],
+  plugins: [
+    deno(),
+    vitePluginDevtoolsJson(),
+    Macros(),
+    FrontmatterEta({
+      eta: {
+        tags: ['<!--', '-->'],
+        parse: {
+          exec: '!',
+          interpolate: '=',
+          raw: '#',
+        },
+      },
+    }),
+  ],
 })
