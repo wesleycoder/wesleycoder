@@ -9,26 +9,18 @@ import { ModuleKind, ScriptTarget } from 'typescript'
 import type { Plugin } from 'vite'
 
 const frontmatterRegex = /(?:---[ \t]*(?<lang>[\w-]+)?\s*)?(?<code>[\s\S]*?)\n---\n?/s
-const etaConfig = {
-  tags: ['<!--', '-->'],
-  parse: {
-    exec: '!',
-    interpolate: '=',
-    raw: '#',
-  },
-} satisfies Partial<EtaConfig>
 
 type Config = {
-  eta?: Partial<EtaConfig>
-  ts?: CompilerOptions
+  eta: Partial<EtaConfig>
+  ts: Partial<CompilerOptions>
 }
 
-const defaultConfig = {
-  eta: etaConfig,
+const defaultConfig: Partial<Config> = {
+  eta: {},
   ts: {
     target: ScriptTarget.ESNext,
     module: ModuleKind.ESNext,
-  } satisfies CompilerOptions,
+  },
 }
 
 const logMethods = ['log', 'info', 'warn', 'error', 'debug']
@@ -65,7 +57,7 @@ const getPrefixedConsole = (prefix = 'vm', logger = globalThis.console) => {
   return new Proxy(logger, handler)
 }
 
-async function runTs(code: string, filepath: string, cfg: Config) {
+async function runTs(code: string, filepath: string, cfg: Partial<Config>) {
   const filename = basename(filepath)
   const baseDir = dirname(filepath)
 
@@ -78,7 +70,7 @@ async function runTs(code: string, filepath: string, cfg: Config) {
       loader: 'ts',
     },
     plugins: [denoPlugin()],
-    tsconfigRaw: `{"compilerOptions": ${JSON.stringify(cfg.ts)}}`,
+    tsconfigRaw: `{"compilerOptions": ${JSON.stringify({ ...defaultConfig.ts, ...cfg.ts })}}`,
     format: 'cjs',
     write: false,
     target: 'esnext',
@@ -91,6 +83,7 @@ async function runTs(code: string, filepath: string, cfg: Config) {
 
   try {
     const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
+    console.log(result.outputFiles)
     const fn = new AsyncFunction(
       'it',
       `
@@ -127,7 +120,7 @@ const runners: Record<
   (
     code: string,
     filename: string,
-    cfg: Config,
+    cfg: Partial<Config>,
   ) => Promise<Record<string, unknown>> | Record<string, unknown>
 > = {
   js: runTs,
@@ -137,7 +130,7 @@ const runners: Record<
   json: runJson,
 }
 
-export function FrontmatterEta({ eta: etaCfg, ...cfg }: Config = defaultConfig): Plugin {
+export function FrontmatterEta(cfg: Partial<Config> = defaultConfig): Plugin {
   return {
     name: 'frontmatter-eta',
     enforce: 'pre',
@@ -155,7 +148,8 @@ export function FrontmatterEta({ eta: etaCfg, ...cfg }: Config = defaultConfig):
       const ctx = await runners[lang](code, filename, cfg)
 
       return new Eta({
-        ...etaCfg,
+        ...defaultConfig.eta,
+        ...cfg.eta,
         views: path,
       }).renderString(html.replace(match[0], ''), ctx)
     },
