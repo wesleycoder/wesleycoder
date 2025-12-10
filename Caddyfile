@@ -1,3 +1,14 @@
 dev.guima.localhost {
 	reverse_proxy :5173
 }
+
+db.guima.localhost {
+	request_body {
+		max_size 10MB
+	}
+	reverse_proxy :8090 {
+		transport http {
+			read_timeout 360s
+		}
+	}
+}

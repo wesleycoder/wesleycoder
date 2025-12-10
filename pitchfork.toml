@@ -1,0 +1,7 @@
+[daemons.caddy]
+run = "mise caddy"
+auto = ["start", "stop"]
+
+[daemons.test-db]
+run = "mise //apps/test:db"
+auto = ["start", "stop"]
