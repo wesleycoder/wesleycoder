@@ -1,6 +1,6 @@
-!/bin/sh
+#!/bin/sh
 
-local SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 export SOPS_AGE_KEY_FILE="$SCRIPT_DIR/../dev-age-id.key"
 
 if ! sops decrypt "$@" 2>/dev/null; then
