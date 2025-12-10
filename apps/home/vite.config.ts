@@ -15,15 +15,6 @@ export default defineConfig({
     deno(),
     vitePluginDevtoolsJson(),
     Macros(),
-    FrontmatterEta({
-      eta: {
-        tags: ['<!--', '-->'],
-        parse: {
-          exec: '!',
-          interpolate: '=',
-          raw: '#',
-        },
-      },
-    }),
+    FrontmatterEta(),
   ],
 })
