@@ -1,3 +1,3 @@
-import { env, publicEnv } from '@wes/env'
+import { publicEnv } from '@wes/env'
 
-console.log('hello world!!', env, publicEnv)
+console.log('hello world!!', publicEnv.PUBLIC_DEV_HOSTS)
