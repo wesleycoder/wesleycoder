@@ -26,8 +26,6 @@ const defaultConfig: Config = {
   },
 }
 
-type RenderFn = (data: Record<string, unknown>) => Promise<string> | string
-
 type RunFn = (
   code: string,
   filename: string,
