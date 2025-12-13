@@ -8,6 +8,7 @@ import { basename, dirname } from 'node:path'
 import type { CompilerOptions } from 'typescript'
 import { ModuleKind, ScriptTarget } from 'typescript'
 import type { Plugin, ResolvedConfig } from 'vite'
+import { getPrefixedConsole } from './logger.ts'
 
 /** @see https://regex101.com/r/iJoES1/1 */
 const frontmatterRegex = /(?<fm>(?:(?<prepend>.*?)---[ \t]*(?<lang>[\w-]*)\s*)?(?<code>[\s\S]*?)\n---\n)?/s
@@ -25,50 +26,15 @@ const defaultConfig: Config = {
   },
 }
 
-const logMethods = ['log', 'info', 'warn', 'error', 'debug']
-const methodStyles: Record<(typeof logMethods)[number], string> = {
-  log: 'color: cyan;',
-  info: 'color: blue;',
-  warn: 'color: orange;',
-  error: 'color: red;',
-  debug: 'color: gray;',
-}
-
-const getPrefixedConsole = (prefix = 'vm', logger = globalThis.console) => {
-  const handler: ProxyHandler<typeof console> = {
-    get(target, prop, receiver) {
-      const originalMethod = Reflect.get(target, prop, receiver)
-
-      if (typeof originalMethod === 'function') {
-        return (...args: unknown[]) => {
-          const methodName = String(prop)
-          let prefixedArgs = args
-
-          if (logMethods.includes(methodName)) {
-            prefixedArgs = [`%c[${prefix}:${methodName}]:`, methodStyles[methodName], ...args]
-          }
-
-          return Function.prototype.apply.call(originalMethod, target, prefixedArgs)
-        }
-      }
-
-      return originalMethod
-    },
-  }
-
-  return new Proxy(logger, handler)
-}
-
 type RenderFn = (data: Record<string, unknown>) => Promise<string> | string
 
 type RunFn = (
   code: string,
   filename: string,
   cfg: Partial<Config & { vite?: ResolvedConfig }>,
-  render: RenderFn,
-) => Promise<string> | string
+) => Promise<Record<string, unknown>> | Record<string, unknown>
 
-const runTs: RunFn = async (code, filepath, cfg, render) => {
+const runTs: RunFn = async (code, filepath, cfg) => {
   const filename = basename(filepath)
   const baseDir = dirname(filepath)
 
@@ -103,7 +69,7 @@ const runTs: RunFn = async (code, filepath, cfg, render) => {
     const encodedJs = encodeURIComponent(wrappedCode)
     const dataUri = `data:text/javascript;charset=utf-8,${encodedJs}`
     await import(dataUri)
-    return render(globalThis.it)
+    return globalThis.it
   } catch (error) {
     originalConsole.error(`Failed to execute frontmatter code: \n${code}\n`, error)
     throw error
@@ -116,16 +82,16 @@ const runTs: RunFn = async (code, filepath, cfg, render) => {
   }
 }
 
-function runYaml(code: string, _filename: string, _cfg: Partial<Config>, render: RenderFn) {
-  return render(parseYaml(code) as Record<string, unknown>)
+function runYaml(code: string, _filename: string, _cfg: Partial<Config>) {
+  return parseYaml(code) as Record<string, unknown>
 }
 
-function runToml(code: string, _filename: string, _cfg: Partial<Config>, render: RenderFn) {
-  return render(parseToml(code) as Record<string, unknown>)
+function runToml(code: string, _filename: string, _cfg: Partial<Config>) {
+  return parseToml(code) as Record<string, unknown>
 }
 
-function runJson(code: string, _filename: string, _cfg: Partial<Config>, render: RenderFn) {
-  return render(JSON.parse(code) as Record<string, unknown>)
+function runJson(code: string, _filename: string, _cfg: Partial<Config>) {
+  return JSON.parse(code) as Record<string, unknown>
 }
 
 type Langs = 'js' | 'ts' | 'yaml' | 'toml' | 'json'
@@ -135,8 +101,7 @@ const runners: Record<
     code: string,
     filename: string,
     cfg: Partial<Config & { vite?: ResolvedConfig }>,
-    render: RenderFn,
-  ) => Promise<string> | string
+  ) => Promise<Record<string, unknown>> | Record<string, unknown>
 > = {
   js: runTs,
   ts: runTs,
@@ -152,8 +117,6 @@ const createRender = (
 (data: Record<string, unknown>) => new Eta(config).renderString(template, data)
 
 const processHtml = async (html: string, filename: string, cfg: Config & { vite: ResolvedConfig }) => {
-  // Remove Vite-ignore comment
-  html = html.replace('<!-- Vite-ignore --> ', '')
   const match = html.match(frontmatterRegex)
   if (!match || !match.groups?.code) return ''
   const code = match.groups.code
@@ -167,7 +130,8 @@ const processHtml = async (html: string, filename: string, cfg: Config & { vite:
     views: dirname(filename),
   })
 
-  return await runners[lang](code, filename, { ...cfg }, render)
+  const ctx = await runners[lang](code, filename, { ...cfg })
+  return render(ctx)
 }
 
 export function FrontmatterEta(config: Partial<Config> = defaultConfig): Plugin {
@@ -196,9 +160,8 @@ export function FrontmatterEta(config: Partial<Config> = defaultConfig): Plugin 
       order: 'pre',
       async handler(html, { filename }) {
         if (viteConfig.mode === 'production') return html
-        // Process the HTML with frontmatter-eta before Vite's default transform
         const processedHtml = await processHtml(html, filename, { ...cfg, vite: viteConfig })
-        return processedHtml || html // Return processed HTML or original if no frontmatter
+        return processedHtml || html
       },
     },
   }
