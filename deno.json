@@ -5,6 +5,9 @@
     "apps/*",
     "pkgs/*"
   ],
+  "unstable": [
+    "tsgo"
+  ],
   "compilerOptions": {
     "strict": true,
     "lib": [
@@ -18,5 +21,6 @@
     "singleQuote": true,
     "lineWidth": 120,
     "quoteProps": "asNeeded"
-  }
+  },
+  "minimumDependencyAge": "P2W"
 }
