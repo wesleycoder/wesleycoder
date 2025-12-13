@@ -3,7 +3,7 @@
 declare global {
   var __fm_context__: any | undefined
   var __fm_console__: Console | undefined
-  var it: any
+  var it: Record<string, unknown>
 }
 
 export {}
