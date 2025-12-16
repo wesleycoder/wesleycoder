@@ -6,7 +6,11 @@
     "pkgs/*"
   ],
   "unstable": [
-    "tsgo"
+    "broadcast-channel",
+    "net",
+    "temporal",
+    "tsgo",
+    "webgpu"
   ],
   "compilerOptions": {
     "strict": true,
@@ -22,5 +26,14 @@
     "lineWidth": 120,
     "quoteProps": "asNeeded"
   },
-  "minimumDependencyAge": "P2W"
+  "minimumDependencyAge": "P5D",
+  "allowScripts": {
+    "allow": [
+      "npm:esbuild@0.25.12"
+    ],
+    "deny": [
+      "npm:fsevents@2.3.3",
+      "npm:sharp@0.34.5"
+    ]
+  }
 }

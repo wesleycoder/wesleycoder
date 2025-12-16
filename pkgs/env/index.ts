@@ -1,5 +1,5 @@
-import { Type } from '@sinclair/typebox'
-import type { TOptional, TString } from '@sinclair/typebox/type'
+import { type TOptional, type TString, type TTransform, Type } from '@sinclair/typebox'
+import { Value } from '@sinclair/typebox/value'
 import { env as stdEnv } from 'std-env'
 import { csvRegex } from './patterns.ts'
 
@@ -9,20 +9,21 @@ function reconstructObject(obj: Record<string, unknown>) {
 
 const rawEnv = reconstructObject(stdEnv)
 
-const csvHostnameSchema: TString = Type.String({
+const csvHostnameSchema: TTransform<TString, string[]> = Type.Transform(Type.String({
   title: 'Hostname list',
   description: 'Comma-separated list of hostnames',
   examples: ['localhost', 'example.com', '127.0.0.1'],
   pattern: csvRegex.source,
-})
+})).Decode((v) => v.split(',').map((s) => s.trim())).Encode((v) => v.join(','))
 
 const EnvSchema = {
   DEV_HOSTS: csvHostnameSchema,
 }
 type Env = Record<keyof typeof EnvSchema, string>
+type EnvKey = keyof typeof EnvSchema
 
 const PublicEnvSchema = {
-  PUBLIC_DEV_HOSTS: Type.Optional(csvHostnameSchema) as TOptional<TString>,
+  PUBLIC_DEV_HOSTS: Type.Optional(csvHostnameSchema) as TOptional<TTransform<TString, string[]>>,
 }
 type PublicEnv = Record<keyof typeof PublicEnvSchema, string>
 
@@ -41,7 +42,7 @@ export const env: Env = new Proxy(filteredEnv, {
     if (/^(PUBLIC|VITE)_/.test(String(prop)) && !rawEnv.hasWindow) {
       throw new Error('Cannot access env non-public variables in browser')
     }
-    return Reflect.get(target, prop)
+    return Value.Decode(EnvSchema[prop as EnvKey], Reflect.get(target, prop))
   },
 })
 
@@ -51,7 +52,7 @@ export const publicEnv: PublicEnv = new Proxy(filteredPubEnv, {
       return undefined
     }
 
-    return Reflect.get(target, prop)
+    return Value.Decode(EnvSchema[prop as EnvKey], Reflect.get(target, prop))
   },
 })
 
