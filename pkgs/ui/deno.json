@@ -1,0 +1,19 @@
+{
+  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "name": "@wes/ui",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "compilerOptions": {
+    "lib": [
+      "deno.ns",
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "esnext"
+    ]
+  },
+  "imports": {
+    "vite": "npm:vite@^7.2.7"
+  }
+}

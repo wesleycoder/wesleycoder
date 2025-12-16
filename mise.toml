@@ -4,11 +4,12 @@ experimental_monorepo_root = true
 age = "latest"
 caddy = "latest"
 deno = "latest"
+flyctl = "latest"
 sops = "latest"
 usage = "latest"
 
 [hooks]
-postinstall = "deno i"
+postinstall = ["deno x --install-alias", "deno i"]
 
 [settings.sops]
 rops = false

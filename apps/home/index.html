@@ -1,8 +1,0 @@
---- ts
-import { publicEnv } from '@wes/env'
-it.title = `world`
-it.env = publicEnv
----
-<% layout('./layout.eta') %>
-<h1>Hello, <%= it.title %>!</h1>
-<pre><%~ JSON.stringify(it.env, null, 2) %></pre>

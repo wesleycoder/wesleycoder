@@ -10,5 +10,5 @@ SOPS_AGE_KEY_FILE = "../../dev-age-id.key"
 ]
 
 [tasks]
-dev = "deno run -A vite ."
-build = "deno run -A npm:vite build"
+dev = "dx astro dev"
+build = "dx astro build"

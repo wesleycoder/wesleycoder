@@ -1,21 +1,64 @@
 {
+  "formatter": "language_server",
+  "format_on_save": "on",
+  "lsp": {
+    "json-language-server": {
+      "settings": {
+        "json": {
+          "schemas": [
+            {
+              "fileMatch": [
+                "deno.json",
+                "deno.jsonc"
+              ],
+              "url": "https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json"
+            },
+            {
+              "fileMatch": [
+                "package.json"
+              ],
+              "url": "https://www.schemastore.org/package"
+            }
+          ]
+        }
+      }
+    }
+  },
   "languages": {
-    "TypeScript": {
+    "CSS": {
       "language_servers": [
-        "deno"
-      ]
-    },
-    "TSX": {
-      "language_servers": [
-        "deno"
+        "tailwindcss-language-server"
       ]
     },
     "JavaScript": {
       "language_servers": [
-        "deno"
-      ]
+        "deno",
+        "!typescript-language-server",
+        "!vtsls",
+        "!eslint",
+        "!biome"
+      ],
+      "formatter": "language_server"
+    },
+    "TypeScript": {
+      "language_servers": [
+        "deno",
+        "!typescript-language-server",
+        "!vtsls",
+        "!eslint",
+        "!biome"
+      ],
+      "formatter": "language_server"
+    },
+    "TSX": {
+      "language_servers": [
+        "deno",
+        "!typescript-language-server",
+        "!vtsls",
+        "!eslint",
+        "!biome"
+      ],
+      "formatter": "language_server"
     }
-  },
-  "formatter": "language_server",
-  "format_on_save": "on"
+  }
 }

@@ -1,20 +1,23 @@
+@import "tailwindcss";
+
 :root {
-  --color-fg: #343a40;
-  --color-bg: #ffffff;
+  color-scheme: light dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-fg: #bdffbd;
-    --color-bg: #001200;
-  }
+@theme {
+  --color-primary-500: light-dark(#001200, #ccffcc);
+  --color-secondary-500: light-dark(#ccffcc, #001200);
 }
 
-body {
-  color: var(--color-fg);
-  background-color: var(--color-bg);
+.light {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
 }
 
-html {
+html, body {
   font-family: Roboto, sans-serif;
+  color: var(--color-primary-500);
+  background-color: var(--color-secondary-500);
 }
