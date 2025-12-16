@@ -1,0 +1,12 @@
+---
+layout: '_layout.astro'
+test: [1,2,3]
+---
+
+import { Heading } from '../components/heading'
+
+# Hello world
+
+<Heading>Hello world</Heading>
+
+{frontmatter.test.map(i => i + 2)}
