@@ -4,7 +4,9 @@ experimental_monorepo_root = true
 age = "latest"
 caddy = "latest"
 deno = "latest"
+doppler = "latest"
 flyctl = "latest"
+infisical = "latest"
 sops = "latest"
 usage = "latest"
 
@@ -13,13 +15,13 @@ postinstall = ["deno x --install-alias", "deno i"]
 
 [settings.sops]
 rops = false
-age_key_file = "dev-age-id.key"
+age_key_file = "~/.config/wes/dev/dev-age-id.key"
 age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p"
 
 [env]
-SOPS_AGE_KEY_FILE = "dev-age-id.key"
+SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
 '_'.file = [
-  { path = ".env.yaml" },
+  { path = "~/.config/wes/dev/wes-env.yaml" },
 ]
 
 [tasks]
@@ -27,7 +29,7 @@ deno = "deno"
 lint = "deno lint"
 caddy = "caddy run --config ./Caddyfile"
 
-[tasks.t]
+[tasks.run]
 usage = '''
 arg "[task]" default="dev"
 arg "[proj]" default="home"
