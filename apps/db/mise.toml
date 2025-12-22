@@ -13,5 +13,5 @@ SOPS_AGE_KEY_FILE = "../../dev-age-id.key"
 ]
 
 [tasks]
-db = 'pocketbase serve --dev --hooksWatch'
+dev = 'pocketbase serve --dev --hooksWatch'
 pb = 'pocketbase'
