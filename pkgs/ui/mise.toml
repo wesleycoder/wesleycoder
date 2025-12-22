@@ -8,3 +8,7 @@ SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
 '_'.file = [
   { path = "~/.config/wes/dev/wes-env.yaml" },
 ]
+
+[tasks]
+dev = "deno run index.ts"
+barrel = "./bin/barrel src index.ts"

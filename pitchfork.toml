@@ -1,7 +1,9 @@
+#:schema https://dub.sh/pitchfork.schema
+
 [daemons.caddy]
 run = "mise caddy"
 auto = ["start", "stop"]
 
-[daemons.test-db]
-run = "mise //apps/test:db"
+[daemons.db]
+run = "mise //apps/db:dev"
 auto = ["start", "stop"]

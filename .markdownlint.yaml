@@ -2,3 +2,5 @@ line-length: false
 no-duplicate-heading: false
 single-h1: false
 no-inline-html: false
+first-line-h1: false
+no-trailing-punctuation: false

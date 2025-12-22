@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Pitchfork Configuration",
+  "description": "Schema for pitchfork.toml configuration files",
+  "type": "object",
+  "properties": {
+    "daemons": {
+      "type": "object",
+      "description": "Define background services (daemons) for your project.",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "run"
+        ],
+        "properties": {
+          "run": {
+            "type": "string",
+            "description": "The command used to start the daemon."
+          },
+          "auto": {
+            "type": "array",
+            "description": "Automatic lifecycle management actions.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "start",
+                "stop"
+              ]
+            }
+          },
+          "ready": {
+            "type": "object",
+            "description": "Conditions that indicate the daemon is ready.",
+            "oneOf": [
+              {
+                "properties": {
+                  "delay": {
+                    "type": "integer",
+                    "description": "Seconds to wait before assuming ready."
+                  }
+                },
+                "required": [
+                  "delay"
+                ]
+              },
+              {
+                "properties": {
+                  "http": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ]
+                  }
+                },
+                "required": [
+                  "http"
+                ]
+              }
+            ]
+          },
+          "ready_output": {
+            "type": "string",
+            "description": "Regex pattern in stdout/stderr that indicates the daemon is ready."
+          },
+          "depends": {
+            "type": "array",
+            "description": "List of daemon IDs that must be ready before this one starts.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cron": {
+            "type": "string",
+            "description": "Standard cron expression for scheduled tasks."
+          }
+        }
+      }
+    }
+  }
+}
