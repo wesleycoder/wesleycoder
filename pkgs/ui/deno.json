@@ -11,9 +11,13 @@
       "dom.iterable",
       "dom.asynciterable",
       "esnext"
-    ]
+    ],
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   },
   "imports": {
-    "vite": "npm:vite@^7.2.7"
+    "solid-js": "npm:solid-js@^1.9.10",
+    "vite": "npm:vite@^7.2.7",
+    "vite-plugin-solid": "npm:vite-plugin-solid@^2.11.10"
   }
 }
