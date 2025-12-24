@@ -1,10 +1,13 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
-  "name": "@wes/ui",
   "exports": {
-    ".": "./index.ts"
+    ".": "./mod.d.ts",
+    "./global.css": "./global.css",
+    "./vite-plugin.ts": "./vite-plugin.ts"
   },
   "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "lib": [
       "deno.ns",
       "dom",
@@ -12,12 +15,16 @@
       "dom.asynciterable",
       "esnext"
     ],
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js"
+    "types": [
+      "vite/client"
+    ]
   },
   "imports": {
+    "@std/collections": "jsr:@std/collections@^1.1.3",
+    "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.18",
     "solid-js": "npm:solid-js@^1.9.10",
-    "vite": "npm:vite@^7.2.7",
+    "tailwindcss": "npm:tailwindcss@^4.1.18",
+    "vite": "npm:vite@^7.3.0",
     "vite-plugin-solid": "npm:vite-plugin-solid@^2.11.10"
   }
 }

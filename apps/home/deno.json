@@ -3,6 +3,8 @@
   "name": "@wes/home",
   "exports": "./index.html",
   "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "lib": [
       "deno.ns",
       "dom",
@@ -10,20 +12,18 @@
       "dom.asynciterable",
       "esnext"
     ],
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
     "types": [
       "vite/client"
     ]
   },
   "imports": {
+    "@astrojs/mdx": "npm:@astrojs/mdx@^4.3.13",
     "@astrojs/solid-js": "npm:@astrojs/solid-js@^5.1.3",
-    "@deno/astro-adapter": "npm:@deno/astro-adapter@^0.3.2",
+    "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.5",
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.17",
     "astro": "npm:astro@^5.16.5",
-    "prettier": "npm:prettier@^3.7.4",
+    "class-variance-authority": "npm:class-variance-authority@^0.7.1",
     "prettier-plugin-astro": "npm:prettier-plugin-astro@^0.14.1",
-    "solid": "npm:solid@^0.2.1",
     "solid-js": "npm:solid-js@^1.9.10",
     "tailwindcss": "npm:tailwindcss@^4.1.17",
     "vite": "npm:vite@^7.2.7"

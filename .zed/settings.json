@@ -33,6 +33,19 @@
         }
       }
     },
+    "tailwindcss-language-server": {
+      "settings": {
+        "classFunctions": [
+          "cva",
+          "cx"
+        ],
+        "experimental": {
+          "classRegex": [
+            "[cls|class|className]\\s\\:\\=\\s\"([^\"]*)"
+          ]
+        }
+      }
+    }
   },
   "languages": {
     "CSS": {
