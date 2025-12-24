@@ -1,0 +1,47 @@
+@theme {
+  --_brand: #004200;
+  --color-brand: var(--_brand);
+  --color-brand-0: color-mix(in oklch, var(--_brand), white 75%);
+  --color-brand-50: color-mix(in oklch, var(--_brand), white 60%);
+  --color-brand-100: color-mix(in oklch, var(--_brand), white 50%);
+  --color-brand-200: color-mix(in oklch, var(--_brand), white 40%);
+  --color-brand-300: color-mix(in oklch, var(--_brand), white 25%);
+  --color-brand-400: color-mix(in oklch, var(--_brand), white 10%);
+  --color-brand-500: var(--_brand);
+  --color-brand-600: color-mix(in oklch, var(--_brand), black 10%);
+  --color-brand-700: color-mix(in oklch, var(--_brand), black 25%);
+  --color-brand-800: color-mix(in oklch, var(--_brand), black 40%);
+  --color-brand-900: color-mix(in oklch, var(--_brand), black 50%);
+  --color-brand-1000: color-mix(in oklch, var(--_brand), black 60%);
+
+  --color-foreground: light-dark(var(--color-brand-900), var(--color-brand-0));
+  --color-background: light-dark(var(--color-brand-50), var(--color-brand-900));
+
+  --color-inverse: light-dark(var(--color-brand-0), var(--color-brand-800));
+  --color-inverse-contrast: light-dark(var(--color-brand-800), var(--color-brand-50));
+
+  --color-primary: light-dark(var(--color-brand), var(--color-brand-0));
+  --color-primary-contrast: light-dark(var(--color-brand-0), var(--color-brand));
+
+  --color-secondary: light-dark(var(--color-violet-800), var(--color-violet-300));
+  --color-secondary-contrast: light-dark(var(--color-violet-300), var(--color-violet-800));
+
+  --color-success: light-dark(var(--color-green-800), var(--color-green-300));
+  --color-success-contrast: light-dark(var(--color-green-300), var(--color-green-800));
+
+  --color-warning: light-dark(var(--color-yellow-800), var(--color-yellow-300));
+  --color-warning-contrast: light-dark(var(--color-yellow-300), var(--color-yellow-800));
+
+  --color-error: light-dark(var(--color-red-800), var(--color-red-300));
+  --color-error-contrast: light-dark(var(--color-red-300), var(--color-red-800));
+
+  --shadow-color: light-dark(rgba(42, 42, 42, .5), rgba(255, 255, 255, .2));
+  --shadow-2xs: .5px .5px 0 var(--shadow-color);
+  --shadow-xs: 1px 1px 0 var(--shadow-color);
+  --shadow-sm: 2px 2px 0 var(--shadow-color);
+  --shadow-md: 4px 4px 0 var(--shadow-color);
+  --shadow-lg: 6px 6px 0 var(--shadow-color);
+  --shadow-xl: 8px 8px 0 var(--shadow-color);
+  --shadow-2xl: 10px 10px 0 var(--shadow-color);
+  --shadow-none: 0 0 #0000;
+}
