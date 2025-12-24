@@ -10,5 +10,5 @@ SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
 ]
 
 [tasks]
-dev = "deno run index.ts"
-barrel = "./bin/barrel src index.ts"
+dev = "dx vite dev"
+barrel = "./bin/barrel src mod.ts"

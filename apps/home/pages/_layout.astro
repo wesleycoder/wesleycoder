@@ -10,7 +10,12 @@ const { title = "Home" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
   </head>
-  <body>
-    <slot />
+  <body class="flex flex-col py-8 gap-8">
+    <section class="light bg-background text-foreground p-4">
+      <slot />
+    </section>
+    <section class="dark bg-background text-foreground p-4">
+      <slot />
+    </section>
   </body>
 </html>

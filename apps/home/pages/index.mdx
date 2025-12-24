@@ -1,14 +1,32 @@
 ---
 layout: '_layout.astro'
-test: [1,2,3]
+styles: {
+  0: 'bg-brand-0 text-black',
+  # 10: 'bg-brand-10 text-black',
+  # 50: 'bg-brand-50 text-black',
+  # 100: 'bg-brand-100 text-black',
+  200: 'bg-brand-200 text-black',
+  # 300: 'bg-brand-300 text-black',
+  400: 'bg-brand-400 text-black',
+  # 500: 'bg-brand-500 text-white',
+  600: 'bg-brand-600 text-white',
+  # 700: 'bg-brand-700 text-white',
+  800: 'bg-brand-800 text-white',
+  # 900: 'bg-brand-900 text-white',
+  1000: 'bg-brand-1000 text-white',
+}
 ---
 
 import { Button } from '@wes/ui'
 
 # Hello world, we're here
 
+<Button client:load>Click me</Button>
+
 <ul>
-  {frontmatter.test.map(i => <li>{`item ${i + 2}`}</li>)}
+  {Object.values(frontmatter.styles).map(i => <li class={i}>{i}</li>)}
 </ul>
 
-<Button>Click me plz!</Button>
+<p>test</p>
+<p>test</p>
+<p>test</p>

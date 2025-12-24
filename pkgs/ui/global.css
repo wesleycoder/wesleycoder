@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light dark;
+}
+
+@theme {
+  --_brand: #004200;
+  --color-brand: var(--_brand);
+  --color-brand-0: color-mix(in oklch, var(--_brand), white 90%);
+  --color-brand-10: color-mix(in oklch, var(--_brand), white 75%);
+  --color-brand-50: color-mix(in oklch, var(--_brand), white 60%);
+  --color-brand-100: color-mix(in oklch, var(--_brand), white 40%);
+  --color-brand-200: color-mix(in oklch, var(--_brand), white 30%);
+  --color-brand-300: color-mix(in oklch, var(--_brand), white 20%);
+  --color-brand-400: color-mix(in oklch, var(--_brand), white 10%);
+  --color-brand-500: var(--_brand);
+  --color-brand-600: color-mix(in oklch, var(--_brand), black 10%);
+  --color-brand-700: color-mix(in oklch, var(--_brand), black 20%);
+  --color-brand-800: color-mix(in oklch, var(--_brand), black 30%);
+  --color-brand-900: color-mix(in oklch, var(--_brand), black 40%);
+  --color-brand-1000: color-mix(in oklch, var(--_brand), black 50%);
+
+  --color-foreground: light-dark(var(--color-brand-800), var(--color-brand-100));
+  --color-background: light-dark(var(--color-brand-100), var(--color-brand-800));
+}
+
+.light {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+
+html, body {
+  font-family: Roboto, sans-serif;
+}
