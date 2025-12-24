@@ -24,8 +24,9 @@
     "astro": "npm:astro@^5.16.5",
     "class-variance-authority": "npm:class-variance-authority@^0.7.1",
     "prettier-plugin-astro": "npm:prettier-plugin-astro@^0.14.1",
+    "prettier-plugin-tailwindcss": "npm:prettier-plugin-tailwindcss@^0.7.2",
     "solid-js": "npm:solid-js@^1.9.10",
-    "tailwindcss": "npm:tailwindcss@^4.1.17",
+    "tailwindcss": "npm:tailwindcss@^4.1.18",
     "vite": "npm:vite@^7.2.7"
   }
 }

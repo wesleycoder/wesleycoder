@@ -26,6 +26,21 @@
     "lineWidth": 120,
     "quoteProps": "asNeeded"
   },
+  "lint": {
+    "plugins": [
+      "jsr:@ryu/deno-lint-plugin-tailwindcss@^0.2.0"
+    ],
+    "rules": {
+      "exclude": [
+        "jsx-key"
+      ]
+    },
+    "exclude": [
+      ".astro",
+      ".vite",
+      "**/pb_*/*"
+    ]
+  },
   "minimumDependencyAge": "P5D",
   "allowScripts": {
     "allow": [

@@ -36,12 +36,16 @@
     "tailwindcss-language-server": {
       "settings": {
         "classFunctions": [
-          "cva",
-          "cx"
+          "cx",
+          "cva"
         ],
         "experimental": {
+          // This doesn't work propperly for the last character, who knows why?...
           "classRegex": [
-            "[cls|class|className]\\s\\:\\=\\s\"([^\"]*)"
+            [
+              "tw`([^`]*)`?(?=[\\s,}]|$)",
+              "([^`]*)"
+            ]
           ]
         }
       }
@@ -56,6 +60,7 @@
     "JavaScript": {
       "language_servers": [
         "deno",
+        "tailwindcss-language-server",
         "!typescript-language-server",
         "!vtsls",
         "!eslint",
@@ -66,6 +71,7 @@
     "TypeScript": {
       "language_servers": [
         "deno",
+        "tailwindcss-language-server",
         "!typescript-language-server",
         "!vtsls",
         "!eslint",
@@ -76,6 +82,7 @@
     "TSX": {
       "language_servers": [
         "deno",
+        "tailwindcss-language-server",
         "!typescript-language-server",
         "!vtsls",
         "!eslint",
