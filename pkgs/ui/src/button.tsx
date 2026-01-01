@@ -4,11 +4,11 @@ import { getVariantOptions, tw, VariantOptions } from '../lib/components.ts'
 
 const variants = {
   intent: {
-    primary: tw`bg-primary text-primary-contrast`,
-    secondary: tw`bg-secondary text-secondary-contrast`,
-    success: tw`bg-success text-success-contrast`,
-    warning: tw`bg-warning text-warning-contrast`,
-    error: tw`bg-error text-error-contrast`,
+    primary: tw`bg-primary-contrast text-primary`,
+    secondary: tw`bg-transparent text-foreground-contrast`,
+    success: tw`bg-success-contrast text-success`,
+    warning: tw`bg-warning-contrast text-warning`,
+    error: tw`bg-error-contrast text-error`,
   },
   border: {
     none: tw`border-none`,
@@ -42,12 +42,18 @@ export const defaultVariants = {
 } as const
 
 export const classes = cva([
-  // tw`cursor-pointer`,
   tw`border-4`,
-  // tw`hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-xs`,
-  // tw`active:cursor-pointer`,
-  // tw`disabled:cursor-not-allowed`,
-  'inline-flex items-center justify-center whitespace-nowrap rounded-base text-sm font-base ring-offset-white transition-all gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  tw`inline-flex items-center justify-center gap-2`,
+  tw`whitespace-nowrap rounded-base`,
+  tw`font-base text-sm`,
+  tw`ring-offset-white`,
+  tw`transition-all`,
+  tw`focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2`,
+  tw`disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50`,
+  tw`[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0`,
+  tw`cursor-pointer`,
+  tw`hover:scale-102`,
+  tw`active:translate-x-0.5 active:translate-y-0.5 active:shadow-xs`,
 ], {
   variants,
   defaultVariants,
@@ -59,7 +65,7 @@ type Props = JSX.HTMLElementTags['button'] & VariantConfig
 export const Button = (props: Props) => {
   const [local, others] = splitProps(props, ['class'])
   return (
-    <button type='button' class={cx(local.class, classes(others))} {...others}>
+    <button type='button' class={cx(classes(others), local.class)} {...others}>
       {props.children ?? <>&nbsp;</>}
     </button>
   )
