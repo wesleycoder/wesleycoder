@@ -14,17 +14,14 @@
   --color-brand-900: color-mix(in oklch, var(--_brand), black 50%);
   --color-brand-1000: color-mix(in oklch, var(--_brand), black 60%);
 
-  --color-foreground: light-dark(var(--color-brand-900), var(--color-brand-0));
-  --color-background: light-dark(var(--color-brand-50), var(--color-brand-900));
+  --color-foreground: light-dark(var(--color-brand), var(--color-brand-0));
+  --color-foreground-contrast: light-dark(var(--color-black), var(--color-brand-0));
 
-  --color-inverse: light-dark(var(--color-brand-0), var(--color-brand-800));
-  --color-inverse-contrast: light-dark(var(--color-brand-800), var(--color-brand-50));
+  --color-background: light-dark(var(--color-brand-50), var(--color-brand-900));
+  --color-background-contrast: light-dark(var(--color-brand-900), var(--color-brand-50));
 
   --color-primary: light-dark(var(--color-brand), var(--color-brand-0));
   --color-primary-contrast: light-dark(var(--color-brand-0), var(--color-brand));
-
-  --color-secondary: light-dark(var(--color-violet-800), var(--color-violet-300));
-  --color-secondary-contrast: light-dark(var(--color-violet-300), var(--color-violet-800));
 
   --color-success: light-dark(var(--color-green-800), var(--color-green-300));
   --color-success-contrast: light-dark(var(--color-green-300), var(--color-green-800));
