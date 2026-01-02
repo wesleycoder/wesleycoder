@@ -1,11 +1,11 @@
 import { cva, cx, type VariantProps } from 'class-variance-authority'
 import { type JSX, splitProps } from 'solid-js'
-import { getVariantOptions, tw, VariantOptions } from '../lib/components.ts'
+import { getVariantOptions, tw } from '../lib/components.ts'
 
 const variants = {
   intent: {
     primary: tw`bg-primary-contrast text-primary`,
-    secondary: tw`bg-transparent text-foreground-contrast`,
+    secondary: tw`bg-transparent text-background-contrast`,
     success: tw`bg-success-contrast text-success`,
     warning: tw`bg-warning-contrast text-warning`,
     error: tw`bg-error-contrast text-error`,
@@ -31,8 +31,6 @@ const variants = {
 } as const
 
 export const variantOptions = getVariantOptions(variants)
-export type Variant<V extends VariantOptions<W>, W = unknown> = keyof V
-export type VariantEntries = ([Variant<typeof variantOptions>, typeof variantOptions[Variant<typeof variantOptions>]])[]
 
 export const defaultVariants = {
   intent: 'primary',
@@ -59,7 +57,11 @@ export const classes = cva([
   defaultVariants,
 })
 
+export type VariantKeys = keyof typeof variantOptions
+export type VariantEntries = ([VariantKeys, typeof variantOptions[VariantKeys]])[]
+export type VariantOptions = Required<VariantProps<typeof classes>>
 export type VariantConfig = VariantProps<typeof classes>
+
 type Props = JSX.HTMLElementTags['button'] & VariantConfig
 
 export const Button = (props: Props) => {

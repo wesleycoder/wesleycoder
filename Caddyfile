@@ -12,6 +12,10 @@ dev.guima.localhost {
 	reverse_proxy :4321
 }
 
+ui.guima.localhost {
+	reverse_proxy :5173
+}
+
 db.guima.localhost {
 	request_body {
 		max_size 10MB
