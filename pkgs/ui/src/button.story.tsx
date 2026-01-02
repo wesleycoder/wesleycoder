@@ -1,14 +1,13 @@
-import { tw } from '@/lib/components.ts'
-import { Button, type classes, defaultVariants, type VariantEntries, variantOptions } from '@/src/button.tsx'
-import { ThemeToggle } from '@/src/theme-toggle.tsx'
+import { Button, defaultVariants, type VariantEntries, VariantOptions, variantOptions } from '@/src/button.tsx'
+import { ThemeSelect } from '@/src/theme-select.tsx'
 import '@total-typescript/ts-reset'
-import { cx, VariantProps } from 'class-variance-authority'
+import { cx } from 'class-variance-authority'
 import { For } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
 const strToBool = (s: string) => s === 'false' ? false : s === 'true' ? true : s
 
-const initialStore: Mutable<VariantProps<typeof classes>> & {
+const initialStore: Mutable<VariantOptions> & {
   theme?: 'light' | 'dark' | null
   text: string
 } = {
@@ -20,15 +19,20 @@ export default () => {
   const [store, setStore] = createStore(initialStore)
   return (
     <>
-      <section class={cx(tw`flex flex-col gap-4 bg-background p-8 pb-[50vh] text-foreground`, store.theme)}>
+      <section class='flex flex-col gap-4 p-8 pb-[50vh]'>
         <h2 class='inline-flex w-full justify-between text-xl'>
           Sandbox
-          <ThemeToggle />
-          <Button class='h-7 w-7' intent='secondary' size='xs' onClick={() => void 0}>
+          <ThemeSelect />
+          <Button
+            class='h-7 w-7'
+            intent='secondary'
+            size='xs'
+            onClick={() => setStore('theme', (t) => t === 'dark' ? 'light' : 'dark')}
+          >
             {store.theme === 'light' ? '☀︎' : '☽'}
           </Button>
         </h2>
-        <div class='flex flex-col flex-wrap items-center gap-4'>
+        <div class={cx('flex flex-col flex-wrap items-center gap-4', store.theme)}>
           <Button {...store}>{store.text.trim() || 'Default Text'}</Button>
         </div>
         <form>
@@ -49,8 +53,8 @@ export default () => {
             </label>
             <select
               id='intent-input'
-              value={store.intent ? store.intent : 'none'}
-              onInput={(e) => setStore('intent', () => e.currentTarget.value as VariantProps<typeof classes>['intent'])}
+              value={store.intent || 'primary'}
+              onInput={(e) => setStore('intent', () => e.currentTarget.value as VariantOptions['intent'])}
             >
               <For each={variantOptions.intent}>
                 {(intent) => <option value={intent} selected={intent === store.intent}>{intent}</option>}
@@ -64,7 +68,7 @@ export default () => {
             <select
               id='border-input'
               value={store.border ? store.border : 'none'}
-              onInput={(e) => setStore('border', () => e.currentTarget.value as VariantProps<typeof classes>['border'])}
+              onInput={(e) => setStore('border', () => e.currentTarget.value as VariantOptions['border'])}
             >
               <For each={variantOptions.border}>
                 {(border) => <option value={border} selected={border === store.border}>{border}</option>}
@@ -78,7 +82,7 @@ export default () => {
             <select
               id='shadow-input'
               value={store.shadow ? store.shadow : 'none'}
-              onInput={(e) => setStore('shadow', () => e.currentTarget.value as VariantProps<typeof classes>['shadow'])}
+              onInput={(e) => setStore('shadow', () => e.currentTarget.value as VariantOptions['shadow'])}
             >
               <For each={variantOptions.shadow}>
                 {(shadow) => <option value={shadow} selected={shadow === store.shadow}>{shadow}</option>}
@@ -92,7 +96,7 @@ export default () => {
             <select
               id='size-input'
               value={store.size ? store.size : 'md'}
-              onInput={(e) => setStore('size', () => e.currentTarget.value as VariantProps<typeof classes>['size'])}
+              onInput={(e) => setStore('size', () => e.currentTarget.value as VariantOptions['size'])}
             >
               <For each={variantOptions.size}>
                 {(size) => <option value={size} selected={size === store.size}>{size}</option>}

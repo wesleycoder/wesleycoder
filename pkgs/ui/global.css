@@ -2,13 +2,13 @@
 @import "./theme.css";
 
 :root {
-  color-scheme: light dark;
+  /*color-scheme: light dark;*/
 }
 
-.light {
+[data-theme="light"] {
   color-scheme: light;
 }
-.dark {
+[data-theme="dark"] {
   color-scheme: dark;
 }
 
@@ -19,13 +19,13 @@ html, body {
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
+  html:not([data-theme="light"]) {
     color-scheme: dark;
   }
 }
 
 @media (prefers-color-scheme: light) {
-  html {
+  html:not([data-theme="dark"]) {
     color-scheme: light;
   }
 }

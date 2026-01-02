@@ -3,44 +3,31 @@ import { Accessor, createContext, createEffect, createSignal, JSXElement, onMoun
 export type Theme = 'light' | 'dark' | null
 const STORAGE_KEY = 'theme'
 
-type Context = { theme: Accessor<Theme>; toggle: Setter<Theme> }
+type Context = { theme: Accessor<Theme>; select: Setter<Theme> }
 export const ThemeContext = createContext<Context>()
 
 export const ThemeProvider = (props: { children: JSXElement }) => {
   const [theme, setTheme] = createSignal<Theme>(null)
 
   onMount(() => {
-    const savedTheme = localStorage.getItem(STORAGE_KEY) as Theme | null
-    const initialTheme: Theme = savedTheme ||
-      (globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    const savedTheme = localStorage.getItem(STORAGE_KEY) as Theme
+    const initialTheme: Theme = savedTheme || null
     setTheme(initialTheme)
-    document.documentElement.classList.add(initialTheme)
+    if (initialTheme) document.documentElement.classList.add(initialTheme)
   })
 
   createEffect(() => {
     const currentTheme = theme()
+
     if (typeof window !== 'undefined') {
       if (currentTheme) localStorage.setItem(STORAGE_KEY, currentTheme)
       else localStorage.removeItem(STORAGE_KEY)
 
-      if (currentTheme === 'dark') {
-        document.documentElement.classList.add('dark')
-        document.documentElement.classList.remove('light')
-      } else {
-        document.documentElement.classList.add('light')
-        document.documentElement.classList.remove('dark')
-      }
+      document.documentElement.dataset.theme = currentTheme || undefined
     }
   })
 
-  const value = {
-    theme,
-    toggle() {
-      setTheme((t) => t === 'light' ? 'dark' : 'light')
-    },
-  }
-
-  return <ThemeContext.Provider value={value}>{props.children}</ThemeContext.Provider>
+  return <ThemeContext.Provider value={{ theme, select: setTheme }}>{props.children}</ThemeContext.Provider>
 }
 
 export function useTheme() {
