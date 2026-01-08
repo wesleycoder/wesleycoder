@@ -1,14 +1,14 @@
 import { Button, defaultVariants, type VariantEntries, VariantOptions, variantOptions } from '@/src/button.tsx'
 import { ThemeSelect } from '@/src/theme-select.tsx'
 import '@total-typescript/ts-reset'
+import { cx } from 'class-variance-authority'
 import { For } from 'solid-js'
 import { createStore } from 'solid-js/store'
-import { Input } from './input.tsx'
-import { Option, Select } from './select.tsx'
 
 const strToBool = (s: string) => s === 'false' ? false : s === 'true' ? true : s
 
 const initialStore: Mutable<VariantOptions> & {
+  theme?: 'light' | 'dark' | null
   text: string
 } = {
   text: 'Example',
@@ -24,76 +24,76 @@ export default () => {
           Sandbox
           <ThemeSelect />
         </h2>
-        <div class='flex flex-col flex-wrap items-center gap-4'>
+        <div class={cx('flex flex-col flex-wrap items-center gap-4', store.theme)}>
           <Button {...store}>{store.text.trim() || 'Default Text'}</Button>
         </div>
         <form>
-          <fieldset class='flex gap-2'>
-            <label for='text-input' class='inline-flex items-center'>
+          <fieldset>
+            <label for='text-input'>
               Text:
             </label>
-            <Input
+            <input
               type='text'
               id='text-input'
               value={store.text}
               onInput={(e) => setStore('text', e.currentTarget.value)}
             />
           </fieldset>
-          <fieldset class='flex gap-2'>
-            <label for='intent-input' class='inline-flex items-center'>
+          <fieldset>
+            <label for='intent-input'>
               Intent:
             </label>
-            <Select
+            <select
               id='intent-input'
               value={store.intent || 'primary'}
               onInput={(e) => setStore('intent', () => e.currentTarget.value as VariantOptions['intent'])}
             >
               <For each={variantOptions.intent}>
-                {(intent) => <Option value={intent} selected={intent === store.intent}>{intent}</Option>}
+                {(intent) => <option value={intent} selected={intent === store.intent}>{intent}</option>}
               </For>
-            </Select>
+            </select>
           </fieldset>
-          <fieldset class='flex gap-2'>
-            <label for='border-input' class='inline-flex items-center'>
+          <fieldset>
+            <label for='border-input'>
               Border:
             </label>
-            <Select
+            <select
               id='border-input'
-              value={store.border || 'solid'}
+              value={store.border ? store.border : 'none'}
               onInput={(e) => setStore('border', () => e.currentTarget.value as VariantOptions['border'])}
             >
               <For each={variantOptions.border}>
-                {(border) => <Option value={border} selected={border === store.border}>{border}</Option>}
+                {(border) => <option value={border} selected={border === store.border}>{border}</option>}
               </For>
-            </Select>
+            </select>
           </fieldset>
-          <fieldset class='flex gap-2'>
-            <label for='shadow-input' class='inline-flex items-center'>
+          <fieldset>
+            <label for='shadow-input'>
               Shadow:
             </label>
-            <Select
+            <select
               id='shadow-input'
-              value={store.shadow || 'md'}
+              value={store.shadow ? store.shadow : 'none'}
               onInput={(e) => setStore('shadow', () => e.currentTarget.value as VariantOptions['shadow'])}
             >
               <For each={variantOptions.shadow}>
-                {(shadow) => <Option value={shadow} selected={shadow === store.shadow}>{shadow}</Option>}
+                {(shadow) => <option value={shadow} selected={shadow === store.shadow}>{shadow}</option>}
               </For>
-            </Select>
+            </select>
           </fieldset>
-          <fieldset class='flex gap-2'>
-            <label for='size-input' class='inline-flex items-center'>
+          <fieldset>
+            <label for='size-input'>
               Size:
             </label>
-            <Select
+            <select
               id='size-input'
               value={store.size ? store.size : 'md'}
               onInput={(e) => setStore('size', () => e.currentTarget.value as VariantOptions['size'])}
             >
               <For each={variantOptions.size}>
-                {(size) => <Option value={size} selected={size === store.size}>{size}</Option>}
+                {(size) => <option value={size} selected={size === store.size}>{size}</option>}
               </For>
-            </Select>
+            </select>
           </fieldset>
         </form>
         {(Object.entries(variantOptions) as VariantEntries).map(([key, option]) => (

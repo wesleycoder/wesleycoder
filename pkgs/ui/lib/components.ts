@@ -1,3 +1,4 @@
+import { VariantProps } from 'class-variance-authority'
 import type { JSXElement } from 'solid-js'
 
 type SomeObject<V = unknown> = Record<string, V>
@@ -12,6 +13,16 @@ export function tw(strings: TemplateStringsArray | string, ...values: string[]) 
   return strings.reduce((acc, str, i) => acc + str + (values[i] ?? ''), '')
 }
 
+/** Utility to expose component types that uses class-variance-authority */
+// deno-lint-ignore no-explicit-any
+export type ComponentTypes<V extends any, C extends (props?: any) => string> = {
+  keys: keyof V
+  entries: ([keyof V, V[keyof V]])[]
+  options: Required<VariantProps<C>>
+  config: VariantProps<C>
+}
+
+/** Utility to expose variant options object */
 // deno-lint-ignore no-explicit-any
 export const getVariantOptions = <T extends Record<string, any>>(variants: T) =>
   Object.entries(variants).reduce((acc, [key, value]) => ({

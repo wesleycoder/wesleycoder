@@ -1,6 +1,7 @@
+// deno-lint-ignore-file jsx-button-has-type
 import { Icon } from '@iconify-icon/solid'
-import { JSX } from 'solid-js'
-import { For } from 'solid-js/web'
+import { For, type JSX } from 'solid-js'
+import { Option, Select } from './select.tsx'
 import { useTheme } from './theme-context.tsx'
 
 export type Theme = 'light' | 'dark' | null
@@ -22,26 +23,20 @@ export const ThemeSelect = () => {
 
   return (
     <>
-      <select
-        class='[&,&::picker(select)]:[appearance:base-select] bg-background capitalize'
+      <Select
+        class='capitalize'
         value={theme() || 'system'}
         onInput={selectTheme}
       >
-        <button type='button'>
-          <selectedcontent></selectedcontent>
-        </button>
         <For each={['system', 'light', 'dark']}>
           {(theme) => (
-            <option
-              class='bg-background checked:bg-foreground checked:text-foreground-contrast hover:underline [&::checkmark]:content-none'
-              value={theme}
-            >
+            <Option value={theme}>
               <Icon icon={icons[theme]} aria-hidden='true' />
               {theme}
-            </option>
+            </Option>
           )}
         </For>
-      </select>
+      </Select>
     </>
   )
 }
