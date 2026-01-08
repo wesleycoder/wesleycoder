@@ -52,23 +52,20 @@ export const classes = cva([
   tw`cursor-pointer`,
   tw`hover:scale-102`,
   tw`active:translate-x-0.5 active:translate-y-0.5 active:shadow-xs`,
-], {
-  variants,
-  defaultVariants,
-})
+], { variants, defaultVariants })
 
 export type VariantKeys = keyof typeof variantOptions
 export type VariantEntries = ([VariantKeys, typeof variantOptions[VariantKeys]])[]
 export type VariantOptions = Required<VariantProps<typeof classes>>
 export type VariantConfig = VariantProps<typeof classes>
 
-type Props = JSX.HTMLElementTags['button'] & VariantConfig
+type Props = VariantConfig & JSX.HTMLElementTags['button']
 
 export const Button = (props: Props) => {
   const [local, others] = splitProps(props, ['class'])
   return (
     <button type='button' class={cx(classes(others), local.class)} {...others}>
-      {props.children ?? <>&nbsp;</>}
+      {props.children}
     </button>
   )
 }
