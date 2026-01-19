@@ -3,4 +3,4 @@
  ⚠️ Do not edit directly.
 */
 
-export * from "./src/button.tsx";
+export * from '@/button.tsx'

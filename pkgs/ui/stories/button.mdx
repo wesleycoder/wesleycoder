@@ -1,0 +1,67 @@
+import { Title, Subtitle, Description, Primary, Controls, Stories, Meta, Canvas, Story } from '@storybook/addon-docs/blocks'
+
+import * as ButtonStories from './Button.stories.tsx'
+
+<Meta of={ButtonStories} />
+
+<Title />
+<Subtitle />
+<Description />
+
+## Overview
+
+<Canvas
+  withToolbar
+  layout='centered'
+  of={ButtonStories.Primary}
+/>
+
+## Props
+
+<Controls />
+
+## Usage
+
+### Primary
+
+A button can be of primary importance.
+
+<Canvas
+  withToolbar
+  sourceState='shown'
+  layout='centered'
+  of={ButtonStories.Primary}
+  additionalActions={[
+    {
+      title: 'Open in GitHub',
+      onClick: () => {
+        window.open(
+          'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/examples/Button.stories.tsx',
+          '_blank'
+        );
+      },
+    }
+  ]}
+/>
+
+### Secondary
+
+A button can be of secondary importance.
+
+<Canvas
+  withToolbar
+  sourceState='shown'
+  layout='centered'
+  of={ButtonStories.Secondary}
+  additionalActions={[
+    {
+      title: 'Open in GitHub',
+      onClick: () => {
+        window.open(
+          'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/examples/Button.stories.tsx',
+          '_blank'
+        );
+      },
+    }
+  ]}
+/>

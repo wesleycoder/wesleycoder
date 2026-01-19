@@ -14,3 +14,9 @@ run = "mise //apps/db:dev"
 auto = ["start"]
 cron = { schedule = "0 */1 * * *", retrigger = "finish" }
 
+[daemons.book]
+run = "mise //pkgs/ui:book"
+auto = ["start"]
+ready_output = "Storybook ready"
+cron = { schedule = "0 */1 * * *", retrigger = "finish" }
+

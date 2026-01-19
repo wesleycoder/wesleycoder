@@ -1,0 +1,34 @@
+<style>
+  /** Hide broken testing button */
+  #storybook-testing-module {
+    display: none;
+  }
+  /** Respect dark mode on loading state */
+  @media (prefers-color-scheme: dark) {
+    html,
+    body,
+    #main-preview-heading + div > div,
+    #storybook-preview-wrapper,
+    #storybook-preview-iframe,
+    .sb-show-preparing-docs,
+    .sb-preparing-docs,
+    .sb-previewBlock,
+    .css-1ey3k8o,
+    .css-1nmcrob,
+    .css-mzrf51 {
+      background: oklab(0.26 0 0) !important
+    }
+  }
+</style>
+
+<script>
+  window.addEventListener('load', () => {
+    /** @type {HTMLIFrameElement} */
+    const iframe = document.getElementById('storybook-preview-iframe')
+    const status = iframe.contentDocument.readyState;
+    // iframe.style.visibility = status === 'loading' ? 'hidden' : 'visible'
+    // iframe.onload = () => {
+    //   iframe.style.visibility = 'visible'
+    // }
+  })
+</script>

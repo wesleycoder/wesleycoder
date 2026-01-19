@@ -1,6 +1,8 @@
 import deno from '@deno/vite-plugin'
 import tailwind from '@tailwindcss/vite'
 import env from '@wes/env'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import solid from 'vite-plugin-solid'
 
@@ -24,5 +26,10 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: ['localhost', ...env.DEV_HOSTS],
+  },
+  resolve: {
+    alias: {
+      '@/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'src')}/`,
+    },
   },
 })

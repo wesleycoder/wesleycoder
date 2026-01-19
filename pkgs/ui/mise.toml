@@ -12,3 +12,5 @@ SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
 [tasks]
 dev = "dx vite dev"
 barrel = "./bin/barrel src mod.ts"
+book = "deno run --node-modules-dir -A npm:storybook dev -p 6006 --no-open"
+story = "deno run --node-modules-dir -A npm:storybook"
