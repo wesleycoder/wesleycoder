@@ -20,3 +20,10 @@ auto = ["start"]
 ready_output = "Storybook ready"
 cron = { schedule = "0 */1 * * *", retrigger = "finish" }
 
+[daemons.speedtest]
+run = "./bin/speedtest.sh"
+auto = ["start"]
+
+[daemons.speedtest.cron]
+schedule = "0/15 * * * *"
+retrigger = "always"

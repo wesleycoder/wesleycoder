@@ -22,3 +22,6 @@ node_modules/
 
 # track encrypted files
 !.env.yaml
+
+# speedtest output
+/speedtest_output.*

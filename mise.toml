@@ -6,6 +6,7 @@ caddy = "latest"
 deno = "latest"
 doppler = "latest"
 flyctl = "latest"
+"http:speedtest" = { version = "1.2.0", url = "https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-macosx-universal.tgz" }
 infisical = "latest"
 pitchfork = "latest"
 sops = "latest"
