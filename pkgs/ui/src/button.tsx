@@ -1,6 +1,7 @@
-import { cva, cx, type VariantProps } from 'class-variance-authority'
+import { cva, cx } from 'class-variance-authority'
 import { type JSX, splitProps } from 'solid-js'
-import { getVariantOptions, tw } from '../lib/components.ts'
+import { ComponentTypes, getVariantOptions, tw } from '../lib/components.ts'
+import styles from './button.module.css'
 
 const variants = {
   intent: {
@@ -9,13 +10,14 @@ const variants = {
     success: tw`bg-success-contrast text-success`,
     warning: tw`bg-warning-contrast text-warning`,
     error: tw`bg-error-contrast text-error`,
+    info: tw`bg-info-contrast text-info`,
   },
   border: {
     none: tw`border-none`,
-    solid: tw`border-current border-solid`,
-    dashed: tw`border-current border-dashed`,
-    dotted: tw`border-current border-dotted`,
-    double: tw`border-current border-double`,
+    solid: tw`border-solid`,
+    dashed: tw`border-dashed`,
+    dotted: tw`border-dotted`,
+    double: tw`border-double`,
   },
   shadow: {
     sm: tw`shadow-sm`,
@@ -39,27 +41,10 @@ export const defaultVariants = {
   size: 'md',
 } as const
 
-export const classes = cva([
-  tw`border-4`,
-  tw`inline-flex items-center justify-center gap-2`,
-  tw`whitespace-nowrap rounded-base`,
-  tw`font-base text-sm`,
-  tw`ring-offset-white`,
-  tw`transition-all`,
-  tw`focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2`,
-  tw`disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50`,
-  tw`[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0`,
-  tw`cursor-pointer`,
-  tw`hover:scale-102`,
-  tw`active:translate-x-0.5 active:translate-y-0.5 active:shadow-xs`,
-], { variants, defaultVariants })
+export const classes = cva(styles.base, { variants, defaultVariants })
 
-export type VariantKeys = keyof typeof variantOptions
-export type VariantEntries = ([VariantKeys, typeof variantOptions[VariantKeys]])[]
-export type VariantOptions = Required<VariantProps<typeof classes>>
-export type VariantConfig = VariantProps<typeof classes>
-
-type Props = VariantConfig & JSX.HTMLElementTags['button']
+export type T = ComponentTypes<typeof variantOptions, typeof classes>
+type Props = T['config'] & JSX.HTMLElementTags['button']
 
 export const Button = (props: Props) => {
   const [local, others] = splitProps(props, ['class'])

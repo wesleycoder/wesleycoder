@@ -6,7 +6,7 @@ const variants = {} as const
 export const variantOptions = getVariantOptions(variants)
 export const defaultVariants = {} as const
 export const classes = cva([
-  tw`inline-flex items-center`,
+  tw`field-sizing-content inline-flex items-center`,
   tw`px-2 py-1`,
   tw`border-b-4`,
 ], { variants, defaultVariants })

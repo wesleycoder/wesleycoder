@@ -1,0 +1,15 @@
+@function --mix(
+  --color1 <color>,
+  --color2 <color>,
+  --alpha type(<number> | <percentage>)
+) returns <color> {
+  result: color-mix(in oklch, var(--color1), var(--color2) var(--alpha));
+}
+
+@function --lighten(--color <color>, --amount type(<number> | <percentage>)) returns <color> {
+  result: --mix(var(--color), white, var(--amount));
+}
+
+@function --darken(--color <color>, --amount type(<number> | <percentage>)) returns <color> {
+  result: --mix(var(--color), black, var(--amount));
+}
