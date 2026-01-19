@@ -76,8 +76,32 @@
             }
           },
           "cron": {
-            "type": "string",
-            "description": "Standard cron expression for scheduled tasks."
+            "type": "object",
+            "description": "Cron schedule table for scheduled tasks. Use either table form (`[daemons.<id>.cron]`) or inline table (`cron = { schedule = \"...\", retrigger = \"...\" }`).",
+            "additionalProperties": false,
+            "required": [
+              "schedule"
+            ],
+            "properties": {
+              "schedule": {
+                "type": "string",
+                "description": "Standard cron expression for scheduled tasks."
+              },
+              "retrigger": {
+                "type": "string",
+                "description": "Behavior when a previous job is still running (e.g. 'finish' waits for previous run, 'always' starts new run).",
+                "enum": [
+                  "finish",
+                  "always",
+                  "success",
+                  "fail"
+                ]
+              }
+            }
+          },
+          "boot_start": {
+            "type": "boolean",
+            "description": "Whether to start the daemon at boot time."
           }
         }
       }

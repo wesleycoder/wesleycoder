@@ -1,0 +1,38 @@
+/** Override Storybook's default background color */
+.sbdocs.sbdocs-preview {
+  background: unset;
+}
+.sbdocs.sbdocs-preview > .docs-story {
+  background: var(--color-background);
+}
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background: oklab(0.26 0 0)
+  }
+  /** Fix anchor links in dark mode going off canvas */
+  .sbdocs.sbdocs-content :is(h1, h2, h3, h4, h5, h6) > a:has(> svg) {
+    margin-left: initial;
+    margin-top: 1rem;
+  }
+
+}
+
+/** Respect dark mode on loading state */
+@media (prefers-color-scheme: dark) {
+  html,
+  body,
+  #main-preview-heading + div > div,
+  #storybook-preview-wrapper,
+  #storybook-preview-iframe,
+  .sb-show-preparing-docs,
+  .sb-preparing-story,
+  .sb-preparing-docs,
+  .sb-previewBlock,
+  .css-1ey3k8o,
+  .css-1nmcrob,
+  .css-mzrf51,
+  .sb-argstableBlock tbody td {
+    background: oklab(0.26 0 0) !important
+  }
+}
