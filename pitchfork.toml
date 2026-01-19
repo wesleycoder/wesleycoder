@@ -1,9 +1,16 @@
-#:schema https://dub.sh/pitchfork.schema
+#:schema ./shared/pitchfork.schema.json
 
 [daemons.caddy]
 run = "mise caddy"
-auto = ["start", "stop"]
+auto = ["start"]
+boot_start = true
+
+[daemons.caddy.cron]
+schedule = "0 */1 * * *"
+retrigger = "always"
 
 [daemons.db]
 run = "mise //apps/db:dev"
-auto = ["start", "stop"]
+auto = ["start"]
+cron = { schedule = "0 */1 * * *", retrigger = "finish" }
+

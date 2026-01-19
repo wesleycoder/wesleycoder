@@ -1,8 +1,7 @@
 // deno-lint-ignore-file jsx-button-has-type
 import { cva, cx } from 'class-variance-authority'
 import { type JSX, JSXElement, splitProps } from 'solid-js'
-import { getVariantOptions, tw } from '../lib/components.ts'
-import { ComponentTypes } from '../types/components.d.ts'
+import { ComponentTypes, getVariantOptions, tw } from '../lib/components.ts'
 
 const variants = {} as const
 export const variantOptions = getVariantOptions(variants)
@@ -34,11 +33,20 @@ export const Select = (props: Props) => {
   )
 }
 
+const optionClasses = cva([
+  tw`field-sizing-content inline-flex gap-2`,
+  tw`px-2 py-1`,
+  tw`bg-background`,
+  tw`checked:bg-foreground checked:text-foreground-contrast`,
+  tw`hover:underline [&::checkmark]:content-none`,
+], { variants, defaultVariants })
+
 export const Option = (props: JSX.OptionHTMLAttributes<HTMLOptionElement>) => {
+  const [local, others] = splitProps(props, ['class'])
   return (
     <option
-      class='inline-flex gap-2 bg-background checked:bg-foreground checked:text-foreground-contrast hover:underline [&::checkmark]:content-none'
-      {...props}
+      class={cx(optionClasses(others), local.class)}
+      {...others}
     />
   )
 }

@@ -1,5 +1,5 @@
 # filesystem artifacts
-.DS_STORE
+.DS_Store
 
 # automation artifacts
 .vite/

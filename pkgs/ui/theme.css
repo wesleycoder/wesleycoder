@@ -1,18 +1,20 @@
+@import './lib/functions.css'
+
 @theme {
   --_brand: #004200;
   --color-brand: var(--_brand);
-  --color-brand-0: color-mix(in oklch, var(--_brand), white 75%);
-  --color-brand-50: color-mix(in oklch, var(--_brand), white 60%);
-  --color-brand-100: color-mix(in oklch, var(--_brand), white 50%);
-  --color-brand-200: color-mix(in oklch, var(--_brand), white 40%);
-  --color-brand-300: color-mix(in oklch, var(--_brand), white 25%);
-  --color-brand-400: color-mix(in oklch, var(--_brand), white 10%);
+  --color-brand-0: --lighten(var(--_brand), 75%);
+  --color-brand-50: --lighten(var(--_brand), 60%);
+  --color-brand-100: --lighten(var(--_brand), 50%);
+  --color-brand-200: --lighten(var(--_brand), 40%);
+  --color-brand-300: --lighten(var(--_brand), 25%);
+  --color-brand-400: --lighten(var(--_brand), 10%);
   --color-brand-500: var(--_brand);
-  --color-brand-600: color-mix(in oklch, var(--_brand), black 10%);
-  --color-brand-700: color-mix(in oklch, var(--_brand), black 25%);
-  --color-brand-800: color-mix(in oklch, var(--_brand), black 40%);
-  --color-brand-900: color-mix(in oklch, var(--_brand), black 50%);
-  --color-brand-1000: color-mix(in oklch, var(--_brand), black 60%);
+  --color-brand-600: --darken(var(--_brand), 10%);
+  --color-brand-700: --darken(var(--_brand), 25%);
+  --color-brand-800: --darken(var(--_brand), 40%);
+  --color-brand-900: --darken(var(--_brand), 50%);
+  --color-brand-1000: --darken(var(--_brand), 60%);
 
   --color-foreground: light-dark(var(--color-brand-900), var(--color-brand-50));
   --color-foreground-contrast: light-dark(var(--color-brand-50), var(--color-brand-900));
@@ -31,6 +33,9 @@
 
   --color-error: light-dark(var(--color-red-800), var(--color-red-300));
   --color-error-contrast: light-dark(var(--color-red-300), var(--color-red-800));
+
+  --color-info: light-dark(var(--color-blue-800), var(--color-blue-300));
+  --color-info-contrast: light-dark(var(--color-blue-300), var(--color-blue-800));
 
   --shadow-color: light-dark(rgba(42, 42, 42, .5), rgba(255, 255, 255, .2));
   --shadow-2xs: .5px .5px 0 var(--shadow-color);
