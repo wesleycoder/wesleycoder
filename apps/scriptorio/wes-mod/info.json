@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/justarandomgeek/vscode-factoriomod-debug/refs/heads/current/schema/datainfo.json",
+  "name": "wes-mod",
+  "title": "Wés mod",
+  "author": "Learning to mod factorio",
+  "contact": "factorio-mods@guima.dev",
+  "homepage": "https://guima.dev",
+  "version": "0.0.1",
+  "factorio_version": "2.0",
+  "dependencies": [
+    "base >= 2.0"
+  ]
+}
