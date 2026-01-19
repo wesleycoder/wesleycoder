@@ -1,4 +1,3 @@
-// deno-lint-ignore-file jsx-button-has-type
 import { Icon } from '@iconify-icon/solid'
 import { For, type JSX } from 'solid-js'
 import { Option, Select } from './select.tsx'

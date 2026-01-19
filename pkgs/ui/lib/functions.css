@@ -3,7 +3,10 @@
   --color2 <color>,
   --alpha type(<number> | <percentage>)
 ) returns <color> {
-  result: color-mix(in oklch, var(--color1), var(--color2) var(--alpha));
+  result: var(--color1);
+  @supports (color: color-mix(in oklch, red, red)) {
+    result: color-mix(in oklch, var(--color1), var(--color2, transparent) var(--alpha));
+  }
 }
 
 @function --lighten(--color <color>, --amount type(<number> | <percentage>)) returns <color> {

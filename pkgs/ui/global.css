@@ -1,7 +1,11 @@
 @import "tailwindcss";
+@import "open-props/style";
+@import "./lib/functions.css";
 @import "./theme.css";
 
 :root {
+  --default-font-family: 'Roboto', sans-serif;
+  --default-mono-font-family: 'Roboto Mono', monospace;
   color-scheme: light dark;
 }
 
@@ -12,8 +16,12 @@
   color-scheme: dark;
 }
 
+*, ::after, ::before, ::backdrop, ::file-selector-button {
+  border: none;
+}
+
 html, body {
-  font-family: Roboto, sans-serif;
+  font-family: var(--default-font-family);
   color: var(--color-foreground);
   background-color: var(--color-background);
 }

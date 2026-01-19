@@ -29,6 +29,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@/lib/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'lib')}/`,
       '@/': `${resolve(dirname(fileURLToPath(import.meta.url)), 'src')}/`,
     },
   },

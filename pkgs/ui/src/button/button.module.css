@@ -1,0 +1,149 @@
+@import "open-props/style";
+
+.base {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-1);
+
+  font-size: var(--font-size-2);
+  line-height: var(--font-lineheight-1);
+  white-space: nowrap;
+
+  border-width: var(--border-size-3);
+
+  --hover-color: currentcolor;
+  --hover: 0 0 0 0 var(--hover-color);
+
+  --ring-offset: 0px;
+  --ring-color: rgba(0, 0, 0, 0);
+  --ring: var(--ring-offset) var(--ring-offset) 0 4px var(--ring-color);
+
+  --shadow-color: currentcolor;
+  --shadow-offset: 2px;
+  --shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
+
+  box-shadow: var(--hover), var(--ring), var(--shadow);
+
+  transition-property: all;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+
+  &:focus-visible {
+    outline-style: none;
+    --shadow-offset: 4px;
+    --shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
+    --ring-color: --mix(var(--shadow-color), transparent, 50%);
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+  }
+
+  &:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 50%;
+  }
+
+  &:hover {
+    @media (hover: hover) {
+      --shadow-offset: 4px;
+      --hover: 0 0 0 2px --mix(var(--hover-color), transparent, 50%);
+    }
+  }
+
+  &:active {
+    --shadow-offset: 1px;
+    --hover: 0 0 0 2px --mix(var(--hover-color), transparent, 50%);
+  }
+
+  & svg {
+    flex-shrink: 0;
+    pointer-events: none;
+    width: calc(var(--spacing) * 4);
+    height: calc(var(--spacing) * 4);
+  }
+}
+
+.primary {
+  background-color: var(--color-primary-contrast);
+  color: var(--color-primary);
+  --hover-color: var(--color-primary-contrast);
+}
+
+.secondary {
+  background-color: var(--color-secondary-contrast);
+  color: var(--color-secondary);
+  --hover-color: var(--color-seconda-contrast);
+}
+
+.success {
+  background-color: var(--color-success-contrast);
+  color: var(--color-success);
+  --hover-color: var(--color-success-contrast);
+}
+
+.warning {
+  background-color: var(--color-warning-contrast);
+  color: var(--color-warning);
+  --hover-color: var(--color-warning-contrast);
+}
+
+.danger {
+  background-color: var(--color-danger-contrast);
+  color: var(--color-danger);
+  --hover-color: var(--color-danger-contrast);
+}
+
+.info {
+  background-color: var(--color-info-contrast);
+  color: var(--color-info);
+  --hover-color: var(--color-info-contrast);
+}
+
+.solid {
+  border: none;
+}
+
+.outline {
+  border-style: solid;
+}
+
+.clear {
+  background-color: transparent;
+  border-style: solid;
+}
+
+.ghost {
+  background-color: transparent;
+  border: none;
+}
+
+.xs {
+  padding: var(--size-0-5) var(--size-1);
+  font-size: var(--font-size-0);
+}
+
+.sm {
+  padding: var(--size-1) var(--size-2);
+  font-size: var(--font-size-1);
+}
+
+.md {
+  padding: var(--size-2) var(--size-3);
+  font-size: var(--font-size-2);
+}
+
+.lg {
+  padding: var(--size-3) var(--size-4);
+  font-size: var(--font-size-3);
+}
+
+.xl {
+  padding: var(--size-4) var(--size-5);
+  font-size: var(--font-size-4);
+}

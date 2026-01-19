@@ -1,5 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
+import env from '@wes/env'
 import { defineMain } from 'storybook-solidjs-vite'
+import { mergeConfig } from 'vitest/config'
 
 export default defineMain({
   framework: {
@@ -35,4 +37,9 @@ export default defineMain({
       propFilter: (prop: any) => prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   } as any),
+  viteFinal(config) {
+    return mergeConfig(config, {
+      server: { allowedHosts: ['localhost', ...env.DEV_HOSTS] },
+    })
+  },
 })
