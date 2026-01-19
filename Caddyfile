@@ -4,16 +4,12 @@ https:// {
 	}
 }
 
-guimabook.local {
-	reverse_proxy :4321
-}
-
 dev.guima.localhost {
 	reverse_proxy :4321
 }
 
-ui.guima.localhost {
-	reverse_proxy :5173
+guimabook.local:6007, ui.guima.localhost {
+	reverse_proxy :6006
 }
 
 db.guima.localhost {

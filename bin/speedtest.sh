@@ -15,23 +15,22 @@ if ! command -v speedtest &>/dev/null; then
 fi
 
 data=$(speedtest -f json)
-error_msg=$(echo "$data" | jq -r '.error // empty')
+echo "$data" >>speedtest_output.jsonl
 
+error_msg=$(echo "$data" | jq -r '.error // empty')
 if [ -n "$error_msg" ]; then
   echo "Test failed: $error_msg"
   exit 1
 fi
 
-echo "$data" >>speedtest_output.jsonl
-
-read -r time download upload <<<$(
+IFS="|" read -r time download upload <<<"$(
   echo "$data" | LC_ALL=pt_BR.UTF-8 jq -r '
     [
-      (.timestamp | fromdate? | strflocaltime("%x %I:%M %p") // "N/A"),
+      (.timestamp | fromdate? | strflocaltime("%x %H:%M") // empty),
       ((.download.bandwidth // 0) / 125000),
       ((.upload.bandwidth // 0) / 125000)
-    ] | @tsv
+    ] | join("|")
   '
-)
+)"
 
 printf "[$time]: Download=%.2f Mbps / Upload=%.2f Mbps\n" "$download" "$upload"
