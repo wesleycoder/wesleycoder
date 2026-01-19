@@ -24,4 +24,4 @@ node_modules/
 !.env.yaml
 
 # speedtest output
-/speedtest_output.*
+/speedtest_output*

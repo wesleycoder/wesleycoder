@@ -1,19 +1,24 @@
 experimental_monorepo_root = true
 
+[monorepo]
+config_roots = ["apps/*", "pkgs/*"]
+
 [tools]
 age = "latest"
 caddy = "latest"
 deno = "latest"
-doppler = "latest"
 flyctl = "latest"
-"http:speedtest" = { version = "1.2.0", url = "https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-macosx-universal.tgz" }
-infisical = "latest"
+"http:speedtest" = { version = "1.2.0", url = "https://install.speedtest.net/app/cli/ookla-speedtest-{version}-macosx-universal.tgz" }
 pitchfork = "latest"
 sops = "latest"
 usage = "latest"
 
 [hooks]
-postinstall = ["deno x --install-alias", "deno i"]
+postinstall = [
+  "deno x --install-alias",
+  "deno i",
+  "find . -path '*/.tasks/*' -type f -exec chmod +x {} +",
+]
 
 [settings.sops]
 rops = false
@@ -22,9 +27,10 @@ age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa587
 
 [env]
 SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
-'_'.file = [
-  { path = "~/.config/wes/dev/wes-env.yaml" },
-]
+'_'.file = { paths = [
+  "~/.config/wes/dev/wes-env.yaml",
+  "./.env.yaml",
+], redact = true }
 
 [tasks]
 deno = "deno"
@@ -42,4 +48,15 @@ folder=$(find pkgs -maxdepth 1 -type d -name "*${proj}*" | head -n 1)
 folder=${folder:-$(find apps -maxdepth 1 -type d -name "*${proj}*" | head -n 1)}
 folder=${folder:-apps/$proj}
 mise //$folder:{{usage.task}}
+'''
+
+[tasks.restart]
+usage = '''
+arg "<service>" help="Pitchfork service to restart"
+'''
+run = '''
+pitchfork stop {{usage.service}}
+pitchfork clean
+pitchfork logs -c {{usage.service}}
+pitchfork start {{usage.service}}
 '''
