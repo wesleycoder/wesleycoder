@@ -3,4 +3,4 @@
  ⚠️ Do not edit directly.
 */
 
-export * from '@/button.tsx'
+export * from '@/button/index.tsx'

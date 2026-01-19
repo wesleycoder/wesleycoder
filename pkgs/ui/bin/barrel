@@ -23,8 +23,7 @@ echo "Updating $BARREL_FILE..."
 
 find "$TARGET_DIR" \
   -maxdepth 4 \
-  -type f \( -name "*.ts" -o -name "*.tsx" \) \
-  ! -name "*test*" \
+  -type f \( -name "index.ts" -o -name "index.tsx" \) \
   -print |
   sort |
   while IFS= read -r entry; do

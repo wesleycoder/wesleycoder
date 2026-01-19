@@ -1,5 +1,3 @@
-@import './lib/functions.css'
-
 @theme {
   --_brand: #004200;
   --color-brand: var(--_brand);
@@ -46,4 +44,18 @@
   --shadow-xl: 8px 8px 0 var(--shadow-color);
   --shadow-2xl: 10px 10px 0 var(--shadow-color);
   --shadow-none: 0 0 #0000;
+}
+
+@theme {
+  --size-0: 0;
+  --size-0-5: .125rem;
+  --size-1: .25rem;
+  --size-2: .5rem;
+  --size-3: 1rem;
+  --size-4: 1.25rem;
+  --size-5: 1.5rem;
+}
+
+.test {
+  padding: var(--size-\.5) var(--size-1);
 }

@@ -1,8 +1,6 @@
 import { VariantProps } from 'class-variance-authority'
 import type { JSXElement } from 'solid-js'
 
-type SomeObject<V = unknown> = Record<string, V>
-
 export type WithChildren<T = SomeObject> = T & { children?: JSXElement }
 
 export type VariantOptions<V> = { [K in keyof V]: (keyof V[K])[] }
@@ -18,8 +16,7 @@ export function tw(strings: TemplateStringsArray | string, ...values: string[]) 
 export type ComponentTypes<V extends any, C extends (props?: any) => string> = {
   keys: keyof V
   entries: ([keyof V, V[keyof V]])[]
-  options: Required<VariantProps<C>>
-  config: VariantProps<C>
+  props: VariantProps<C>
 }
 
 /** Utility to expose variant options object */
