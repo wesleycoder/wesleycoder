@@ -6,6 +6,7 @@
 
 # build artifacts
 dist/
+target/
 
 # managed dependencies
 node_modules/
