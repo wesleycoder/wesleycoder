@@ -1,0 +1,11 @@
+[tasks.build]
+run = "cargo build"
+
+[tasks.cargo]
+run = "cargo"
+
+[tasks.docs]
+run = "cargo doc --no-deps --open"
+
+[tasks.dev]
+run = "cargo-watch -c -x run"

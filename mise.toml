@@ -10,8 +10,10 @@ deno = "latest"
 flyctl = "latest"
 "http:speedtest" = { version = "1.2.0", url = "https://install.speedtest.net/app/cli/ookla-speedtest-{version}-macosx-universal.tgz" }
 pitchfork = "latest"
+rust = "latest"
 sops = "latest"
 usage = "latest"
+cargo = "latest"
 
 [hooks]
 postinstall = [
