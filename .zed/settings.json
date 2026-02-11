@@ -20,16 +20,6 @@
               "url": "https://www.schemastore.org/package"
             }
           ]
-        },
-        "toml": {
-          "schemas": [
-            {
-              "fileMatch": [
-                "pitchfork.toml"
-              ],
-              "url": "file:///Users/wesleycoder/dev/wesleycoder/shared/pitchfork-schema.json"
-            }
-          ]
         }
       }
     },
