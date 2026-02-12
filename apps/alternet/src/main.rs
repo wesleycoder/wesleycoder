@@ -1,22 +1,27 @@
-use anet::color::Color;
+use anet::color::*;
+use anet::traits::*;
 
-fn sep() {
+fn line() {
   println!("{}", "=".repeat(80));
 }
 
 fn main() {
-  sep();
+  line();
 
   let red = Color { r: 255, g: 0, b: 0 };
-
   println!("{}", red);
   println!("{:?}", red);
+  println!("{}", red.json());
 
-  sep();
+  line();
 
   let cafe: u32 = 0xcafe18ed;
   println!("Hexadecimal number: {:#010X}", 0xcafe);
   println!("Hexadecimal number: {:#010X}", cafe);
 
-  sep();
+  line();
+
+  test_inter_dep_fn();
+
+  line();
 }
