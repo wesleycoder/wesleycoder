@@ -1,0 +1,29 @@
+[tools]
+nim = { version = "latest", postinstall = "nimble install -y --silent nimlangserver" }
+watchexec = "latest"
+
+[hooks]
+postinstall = "nimble install -yl --silent --depsOnly"
+
+[tasks.clear]
+run = "nimble clean --silent"
+
+[tasks.build]
+run = "nimble build --silent"
+depends = ["clear"]
+
+[tasks.dev]
+usage = """
+flag "-w --watch" help="Watch for changes"
+"""
+run = """# running nim r manim.vim
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -c=reset -qe nim 'nim r manim.nim'
+else
+  nim r manim.nim
+fi
+"""
+
+[tasks.run]
+run = "clear;dist/manim"
+depends = ["build"]
