@@ -1,0 +1,14 @@
+[
+  {
+    "label": "anet dev",
+    "command": "mise //apps/alternet:dev"
+  },
+  {
+    "label": "anet check",
+    "command": "mise //apps/alternet:cargo check -q"
+  },
+  {
+    "label": "anet test",
+    "command": "mise //apps/alternet:test"
+  },
+]

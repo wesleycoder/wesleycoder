@@ -7,5 +7,11 @@ run = "cargo"
 [tasks.docs]
 run = "cargo doc --no-deps --open"
 
+[tasks.test]
+run = "cargo watch -qcx test"
+
 [tasks.dev]
-run = "cargo-watch -c -x run"
+run = "cargo watch -qcx run"
+
+[tasks.run]
+run = "cargo run -qp anet"

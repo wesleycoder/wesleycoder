@@ -1,7 +1,6 @@
-use crate::color::Color;
 use serde::Serialize;
 
-pub trait JsonEx: Serialize {
+pub trait Json: Serialize {
   fn json(&self) -> String {
     serde_json::to_string(self).expect("Failed to serialize model to JSON")
   }
@@ -11,9 +10,4 @@ pub trait JsonEx: Serialize {
   }
 }
 
-impl<T: Serialize> JsonEx for T {}
-
-pub fn test_inter_dep_fn() {
-  let red = Color { r: 255, g: 0, b: 0 };
-  println!("testing {}", red);
-}
+impl<T: Serialize> Json for T {}

@@ -2,4 +2,7 @@
 resolver = "3"
 members = ["apps/alternet"]
 
+[workspace.dependencies]
+macros = { path = "./pkgs/macros" }
+
 [workspace.lints.rust]
