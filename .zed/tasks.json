@@ -68,6 +68,28 @@
     "command": "mise -q //apps/codefactor:server",
     "show_summary": false,
     "show_command": false,
+  },
+  {
+    "label": "manim dev",
+    "command": "mise -q //apps/manim:dev",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "manim build",
+    "command": "mise -q //apps/manim:build",
+    "hide": "on_success",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "manim run",
+    "command": "mise -q //apps/manim:run",
+    "hide": "on_success",
+    "show_summary": false,
+    "show_command": false,
+    "env": {
+      "MISE_TASK_TIMINGS": "false"
     }
   },
 ]

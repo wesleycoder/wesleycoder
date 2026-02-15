@@ -39,6 +39,17 @@
           ]
         }
       }
+    },
+    "nim": {
+      "binary": {
+        "path": "nimlsp"
+      },
+      "initialization_options": {
+        "logLevel": "error"
+      },
+      "settings": {
+        "useNimCheck": true
+      }
     }
   },
   "languages": {

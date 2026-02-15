@@ -3,6 +3,9 @@ experimental_monorepo_root = true
 [monorepo]
 config_roots = ["apps/*", "pkgs/*"]
 
+[plugins]
+nim = "https://github.com/asdf-community/asdf-nim.git"
+
 [tools]
 age = "latest"
 caddy = "latest"
