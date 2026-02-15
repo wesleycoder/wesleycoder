@@ -1,0 +1,29 @@
+[settings.sops]
+rops = false
+age_key_file = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
+age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p"
+
+[env]
+SOPS_AGE_KEY_FILE = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
+'_'.file = [
+  { path = "{{env.HOME}}/.config/wes/dev/wes-env.yaml" },
+  { path = "../../.env.yaml" },
+]
+
+[tasks.buildClient]
+run = "deno compile -q -P=build -o dist/codefactor client.ts"
+
+[tasks.buildServer]
+run = "deno compile -q -P=build -o dist/codefactor-server server.ts"
+
+[tasks.devServer]
+run = "deno run -Pq --watch server.ts"
+
+[tasks.devClient]
+run = "deno run -Pq --watch client.ts"
+
+[tasks.client]
+run = "./dist/codefactor"
+
+[tasks.server]
+run = "./dist/codefactor-server"

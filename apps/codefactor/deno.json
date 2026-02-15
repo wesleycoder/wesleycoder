@@ -1,0 +1,16 @@
+{
+  "name": "@wes/codefactor",
+  "exports": {
+    "./server": "./server.ts",
+    "./client": "./client.ts",
+    ".": "./client.ts"
+  },
+  "permissions": {
+    "default": {
+      "all": true
+    },
+    "build": {
+      "all": true
+    }
+  }
+}
