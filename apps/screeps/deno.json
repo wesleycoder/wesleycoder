@@ -1,0 +1,12 @@
+{
+  "name": "@wes/screeps",
+  "exports": "./main.ts",
+  "compilerOptions": {
+    "types": [
+      "@types/screeps"
+    ]
+  },
+  "imports": {
+    "@types/screeps": "npm:@types/screeps@^3.3.8"
+  }
+}

@@ -24,13 +24,13 @@ postinstall = [
 
 [settings.sops]
 rops = false
-age_key_file = "~/.config/wes/dev/dev-age-id.key"
+age_key_file = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
 age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p"
 
 [env]
-SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
+SOPS_AGE_KEY_FILE = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
 '_'.file = { paths = [
-  "~/.config/wes/dev/wes-env.yaml",
+  "{{env.HOME}}/.config/wes/dev/wes-env.yaml",
   "./.env.yaml",
 ], redact = true }
 

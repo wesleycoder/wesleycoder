@@ -11,4 +11,12 @@
     "label": "anet test",
     "command": "mise //apps/alternet:test"
   },
+  {
+    "label": "screeps build",
+    "command": "mise //apps/screeps:build"
+  },
+  {
+    "label": "screeps dev",
+    "command": "mise //apps/screeps:dev"
+  }
 ]
