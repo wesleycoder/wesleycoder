@@ -1,0 +1,37 @@
+[tools]
+watchexec = "latest"
+
+[settings.sops]
+rops = false
+age_key_file = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
+age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p"
+
+[env]
+SOPS_AGE_KEY_FILE = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
+'_'.file = [
+  { path = "{{env.HOME}}/.config/wes/dev/wes-env.yaml" },
+  { path = "../../.env.yaml" },
+]
+SCRIPTS_DIR = "/Users/wesleycoder/Library/Application Support/Screeps/scripts"
+# GAME_DIR = "/Users/wesleycoder/Library/Application Support/Screeps/scripts/screeps.com"
+# GAME_DIR = "{{env.SCRIPTS_DIR}}/screeps_newbieland_net___21025"
+GAME_DIR = "{{env.SCRIPTS_DIR}}/127_0_0_1___21025"
+
+[tasks.dockerUp]
+run = "docker compose up --no-recreate -d"
+
+[tasks.build]
+run = """
+find . -name "main.ts" -not -path "*/node_modules/*" | while read -r file; do
+    dir=$(dirname "$file")
+    clean_path="${file#./}"
+    mkdir -p "$GAME_DIR/$dir"
+    target="$GAME_DIR/${clean_path%.ts}.js"
+    deno bundle -q --platform=browser --format=cjs "$file" -o "$target"
+done
+"""
+depends = ["dockerUp"]
+
+[tasks.dev]
+run = "mise watch -f '**/main.ts' build"
+depends = ["dockerUp"]
