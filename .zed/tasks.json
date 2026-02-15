@@ -1,22 +1,73 @@
 [
   {
     "label": "anet dev",
-    "command": "mise //apps/alternet:dev"
+    "command": "mise -q //apps/alternet:dev",
+    "show_summary": false,
+    "show_command": false,
   },
   {
     "label": "anet check",
-    "command": "mise //apps/alternet:cargo check -q"
+    "command": "mise -q //apps/alternet:cargo check -q",
+    "hide": "on_success",
+    "show_summary": false,
+    "show_command": false,
   },
   {
     "label": "anet test",
-    "command": "mise //apps/alternet:test"
+    "command": "mise -q //apps/alternet:test",
+    "show_summary": false,
+    "show_command": false,
   },
   {
     "label": "screeps build",
-    "command": "mise //apps/screeps:build"
+    "command": "mise -q //apps/screeps:build",
+    "hide": "on_success",
+    "show_summary": false,
+    "show_command": false,
   },
   {
     "label": "screeps dev",
-    "command": "mise //apps/screeps:dev"
-  }
+    "command": "mise -q //apps/screeps:dev",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "codefactor build client",
+    "command": "mise -q //apps/codefactor:buildClient",
+    "hide": "on_success",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "codefactor build server",
+    "command": "mise -q //apps/codefactor:buildServer",
+    "hide": "on_success",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "codefactor dev client",
+    "command": "mise -q //apps/codefactor:devClient",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "codefactor dev server",
+    "command": "mise -q //apps/codefactor:devServer",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "codefactor client",
+    "command": "mise -q //apps/codefactor:client",
+    "show_summary": false,
+    "show_command": false,
+  },
+  {
+    "label": "codefactor server",
+    "command": "mise -q //apps/codefactor:server",
+    "show_summary": false,
+    "show_command": false,
+    }
+  },
 ]
