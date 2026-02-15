@@ -39,19 +39,6 @@ deno = "deno"
 lint = "deno lint"
 caddy = "caddy run --config ./Caddyfile"
 
-[tasks.run]
-usage = '''
-arg "[task]" default="dev"
-arg "[proj]" default="home"
-'''
-run = '''
-proj="{{usage.proj}}"
-folder=$(find pkgs -maxdepth 1 -type d -name "*${proj}*" | head -n 1)
-folder=${folder:-$(find apps -maxdepth 1 -type d -name "*${proj}*" | head -n 1)}
-folder=${folder:-apps/$proj}
-mise //$folder:{{usage.task}}
-'''
-
 [tasks.restart]
 usage = '''
 arg "<service>" help="Pitchfork service to restart"
