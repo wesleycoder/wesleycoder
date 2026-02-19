@@ -1,3 +1,5 @@
+#:schema shared/mise.schema.json
+
 experimental_monorepo_root = true
 
 [monorepo]

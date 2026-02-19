@@ -5,12 +5,10 @@ author        = "Wésley Guimarães"
 description   = "A cli with hopefully useful tools"
 license       = "MIT"
 srcDir        = "."
-bin           = @["manim"]
+bin           = @["one_br"]
 binDir        = "dist"
 
 
 # Dependencies
 
 requires "nim >= 2.2.6"
-
-requires "https://github.com/wesleycoder/webview#53feaea"
