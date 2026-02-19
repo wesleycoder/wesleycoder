@@ -1,37 +1,28 @@
+#!/usr/bin/env -S usage bash
+#USAGE arg <size> help="Size in MB"
+#[ Executes this script with nim passing arguments parsed by `usage`
+exec nim r "$0" "$@"
+]#
+import os
 import webview
 import os/macos/hotkeys
 import os/macos/style
 
-when isMainModule:
+proc openApp(url: string) =
   let w = newWebview()
-  w.setTitle "Manim"
-  w.setSize(600, 400)
+  w.setTitle("Manim")
+  w.setSize(400, 200)
 
   w.setupHotkeys()
+  w.applyStyle(0, 0, 0, 0, false)
 
-  w.setHtml """
-  <style>
-    body {
-      background: transparent !important;
-      margin: 0;
-      padding-top: 36px; /* Space for the title bar */
-      font-family: system-ui;
-      color: white;
-      height: 100vh;
-      box-sizing: border-box;
-    }
-    h1 { margin: 0; font-weight: 300; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-    p { opacity: 0.8; }
-    .content { padding: 20px; }
-  </style>
-  <body>
-    <div class="content">
-      <h1>Manim</h1>
-      <p>Transparent. Vibrant. Draggable. Clickable.</p>
-    </div>
-  </body>
-  """
-
-  w.applyStyle(0.0, 0.12, 0.0, 0.3, true)
+  w.navigate(url)
 
   w.run()
+
+proc startServer() =
+  echo os.getCurrentDir()
+
+when isMainModule:
+  startServer()
+  openApp("http://localhost:4200")
