@@ -6,7 +6,6 @@ exec nim r "$0" "$@"
 ]#
 import std/[random, strformat, strutils, os]
 
-# Tuples of (City Name, Average Annual Temperature)
 const stations = [
   ("Hamburg", 9.0),
   ("Bulawayo", 18.9),

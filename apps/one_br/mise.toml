@@ -19,7 +19,7 @@ run = """
 """
 
 [tasks.run]
-run = "clear;dist/one_br"
+run = "clear;./dist/one_br"
 depends = ["build"]
 
 [tasks.gen]
