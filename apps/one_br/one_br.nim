@@ -1,16 +1,16 @@
-#!/usr/bin/env nim r --opt:speed
-import std/[algorithm, memfiles, parseopt, sequtils, strformat, tables]
+#!/usr/bin/env nim r -d:debug --opt:speed
+import std/[algorithm, memfiles, parseopt, strformat]
 
 when defined(debug):
-  import std/strutils
-  import std/times
+  import std/[monotimes, strutils, times]
+  let start = getMonoTime()
 
 proc printUsage() =
   echo "Usage: ./one_br [options] [input_file]"
   echo "Options:"
   echo "  -h, --help    Show this help message"
 
-proc parseArgs(): (string,) =
+proc parseArgs(): tuple[inputFile: string] =
   var inputFile = ""
   var args = initOptParser()
   for kind, key, val in args.getopt():
@@ -32,17 +32,27 @@ proc parseArgs(): (string,) =
       discard
   return (inputFile,)
 
+const MAP_SIZE = 1 shl 15
+const MAP_MASK = MAP_SIZE - 1
+const FNV1A_OFFSET = 2166136261'u32
+const FNV1A_PRIME = 16777619'u32
 const ZERO_ORD = '0'.ord
 
-type StationStats = object
+type StationNode = object
+  name: array[100, char]
+  nameLen: int
   min: int
   max: int
   sum: int
   count: int
 
-var storage = initTable[string, StationStats]()
+type Result = tuple[city: string, stats: StationNode]
 
-func parseTemp(view: openArray[char]): int =
+# Pre-allocate global hash table
+var storage: array[MAP_SIZE, StationNode]
+var uniqueStations = 0
+
+func parseTemp(view: openArray[char]): int {.inline.} =
   var sign = 1
   var res = 0
   for c in view:
@@ -54,37 +64,58 @@ func parseTemp(view: openArray[char]): int =
       res = res * 10 + (c.ord - ZERO_ORD)
   return res * sign
 
-proc processLine(line: openArray[char]) =
+proc processLine(line: openArray[char]) {.inline.} =
   if line.len == 0:
     return
 
   var sepIndex = -1
+  var hash: uint32 = FNV1A_OFFSET
+
+  # Find semicolon AND compute hash
   for i in 0 ..< line.len:
     if line[i] == ';':
       sepIndex = i
       break
 
+    hash = (hash xor line[i].uint32) * FNV1A_PRIME
+
   if sepIndex == -1:
     return
 
-  var city = sepIndex.newString
-  if sepIndex > 0:
-    copyMem(addr city[0], addr line[0], sepIndex)
-
   let temp = line.toOpenArray(sepIndex + 1, line.high).parseTemp
 
-  storage.withValue(city, stats):
-    stats.min = min(stats.min, temp)
-    stats.max = max(stats.max, temp)
-    stats.sum += temp
-    stats.count += 1
-  do:
-    storage[city] = StationStats(min: temp, max: temp, sum: temp, count: 1)
+  var idx = hash and MAP_MASK.uint32 # Starting slot
+
+  while true:
+    let stats = addr storage[idx]
+
+    if stats.nameLen == 0:
+      stats.nameLen = sepIndex
+      copyMem(addr stats.name[0], addr line[0], sepIndex)
+      stats.min = temp
+      stats.max = temp
+      stats.sum = temp
+      stats.count = 1
+      uniqueStations += 1
+      break
+
+    if stats.nameLen == sepIndex:
+      var isMatch = true
+      for i in 0 ..< sepIndex:
+        if stats.name[i] != line[i]:
+          isMatch = false
+          break
+
+      if isMatch:
+        stats.min = min(stats.min, temp)
+        stats.max = max(stats.max, temp)
+        stats.sum += temp
+        stats.count += 1
+        break
+
+    idx = (idx + 1) and MAP_MASK.uint32 # Next slot
 
 proc main() =
-  when defined(debug):
-    let start = cpuTime()
-  var f: File
   let (inputFile) = parseArgs()
 
   if inputFile == "" or inputFile == "-":
@@ -102,17 +133,33 @@ proc main() =
       processLine(linePtr.toOpenArray(0, slice.size - 1))
 
   when defined(debug):
-    echo fmt"Results: ({storage.len})" & '\n'
+    echo fmt"Results: ({uniqueStations})" & '\n'
 
-  for city in storage.keys.toSeq.sorted:
-    let stats = storage[city]
-    let min = stats.min / 10
-    let max = stats.max / 10
-    let mean = (stats.sum / stats.count) / 10
-    echo fmt"{city};{min:.1f};{max:.1f};{mean:.1f};{stats.count}"
+  var results: seq[Result] = newSeqOfCap[Result](uniqueStations)
+
+  for i in 0 ..< MAP_SIZE:
+    if storage[i].nameLen > 0:
+      var cityStr = newString(storage[i].nameLen)
+      copyMem(addr cityStr[0], addr storage[i].name[0], storage[i].nameLen)
+      results.add((city: cityStr, stats: storage[i]))
+
+  results.sort(
+    proc(x, y: tuple[city: string, stats: StationNode]): int =
+      x.city.cmp(y.city)
+  )
+
+  for res in results:
+    let min = res.stats.min / 10
+    let max = res.stats.max / 10
+    let mean = (res.stats.sum / res.stats.count) / 10
+    echo fmt"{res.city};{min:.1f};{max:.1f};{mean:.1f};{res.stats.count}"
 
   when defined(debug):
-    echo '\n' & fmt"Time taken: {(cpuTime() - start):.6f}s"
+    let elapsed = getMonoTime() - start
+    let formatted = (elapsed.inNanoseconds.float / 1e9).formatEng(
+      precision = 3, siPrefix = true, unit = "s"
+    )
+    echo '\n' & fmt"Time taken: {formatted}"
 
 if isMainModule:
   main()
