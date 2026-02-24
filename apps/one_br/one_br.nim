@@ -1,17 +1,36 @@
-#!/usr/bin/env -S usage bash
-#USAGE arg "[input_file]" help="Path to the input file"
-#USAGE flag "-d --debug" help="Enable debug logs"
-#[
-exec nim r "$0" "$@"
-]#
+#!/usr/bin/env nim r --opt:speed
+import std/[algorithm, memfiles, parseopt, sequtils, strformat, tables]
 
-import std/[algorithm, memfiles, sequtils, strformat, tables, os]
-
-const isDebug = getEnv("usage_debug") != ""
-
-when isDebug:
+when defined(debug):
   import std/strutils
   import std/times
+
+proc printUsage() =
+  echo "Usage: ./one_br [options] [input_file]"
+  echo "Options:"
+  echo "  -h, --help    Show this help message"
+
+proc parseArgs(): (string,) =
+  var inputFile = ""
+  var args = initOptParser()
+  for kind, key, val in args.getopt():
+    case kind
+    of cmdArgument:
+      if inputFile == "":
+        inputFile = key
+      else:
+        quit("Error: Unexpected extra argument: " & key, 1)
+    of cmdLongOption, cmdShortOption:
+      case key
+      of "h", "help":
+        printUsage()
+        quit(0)
+      else:
+        printUsage()
+        quit("Error: Unknown flag: " & key, 1)
+    of cmdEnd:
+      discard
+  return (inputFile,)
 
 const ZERO_ORD = '0'.ord
 
@@ -63,10 +82,10 @@ proc processLine(line: openArray[char]) =
     storage[city] = StationStats(min: temp, max: temp, sum: temp, count: 1)
 
 proc main() =
-  when isDebug:
+  when defined(debug):
     let start = cpuTime()
   var f: File
-  let inputFile = getEnv("usage_input_file")
+  let (inputFile) = parseArgs()
 
   if inputFile == "" or inputFile == "-":
     for line in stdin.lines:
@@ -82,7 +101,7 @@ proc main() =
       let linePtr = cast[ptr UncheckedArray[char]](slice.data)
       processLine(linePtr.toOpenArray(0, slice.size - 1))
 
-  when isDebug:
+  when defined(debug):
     echo fmt"Results: ({storage.len})" & '\n'
 
   for city in storage.keys.toSeq.sorted:
@@ -92,7 +111,7 @@ proc main() =
     let mean = (stats.sum / stats.count) / 10
     echo fmt"{city};{min:.1f};{max:.1f};{mean:.1f};{stats.count}"
 
-  when isDebug:
+  when defined(debug):
     echo '\n' & fmt"Time taken: {(cpuTime() - start):.6f}s"
 
 if isMainModule:

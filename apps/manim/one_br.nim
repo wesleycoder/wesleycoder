@@ -1,8 +1,15 @@
-import std/memfiles
-import std/strformat
-import std/tables
+#!/usr/bin/env -S usage bash
+#USAGE arg "[input_file]" help="Path to the input file"
+#USAGE flag "-d --debug" help="Enable debug logs"
+#[
+exec nim r "$0" "$@"
+]#
 
-when defined(debug):
+import std/[algorithm, memfiles, sequtils, strformat, tables, os]
+
+const isDebug = getEnv("usage_debug") != ""
+
+when isDebug:
   import std/strutils
   import std/times
 
@@ -28,48 +35,65 @@ func parseTemp(view: openArray[char]): int =
       res = res * 10 + (c.ord - ZERO_ORD)
   return res * sign
 
+proc processLine(line: openArray[char]) =
+  if line.len == 0:
+    return
+
+  var sepIndex = -1
+  for i in 0 ..< line.len:
+    if line[i] == ';':
+      sepIndex = i
+      break
+
+  if sepIndex == -1:
+    return
+
+  var city = sepIndex.newString
+  if sepIndex > 0:
+    copyMem(addr city[0], addr line[0], sepIndex)
+
+  let temp = line.toOpenArray(sepIndex + 1, line.high).parseTemp
+
+  storage.withValue(city, stats):
+    stats.min = min(stats.min, temp)
+    stats.max = max(stats.max, temp)
+    stats.sum += temp
+    stats.count += 1
+  do:
+    storage[city] = StationStats(min: temp, max: temp, sum: temp, count: 1)
+
 proc main() =
-  when defined(debug):
+  when isDebug:
     let start = cpuTime()
-  var mfile = memfiles.open("1br-input.txt")
-  defer:
-    mfile.close()
+  var f: File
+  let inputFile = getEnv("usage_input_file")
 
-  for slice in mfile.memSlices:
-    if slice.size == 0:
-      continue
-    let linePtr = cast[ptr UncheckedArray[char]](slice.data)
-    var sepIndex = -1
-    for i in 0 ..< slice.size:
-      if linePtr[i] == ';':
-        sepIndex = i
-        break
-    if sepIndex == -1:
-      continue
+  if inputFile == "" or inputFile == "-":
+    for line in stdin.lines:
+      processLine(line)
+  else:
+    var mfile = memfiles.open(inputFile)
+    defer:
+      mfile.close()
 
-    var city = sepIndex.newString
-    if sepIndex > 0:
-      city[0].addr.copyMem(linePtr, sepIndex)
-    let temp = linePtr.toOpenArray(sepIndex + 1, slice.size - 1).parseTemp
+    for slice in mfile.memSlices:
+      if slice.size == 0:
+        continue
+      let linePtr = cast[ptr UncheckedArray[char]](slice.data)
+      processLine(linePtr.toOpenArray(0, slice.size - 1))
 
-    storage.withValue(city, stats):
-      stats.min = min(stats.min, temp)
-      stats.max = max(stats.max, temp)
-      stats.sum += temp
-      stats.count += 1
-    do:
-      storage[city] = StationStats(min: temp, max: temp, sum: temp, count: 1)
-  when defined(debug):
-    echo fmt"Results: ({storage.len})"
+  when isDebug:
+    echo fmt"Results: ({storage.len})" & '\n'
 
-  for city, stats in storage:
+  for city in storage.keys.toSeq.sorted:
+    let stats = storage[city]
     let min = stats.min / 10
     let max = stats.max / 10
     let mean = (stats.sum / stats.count) / 10
     echo fmt"{city};{min:.1f};{max:.1f};{mean:.1f};{stats.count}"
 
-  when defined(debug):
-    echo fmt"Time taken: {(cpuTime() - start):.6f}s"
+  when isDebug:
+    echo '\n' & fmt"Time taken: {(cpuTime() - start):.6f}s"
 
 if isMainModule:
   main()
