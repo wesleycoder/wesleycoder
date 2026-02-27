@@ -14,3 +14,5 @@ binDir        = "dist"
 requires "nim >= 2.2.6"
 
 requires "https://github.com/wesleycoder/webview#53feaea"
+
+requires "watchout >= 0.2.1"
