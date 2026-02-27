@@ -1,2 +1,4 @@
 dist/
 nimbledeps/
+nimble.develop
+nimble.paths
