@@ -1,5 +1,3 @@
-use macros::HelloMacro;
-
 trait Vehicle {
   const NAME: &str = "Vehicle";
   fn name(&self) -> &str {
@@ -24,7 +22,7 @@ trait WaterVehicle: Vehicle {
 trait LandVehicle: Vehicle {
   const NAME: &str = "Car";
   fn drive(&self) {
-    println!("{} driving", <Self as LandVehic‰le>::NAME)
+    println!("{} driving", <Self as LandVehicle>::NAME)
   }
 }
 
@@ -46,7 +44,7 @@ trait MultiVehicle: AmphibiousVehicle + AirVehicle {
 #[rustfmt::skip] impl<T: AmphibiousVehicle> LandVehicle for T { const NAME: &str = <Self as AmphibiousVehicle>::NAME; }
 #[rustfmt::skip] impl<T: AmphibiousVehicle> WaterVehicle for T { const NAME: &str = <Self as AmphibiousVehicle>::NAME; }
 
-#[derive(Debug, HelloMacro)]
+#[derive(Debug)]
 struct SuperCar {}
 impl Vehicle for SuperCar {
   const NAME: &str = "Super";
