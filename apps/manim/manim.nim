@@ -2,41 +2,8 @@
 import std/[os, strformat]
 import webview
 
-proc cpp*(s: string): string =
-  return s
-
 when hostOS == "macosx":
-  {.passL: "-framework AppKit".}
-  {.passL: "-framework WebKit".}
-  {.passC: "-Wno-auto-var-id".}
-  {.compile: "style_helper.m", passL: "-framework AppKit".}
-
-  {.
-    emit:
-      cpp"""
-      #import <AppKit/AppKit.h>
-      @interface EventHelper : NSObject
-      + (void)registerDefaultHotkeys;
-      @end
-    """
-  .}
-  {.compile: "event_helper.m".}
-
-  proc update_macos_style(
-    handle: pointer, r, g, b, a: cfloat, vibrant: cint
-  ) {.importc, cdecl.}
-
-  proc setupHotkeys*(w: Webview) =
-    {.emit: "[EventHelper registerDefaultHotkeys];".}
-
-proc applyStyle*(w: Webview, r, g, b, a: float, vibrant: bool = false) =
-  when hostOS == "macosx":
-    let h = w.getWindow()
-    if h != nil:
-      let v = if vibrant: 1.cint else: 0.cint
-      update_macos_style(h, r.cfloat, g.cfloat, b.cfloat, a.cfloat, v)
-
-  discard
+  import os/macos/[hotkeys, style, tray]
 
 const SRC_DIR = currentSourcePath.parentDir
 
@@ -46,7 +13,8 @@ proc openApp() =
   app.setSize(400, 200)
 
   app.setupHotkeys()
-  app.applyStyle(0, 0, 0, 0, false)
+  app.applyStyle(0, 0, 0, 0)
+  app.initTray()
 
   app.navigate(cstring fmt"file://{SRC_DIR}/index.html")
 

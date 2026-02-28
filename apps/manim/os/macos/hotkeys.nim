@@ -1,16 +1,21 @@
 import webview
 
-{.passL: "-framework AppKit".}
-{.passL: "-framework WebKit".}
+proc cpp*(s: string): string =
+  return s
 
-{.emit: """
-#import <AppKit/AppKit.h>
-@interface EventHelper : NSObject
-+ (void)registerDefaultHotkeys;
-@end
-""".}
-
-{.compile: "event_helper.m" .}
+when hostOS == "macosx":
+  {.
+    emit:
+      cpp"""
+        #import <AppKit/AppKit.h>
+        @interface EventHelper : NSObject
+        + (void)registerHotkeys;
+        @end
+      """
+  .}
+  {.compile: "hotkeys.m".}
 
 proc setupHotkeys*(w: Webview) =
-  {.emit: "[EventHelper registerDefaultHotkeys];".}
+  when hostOS == "macosx":
+    {.emit: "[EventHelper registerHotkeys];".}
+  discard

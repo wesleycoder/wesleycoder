@@ -2,7 +2,7 @@
 
 version       = "0.0.1"
 author        = "Wésley Guimarães"
-description   = "A cli with hopefully useful tools"
+description   = "A sandbox for learning Nim"
 license       = "MIT"
 srcDir        = "."
 bin           = @["manim"]

@@ -1,10 +1,7 @@
 import webview
 
 when hostOS == "macosx":
-  {.passL: "-framework AppKit".}
-  {.passL: "-framework WebKit".}
-  {.passC: "-Wno-auto-var-id".}
-  {.compile: "style_helper.m", passL: "-framework AppKit".}
+  {.compile: "style.m".}
 
   proc update_macos_style(
     handle: pointer, r, g, b, a: cfloat, vibrant: cint
