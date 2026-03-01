@@ -1,5 +1,7 @@
 #import <AppKit/AppKit.h>
 
+extern void toggleWindowVisible();
+
 @interface TrayManager : NSObject
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (assign, nonatomic) NSWindow *appWindow;
@@ -32,28 +34,23 @@
 
   NSMenu *menu = [[NSMenu alloc] init];
 
-  // Show Window
-  NSMenuItem *showItem = [[NSMenuItem alloc] initWithTitle:@"Show Window" action:@selector(showWindow:) keyEquivalent:@"s"];
-  [showItem setTarget:self];
-  [menu addItem:showItem];
+  NSMenuItem *toggleItem = [[NSMenuItem alloc] initWithTitle:@"Toggle Window" action:@selector(toggleWindow:) keyEquivalent:@" "];
+  [toggleItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
+  [toggleItem setTarget:self];
+  [menu addItem:toggleItem];
 
-  [menu addItem:[NSMenuItem separatorItem]]; // Divider
+  [menu addItem:[NSMenuItem separatorItem]];
 
-  // Quit
   NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quitApp:) keyEquivalent:@"q"];
   [quitItem setTarget:self];
   [menu addItem:quitItem];
 
   self.statusItem.menu = menu;
-
-  // Hide the window on startup so it acts purely as a tray app initially
   [self.appWindow orderOut:nil];
 }
 
-- (void)showWindow:(id)sender {
-  // Bring the window to the front and make it active
-  [self.appWindow makeKeyAndOrderFront:nil];
-  [NSApp activateIgnoringOtherApps:YES];
+- (void)toggleWindow:(id)sender {
+  toggleWindowVisible();
 }
 
 - (void)quitApp:(id)sender {

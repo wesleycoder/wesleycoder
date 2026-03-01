@@ -1,0 +1,154 @@
+{
+  "cacheVersion": "D20240927T193831",
+  "outputFile": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/libmanim.so",
+  "outputLastModificationTime": "",
+  "compile": [
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/bridge.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/android/bridge.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c"
+    ],
+    [
+      "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c",
+      "clang -c  -w -ferror-limit=3 -fno-strict-aliasing -pthread -target arm64-v8a  -fPIC  -I/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/lib -I/Users/wesleycoder/dev/wesleycoder/apps/manim -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c"
+    ]
+  ],
+  "link": [
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c.o",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c.o"
+  ],
+  "linkcmd": "clang   -shared -o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/libmanim.so /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c.o /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c.o  -pthread -pthread -lm -lm  -L  -ldl",
+  "extraCmds": [],
+  "configFiles": [
+    "/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/config/nim.cfg",
+    "/Users/wesleycoder/.local/share/mise/installs/nim/2.2.6/config/config.nims",
+    "/Users/wesleycoder/config.nims",
+    "/Users/wesleycoder/dev/wesleycoder/apps/manim/config.nims"
+  ],
+  "stdinInput": false,
+  "projectIsCmd": false,
+  "cmdInput": "",
+  "currentDir": "/Users/wesleycoder/dev/wesleycoder/apps/manim",
+  "cmdline": "",
+  "depfiles": [],
+  "nimexe": ""
+}

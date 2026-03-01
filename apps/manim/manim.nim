@@ -1,4 +1,4 @@
-#!/usr/bin/env nim r
+#!/usr/bin/env nim r -f
 import std/[os, strformat]
 import webview
 

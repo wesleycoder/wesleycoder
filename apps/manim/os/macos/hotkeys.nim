@@ -1,21 +1,18 @@
 import webview
 
-proc cpp*(s: string): string =
-  return s
-
 when hostOS == "macosx":
-  {.
-    emit:
-      cpp"""
-        #import <AppKit/AppKit.h>
-        @interface EventHelper : NSObject
-        + (void)registerHotkeys;
-        @end
-      """
-  .}
   {.compile: "hotkeys.m".}
+  type VisibilityCallback = proc(isVisible: bool) {.cdecl.}
+  proc setup_global_hotkeys(
+    handle: pointer, callback: VisibilityCallback
+  ) {.importc, cdecl.}
+
+proc visibilityChange(isVisible: bool) {.cdecl.} =
+  # echo "isVisible changed: ", isVisible
+  discard
 
 proc setupHotkeys*(w: Webview) =
   when hostOS == "macosx":
-    {.emit: "[EventHelper registerHotkeys];".}
+    let h = w.getWindow()
+    setup_global_hotkeys(h, visibilityChange)
   discard

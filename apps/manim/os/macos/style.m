@@ -29,18 +29,13 @@ void apply_style_internal(void* handle, float r, float g, float b, float a, int 
   else if ([obj isKindOfClass:[NSView class]]) win = [((NSView*)obj) window];
   if (!win) return;
 
-  // Basic Window Setup
+  // Floating Window
   [win setStyleMask:NSWindowStyleMaskBorderless];
-  [[win standardWindowButton:NSWindowCloseButton] setHidden:YES];
-  [[win standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
-  [[win standardWindowButton:NSWindowZoomButton] setHidden:YES];
-  [win setTitleVisibility:NSWindowTitleHidden];
-  [win setTitlebarAppearsTransparent:YES];
   [win setOpaque:NO];
   [win setHasShadow:NO];
   [win setBackgroundColor:[NSColor colorWithDeviceRed:r green:g blue:b alpha:a]];
-  [win setLevel:NSStatusWindowLevel];
-  [win setMovableByWindowBackground:YES];
+  [win setLevel:NSScreenSaverWindowLevel];
+  [win setCollectionBehavior: NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorFullScreenAuxiliary];
   [win setCanHide:NO];
 
   clear_webview_background([win contentView]);

@@ -1,0 +1,1 @@
+/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/build/intermediates/cxx/Debug/375p685v/obj/arm64-v8a

@@ -1,0 +1,132 @@
+[
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mandroid@sbridge.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@slog.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mlib@srpc.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@mmanim.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@phashes.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pjson.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@plexbase.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pmath.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparsejson.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pparseutils.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sassertions.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@senvvars.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sformatfloat.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sjsonutils.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdigitsutils.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstd@sprivate@sdragonbox.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstreams.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrformat.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@pstrutils.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sdollars.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@psystem@sexceptions.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptables.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@ptimes.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/build/android_cache/@punicode.nim.c"
+},
+{
+  "directory": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/.cxx/Debug/375p685v/arm64-v8a",
+  "command": "/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/opt/homebrew/share/android-commandlinetools/ndk/27.0.12077973/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmanim_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/manim.dir/Users/wesleycoder/dev/wesleycoder/apps/manim/android/bridge.c.o -c /Users/wesleycoder/dev/wesleycoder/apps/manim/android/bridge.c",
+  "file": "/Users/wesleycoder/dev/wesleycoder/apps/manim/android/bridge.c"
+}
+]
