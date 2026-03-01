@@ -12,6 +12,19 @@ run = "nimble clean --silent"
 run = "nimble build --silent"
 depends = ["clear"]
 
+[tasks.bundle_macos]
+run = """
+nim c manim.nim
+rm -rf dist/Manim.app
+mkdir -p dist/Manim.app/Contents/MacOS
+mv dist/manim dist/Manim.app/Contents/MacOS/manim
+cp -R assets/ dist/Manim.app/
+"""
+depends = ["build"]
+
+[tasks.bundle]
+depends = ["bundle_macos"]
+
 [tasks.dev]
 usage = """
 flag "-w --watch" help="Watch for changes"
@@ -27,3 +40,9 @@ fi
 [tasks.run]
 run = "clear;dist/manim"
 depends = ["build"]
+
+[tasks.open]
+run = """
+pkill -x manim || true
+open dist/Manim.app
+"""

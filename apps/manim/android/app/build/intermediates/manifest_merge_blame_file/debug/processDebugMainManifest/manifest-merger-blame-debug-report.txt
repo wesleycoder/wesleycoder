@@ -1,0 +1,59 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="dev.guima.manim"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:4:3-65
+11-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:4:20-62
+12
+13    <permission
+13-->[androidx.core:core:1.12.0] /Users/wesleycoder/.gradle/caches/9.3.1/transforms/25b5026140977a81799633af6d4211a2/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+14        android:name="dev.guima.manim.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+14-->[androidx.core:core:1.12.0] /Users/wesleycoder/.gradle/caches/9.3.1/transforms/25b5026140977a81799633af6d4211a2/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+15        android:protectionLevel="signature" />
+15-->[androidx.core:core:1.12.0] /Users/wesleycoder/.gradle/caches/9.3.1/transforms/25b5026140977a81799633af6d4211a2/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+16
+17    <uses-permission android:name="dev.guima.manim.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+17-->[androidx.core:core:1.12.0] /Users/wesleycoder/.gradle/caches/9.3.1/transforms/25b5026140977a81799633af6d4211a2/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+17-->[androidx.core:core:1.12.0] /Users/wesleycoder/.gradle/caches/9.3.1/transforms/25b5026140977a81799633af6d4211a2/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+18
+19    <application
+19-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:6:3-17:17
+20        android:allowBackup="true"
+20-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:7:5-31
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.12.0] /Users/wesleycoder/.gradle/caches/9.3.1/transforms/25b5026140977a81799633af6d4211a2/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+22        android:debuggable="true"
+23        android:extractNativeLibs="false"
+24        android:label="Manim"
+24-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:8:5-26
+25        android:theme="@android:style/Theme.NoTitleBar"
+25-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:9:5-52
+26        android:usesCleartextTraffic="true" >
+26-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/debug/AndroidManifest.xml:3:16-51
+27        <activity
+27-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:11:5-16:16
+28            android:name="dev.guima.manim.MainActivity"
+28-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:11:15-43
+29            android:exported="true" >
+29-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:11:44-67
+30            <intent-filter>
+30-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:12:7-15:23
+31                <action android:name="android.intent.action.MAIN" />
+31-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:13:9-61
+31-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:13:17-58
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:14:9-69
+33-->/Users/wesleycoder/dev/wesleycoder/apps/manim/android/app/src/main/AndroidManifest.xml:14:19-66
+34            </intent-filter>
+35        </activity>
+36    </application>
+37
+38</manifest>
