@@ -6,7 +6,7 @@ description   = "A sandbox for learning Nim"
 license       = "MIT"
 srcDir        = "."
 bin           = @["manim"]
-binDir        = "dist"
+binDir        = "build"
 
 
 # Dependencies

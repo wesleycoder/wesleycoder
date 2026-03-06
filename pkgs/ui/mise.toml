@@ -11,5 +11,3 @@ SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
 
 [tasks]
 barrel = "./bin/barrel src mod.ts"
-book = "dx storybook dev -p 6006 --ci --docs --force-build-preview"
-story = "dx storybook"

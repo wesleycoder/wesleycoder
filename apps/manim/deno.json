@@ -1,0 +1,19 @@
+{
+  "name": "@apps/manim",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "compilerOptions": {
+    "types": [
+      ".astro/types.d.ts",
+      "user-agent-data-types",
+      "**/*"
+    ]
+  },
+  "imports": {
+    "astro": "npm:astro@^5.18.0",
+    "typescript": "npm:typescript@^5.9.3",
+    "user-agent-data-types": "npm:user-agent-data-types@^0.4.2",
+    "vite": "npm:vite@^7.3.1"
+  }
+}

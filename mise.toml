@@ -20,8 +20,8 @@ cargo = "latest"
 
 [hooks]
 postinstall = [
-  "deno x --install-alias",
   "deno i",
+  "deno x --install-alias",
   "find . -path '*/.tasks/*' -type f -exec chmod +x {} +",
 ]
 

@@ -1,4 +1,6 @@
 [tools]
+gradle = "latest"
+java = "17"
 nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
 watchexec = "latest"
 
@@ -6,24 +8,39 @@ watchexec = "latest"
 postinstall = "nimble install -yl --silent --depsOnly"
 
 [tasks.clear]
-run = "nimble clean --silent"
+run = """
+nimble clean --silent
+rm -rf build/ android/app/build android/app/.cxx android/.gradle
+"""
 
-[tasks.build]
+[tasks.nim_android]
+run = """
+nim c --os:android manim.nim
+NIM_LIB_DIR=$(nim dump 2>&1 | tail -n 1)
+cp "$NIM_LIB_DIR/nimbase.h" build/android_cache/
+"""
+depends = ["clear", "web_build"]
+
+[tasks.nim_build]
 run = "nimble build --silent"
 depends = ["clear"]
 
-[tasks.bundle_macos]
-run = """
-nim c manim.nim
-rm -rf dist/Manim.app
-mkdir -p dist/Manim.app/Contents/MacOS
-mv dist/manim dist/Manim.app/Contents/MacOS/manim
-cp -R assets/ dist/Manim.app/
+[tasks.macos_bundle]
+usage = """
+flag "-o --open" help="Open the app after bundling"
 """
-depends = ["build"]
+run = """
+mkdir -p build/Manim.app/Contents/MacOS
+mv build/manim build/Manim.app/Contents/MacOS/manim
+cp -R macos/public/ build/Manim.app/
+if [ "${usage_open:-false}" = "true" ]; then
+  mise open
+fi
+"""
+depends = ["nim_build"]
 
-[tasks.bundle]
-depends = ["bundle_macos"]
+[tasks.bundle_all]
+depends = ["web_build", "macos_bundle"]
 
 [tasks.dev]
 usage = """
@@ -38,11 +55,46 @@ fi
 """
 
 [tasks.run]
-run = "clear;dist/manim"
-depends = ["build"]
+run = "clear;build/manim"
+depends = ["nim_build"]
 
 [tasks.open]
 run = """
 pkill -x manim || true
-open dist/Manim.app
+while pgrep -x manim > /dev/null; do
+  sleep 0.2
+done
+sleep 0.2
+open build/Manim.app
 """
+
+[tasks.android_emulator_create]
+run = """
+sdkmanager "system-images;android-35;google_apis;arm64-v8a"
+avdmanager create avd -n Pixel_API_35 -k "system-images;android-35;google_apis;arm64-v8a" --device "pixel"
+"""
+
+[tasks.android_run]
+run = """
+nohup emulator -avd Pixel_API_35 -qemu -append "hw.keyboard=yes hw.keyboard.lid=no" > /dev/null 2>&1 &
+"""
+
+[tasks.android_logs]
+run = "adb logcat | grep -i 'Manim'"
+
+[tasks.android_install]
+run = "cd android && ./gradlew installDebug"
+depends = ["nim_android"]
+
+[tasks.android_build]
+run = "cd android && ./gradlew assembleDebug"
+depends = ["nim_android"]
+
+[tasks.web_dev]
+run = "dx -A astro dev"
+
+[tasks.web_build]
+run = "dx -A astro build --silent"
+
+[tasks.astro]
+run = "dx -A astro"

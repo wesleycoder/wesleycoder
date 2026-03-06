@@ -1,0 +1,8 @@
+{
+  "name": "@pkgs/host-info",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "tasks": {},
+  "imports": {}
+}

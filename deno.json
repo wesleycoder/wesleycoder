@@ -46,19 +46,9 @@
     "test": "echo 'no test'"
   },
   "minimumDependencyAge": "P5D",
-  "imports": {
-    "esbuild": "npm:esbuild@0.27.2",
-    "sharp": "npm:sharp@0.34.5",
-    "npm:esbuild": "npm:esbuild@0.27.2",
-    "npm:sharp": "npm:sharp@0.34.5"
-  },
+  "imports": {},
   "allowScripts": {
-    "allow": [
-      "npm:esbuild",
-      "npm:sharp"
-    ],
-    "deny": [
-      "npm:fsevents"
-    ]
+    "allow": ["npm:esbuild@0.25.12", "npm:esbuild@0.27.3", "npm:sharp@0.34.5"],
+    "deny": ["npm:fsevents"]
   }
 }
