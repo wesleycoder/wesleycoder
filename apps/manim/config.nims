@@ -6,12 +6,20 @@ when withDir(thisDir(), system.fileExists("nimble.paths")):
 switch("hints", "off")
 switch("verbosity", "0")
 switch("threads", "on")
-switch("outdir", "dist")
-switch("backend", "cpp")
+switch("outdir", "build")
 
 when hostOS == "macosx":
+  switch("backend", "cpp")
   switch("passC", "-x objective-c++")
   switch("passC", "-Wno-auto-var-id")
   switch("passL", "-framework WebKit")
   switch("passL", "-framework AppKit")
   switch("passL", "-framework Carbon")
+
+when hostOS == "android":
+  switch("backend", "c")
+  switch("cpu", "arm64")
+  switch("compileOnly", "on")
+  switch("nimcache", "build/android_cache")
+  switch("passC", "-target arm64-v8a")
+  switch("passL", "-L")

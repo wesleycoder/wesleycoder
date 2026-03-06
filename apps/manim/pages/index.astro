@@ -1,0 +1,88 @@
+---
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Manim!!!</title>
+    <style>
+      html {
+        background-color: black;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-color: rgba(0, 42, 0, 0.42);
+        color: white;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body {
+          padding-top: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello Manim</h1>
+
+    <fieldset>
+      <label for="something">Something:</label>
+      <input id="something" type="text" placeholder="Type something here..." />
+    </fieldset>
+
+    <fieldset>
+      <label for="bg-color">Background color:</label>
+      <input id="bg-color" type="color" value="#003300" />
+    </fieldset>
+
+    <script>
+      function rgba2hex(rgbaString: string) {
+        const RGBA_RGX = /rgba\((\d+),\s?(\d+),\s?(\d+),\s?(\d*\.?\d*)\)/;
+        let [, r, g, b, _a] = rgbaString.match(RGBA_RGX)!;
+        r = parseInt(r).toString(16).padStart(2, "0");
+        g = parseInt(g).toString(16).padStart(2, "0");
+        b = parseInt(b).toString(16).padStart(2, "0");
+        return `#${r}${g}${b}`;
+      }
+
+      const bgColorInput = document.getElementById(
+        "bg-color",
+      )! as HTMLInputElement;
+      bgColorInput.value = rgba2hex(
+        window.getComputedStyle(document.body).backgroundColor,
+      );
+      bgColorInput.addEventListener(
+        "input",
+        (e) =>
+          (document.body.style.backgroundColor = `${(e.target as HTMLInputElement).value}6b`),
+      );
+    </script>
+
+    <p id="host-os">Unknown OS</p>
+    <script>
+      const hostOS = JSON.stringify((navigator as any).userAgentData);
+      document.getElementById("host-os").textContent = hostOS;
+    </script>
+  </body>
+</html>

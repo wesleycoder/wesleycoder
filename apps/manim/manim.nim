@@ -1,24 +1,32 @@
 #!/usr/bin/env nim r -f
 import std/[os, strformat]
-import webview
 
 when hostOS == "macosx":
-  import os/macos/[hotkeys, style, tray]
+  import webview
+  import macos/[hotkeys, style, tray]
 
-const SRC_DIR = currentSourcePath.parentDir
+when hostOS == "android":
+  import android/bridge
+
+const WEB_DIST_DIR = fmt"{currentSourcePath.parentDir}/dist"
 
 proc openApp() =
-  let app = newWebview()
-  app.setTitle("Manim")
-  app.setSize(400, 200)
+  when hostOS == "macosx":
+    let app = newWebview()
+    app.setTitle("Manim")
+    app.setSize(400, 200)
 
-  app.setupHotkeys()
-  app.applyStyle(0, 0, 0, 0)
-  app.initTray()
+    app.setupHotkeys()
+    app.applyStyle(0, 0, 0, 0)
+    app.initTray()
 
-  app.navigate(cstring fmt"file://{SRC_DIR}/index.html")
+    app.navigate("http://localhost:4321/")
 
-  app.run()
+    app.run()
+
+  when hostOS == "android":
+    echo "Nim App started!"
+    discard
 
 when isMainModule:
   openApp()
