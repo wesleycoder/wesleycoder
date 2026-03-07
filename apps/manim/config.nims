@@ -23,3 +23,4 @@ when hostOS == "android":
   switch("nimcache", "build/android_cache")
   switch("passC", "-target arm64-v8a")
   switch("passL", "-L")
+  switch("define", "useMalloc")
