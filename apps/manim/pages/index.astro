@@ -8,40 +8,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Manim!!!</title>
-    <style>
-      html {
-        background-color: black;
-      }
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        background-color: rgba(0, 42, 0, 0.42);
-        color: white;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-      @media (hover: none) and (pointer: coarse) {
-        body {
-          padding-top: 24px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="../global.css" />
   </head>
   <body>
     <h1>Hello Manim</h1>
@@ -50,6 +19,14 @@
       <label for="something">Something:</label>
       <input id="something" type="text" placeholder="Type something here..." />
     </fieldset>
+
+    <script>
+      const somethingInput = document.getElementById('something')! as HTMLInputElement;
+      somethingInput.addEventListener('input', (e) => {
+        console.log('somethingInput:', (e.target as HTMLInputElement).value);
+        window.__MANIM__.send('something', (e.target as HTMLInputElement).value);
+      });
+    </script>
 
     <fieldset>
       <label for="bg-color">Background color:</label>
@@ -60,29 +37,73 @@
       function rgba2hex(rgbaString: string) {
         const RGBA_RGX = /rgba\((\d+),\s?(\d+),\s?(\d+),\s?(\d*\.?\d*)\)/;
         let [, r, g, b, _a] = rgbaString.match(RGBA_RGX)!;
-        r = parseInt(r).toString(16).padStart(2, "0");
-        g = parseInt(g).toString(16).padStart(2, "0");
-        b = parseInt(b).toString(16).padStart(2, "0");
+        r = parseInt(r).toString(16).padStart(2, '0');
+        g = parseInt(g).toString(16).padStart(2, '0');
+        b = parseInt(b).toString(16).padStart(2, '0');
         return `#${r}${g}${b}`;
       }
 
-      const bgColorInput = document.getElementById(
-        "bg-color",
-      )! as HTMLInputElement;
-      bgColorInput.value = rgba2hex(
-        window.getComputedStyle(document.body).backgroundColor,
-      );
+      const bgColorInput = document.getElementById('bg-color')! as HTMLInputElement;
+      bgColorInput.value = rgba2hex(window.getComputedStyle(document.body).backgroundColor);
       bgColorInput.addEventListener(
-        "input",
-        (e) =>
-          (document.body.style.backgroundColor = `${(e.target as HTMLInputElement).value}6b`),
+        'input',
+        (e) => (document.body.style.backgroundColor = `${(e.target as HTMLInputElement).value}6b`),
       );
     </script>
 
     <p id="host-os">Unknown OS</p>
     <script>
       const hostOS = JSON.stringify((navigator as any).userAgentData);
-      document.getElementById("host-os").textContent = hostOS;
+      document.getElementById('host-os').textContent = hostOS;
+    </script>
+    <script>
+      interface ManimMessage {
+        event: string;
+        data?: any;
+      }
+
+      declare global {
+        interface Window {
+          _ManimNative?: { postMessage: (payload: String) => string };
+          __MANIM__: {
+            callbacks: Record<string, Function[]>;
+            on: (event: string, callback: Function) => void;
+            send: (event: string, data?: any) => void;
+            emit: (event: string, data?: any) => void;
+          };
+        }
+      }
+
+      window.__MANIM__ = {
+        callbacks: {},
+
+        on(event, callback) {
+          if (!this.callbacks[event]) this.callbacks[event] = [];
+          this.callbacks[event].push(callback);
+        },
+
+        send(event, data) {
+          const payload = JSON.stringify({ event, data });
+
+          if (window._ManimNative) {
+            const responseStr = window._ManimNative.postMessage(payload);
+            if (responseStr) {
+              try {
+                const response = JSON.parse(responseStr);
+                this.emit(response.event, response.data);
+              } catch (e) {
+                console.error('Failed to parse native response', e);
+              }
+            }
+          } else {
+            console.log(`[Web Fallback] Sent: ${event}`, data);
+          }
+        },
+
+        emit(event, data) {
+          if (this.callbacks[event]) this.callbacks[event].forEach((cb: (data: any) => void) => cb(data));
+        },
+      };
     </script>
   </body>
 </html>

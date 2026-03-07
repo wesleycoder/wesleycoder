@@ -5,33 +5,46 @@ import android.app.Activity
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.Log
+import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 
+class ManimNativeBridge(private val activity: MainActivity) {
+  @JavascriptInterface
+  fun postMessage(jsonPayload: String): String {
+    return activity.sendNimMessage(jsonPayload)
+  }
+}
+
 class MainActivity : Activity() {
+
+  // This is the class property we need to assign to
+  private lateinit var webView: WebView
 
   companion object {
     init {
       try {
         System.loadLibrary("manim") // libmanim.so
       } catch (e: UnsatisfiedLinkError) {
-        Log.e("Manim", "Failed to load libmanim.so (Nim backend not compiled yet)", e)
+        Log.e("Manim", "Failed to load libmanim.so", e)
       }
     }
   }
 
   private external fun startNimBackend()
+  external fun sendNimMessage(jsonPayload: String): String
 
   @SuppressLint("SetJavaScriptEnabled")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    val webView = WebView(this).apply {
+    webView = WebView(this).apply {
       settings.javaScriptEnabled = true
       settings.domStorageEnabled = true
       webViewClient = WebViewClient()
       webChromeClient = WebChromeClient()
+      addJavascriptInterface(ManimNativeBridge(this@MainActivity), "_ManimNative")
     }
 
     setContentView(webView)
@@ -39,17 +52,25 @@ class MainActivity : Activity() {
     val isDebug = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 
     val url = if (isDebug) {
-      "http://10.0.2.2:5173/"
+      WebView.setWebContentsDebuggingEnabled(true)
+      "http://10.0.2.2:4321/"
     } else {
       "file:///android_asset/index.html"
     }
 
     webView.loadUrl(url)
 
+    // 3. Call the setup function to cache the JVM and Activity in C!
     try {
       startNimBackend()
     } catch (e: UnsatisfiedLinkError) {
       Log.e("Manim", "startNimBackend() not found in JNI. Skipping...", e)
+    }
+  }
+
+  fun evaluateJavascript(script: String) {
+    runOnUiThread {
+      webView.evaluateJavascript(script, null)
     }
   }
 }
