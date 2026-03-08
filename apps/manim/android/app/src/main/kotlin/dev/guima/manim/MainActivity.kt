@@ -19,13 +19,12 @@ class ManimNativeBridge(private val activity: MainActivity) {
 
 class MainActivity : Activity() {
 
-  // This is the class property we need to assign to
   private lateinit var webView: WebView
 
   companion object {
     init {
       try {
-        System.loadLibrary("manim") // libmanim.so
+        System.loadLibrary("manim")
       } catch (e: UnsatisfiedLinkError) {
         Log.e("Manim", "Failed to load libmanim.so", e)
       }
@@ -60,7 +59,6 @@ class MainActivity : Activity() {
 
     webView.loadUrl(url)
 
-    // 3. Call the setup function to cache the JVM and Activity in C!
     try {
       startNimBackend()
     } catch (e: UnsatisfiedLinkError) {

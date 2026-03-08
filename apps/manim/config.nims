@@ -4,7 +4,7 @@ when withDir(thisDir(), system.fileExists("nimble.paths")):
 # end Nimble config
 
 switch("hints", "off")
-switch("verbosity", "0")
+# switch("verbosity", "0")
 switch("threads", "on")
 switch("outdir", "build")
 
@@ -12,6 +12,7 @@ when hostOS == "macosx":
   switch("backend", "cpp")
   switch("passC", "-x objective-c++")
   switch("passC", "-Wno-auto-var-id")
+  switch("passC", "-Wno-array-bounds")
   switch("passL", "-framework WebKit")
   switch("passL", "-framework AppKit")
   switch("passL", "-framework Carbon")

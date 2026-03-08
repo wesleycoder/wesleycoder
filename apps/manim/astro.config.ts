@@ -2,6 +2,9 @@ import { defineConfig } from 'astro/config'
 
 export default defineConfig({
   srcDir: '.',
+  server: {
+    host: true,
+  },
   vite: {
     server: {
       fs: {

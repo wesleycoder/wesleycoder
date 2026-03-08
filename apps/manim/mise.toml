@@ -46,11 +46,11 @@ depends = ["web_build", "macos_bundle"]
 usage = """
 flag "-w --watch" help="Watch for changes"
 """
-run = """# running nim r manim.nim
+run = """# running nim r -d:debug manim.nim
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -w manim.nim -qe nim 'nim r manim.nim'
+  watchexec -c=reset -w manim.nim -qe nim 'nim r -d:debug manim.nim'
 else
-  nim r manim.nim
+  nim r -d:debug manim.nim
 fi
 """
 
