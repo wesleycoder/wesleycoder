@@ -13,6 +13,7 @@ import android.webkit.WebViewClient
 class ManimNativeBridge(private val activity: MainActivity) {
   @JavascriptInterface
   fun postMessage(jsonPayload: String): String {
+    Log.e("ManimApp", "postMessage: $jsonPayload")
     return activity.sendNimMessage(jsonPayload)
   }
 }
@@ -20,19 +21,18 @@ class ManimNativeBridge(private val activity: MainActivity) {
 class MainActivity : Activity() {
 
   private lateinit var webView: WebView
+  private external fun startNimBackend()
+  external fun sendNimMessage(jsonPayload: String): String
 
   companion object {
     init {
       try {
         System.loadLibrary("manim")
       } catch (e: UnsatisfiedLinkError) {
-        Log.e("Manim", "Failed to load libmanim.so", e)
+        Log.e("ManimApp", "Failed to load libmanim.so", e)
       }
     }
   }
-
-  private external fun startNimBackend()
-  external fun sendNimMessage(jsonPayload: String): String
 
   @SuppressLint("SetJavaScriptEnabled")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class MainActivity : Activity() {
       settings.domStorageEnabled = true
       webViewClient = WebViewClient()
       webChromeClient = WebChromeClient()
-      addJavascriptInterface(ManimNativeBridge(this@MainActivity), "_ManimNative")
+      addJavascriptInterface(ManimNativeBridge(this@MainActivity), "__ManimNative")
     }
 
     setContentView(webView)
@@ -62,11 +62,12 @@ class MainActivity : Activity() {
     try {
       startNimBackend()
     } catch (e: UnsatisfiedLinkError) {
-      Log.e("Manim", "startNimBackend() not found in JNI. Skipping...", e)
+      Log.e("ManimApp", "startNimBackend() not found in JNI. Skipping...", e)
     }
   }
 
   fun evaluateJavascript(script: String) {
+    Log.e("ManimApp", "evaluateJavascript: $script")
     runOnUiThread {
       webView.evaluateJavascript(script, null)
     }

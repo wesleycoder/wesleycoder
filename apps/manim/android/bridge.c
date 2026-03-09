@@ -2,9 +2,11 @@
 #include <jni.h>
 #include <stdlib.h>
 
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "ManimNim", __VA_ARGS__)
+#define LOGI(...)                                                              \
+  __android_log_print(ANDROID_LOG_INFO, "ManimApp:bridge.c", __VA_ARGS__)
 
 extern void NimMain(void);
+extern char *handleNativeMessage(const char *msg);
 
 static JavaVM *cachedJVM = NULL;
 static jobject cachedActivity = NULL;
@@ -20,7 +22,9 @@ Java_dev_guima_manim_MainActivity_startNimBackend(JNIEnv *env, jobject obj) {
 JNIEXPORT jstring JNICALL Java_dev_guima_manim_MainActivity_sendNimMessage(
     JNIEnv *env, jobject obj, jstring msg) {
   const char *nativeMsg = (*env)->GetStringUTFChars(env, msg, NULL);
+  LOGI("sendNimMessage: %s", nativeMsg);
   char *nimResult = handleNativeMessage(nativeMsg);
+  LOGI("nimResult: %s", nimResult);
   (*env)->ReleaseStringUTFChars(env, msg, nativeMsg);
   jstring javaResult = (*env)->NewStringUTF(env, nimResult);
   free(nimResult);

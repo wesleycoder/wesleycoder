@@ -22,9 +22,9 @@ proc runMacosApp*(url: string) =
   globalWebview.initTray()
 
   globalWebview.bind(
-    "macOS_postMessage",
+    "macosIPC",
     proc(id: string, req: JsonNode): string =
-      echo "macOS_postMessage: " & id & ($ %*req)
+      echo "macosIPC: " & id & ($ %*req)
       if req.kind == JArray and req.len > 0:
         let payloadStr = req[0].getStr()
         return routeMessage(payloadStr)
@@ -33,8 +33,8 @@ proc runMacosApp*(url: string) =
 
   globalWebview.init(
     cstring js"""
-    window._ManimNative = {
-      postMessage: window.macOS_postMessage
+    window.__ManimNative = {
+      postMessage: window.macosIPC
     }
   """
   )

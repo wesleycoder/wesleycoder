@@ -1,4 +1,5 @@
 import std/[macros, json, jsonutils, tables, strformat]
+import ../lib/log
 
 type
   EventHandler* = proc(data: JsonNode): JsonNode

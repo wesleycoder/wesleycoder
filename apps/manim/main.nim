@@ -1,5 +1,6 @@
 import std/[os, strformat]
-import api/something
+# import api/something
+import lib/[log, rpc]
 
 when hostOS == "macosx":
   import webview
@@ -9,6 +10,10 @@ when hostOS == "android":
   import android/bridge
 
 const WEB_DIST_DIR = fmt"{currentSourcePath.parentDir}/dist"
+
+proc something*(someInput: string): string {.expose.} =
+  log "something: " & someInput
+  "here goes anything: " & someInput
 
 proc main*() =
   when hostOS == "macosx":

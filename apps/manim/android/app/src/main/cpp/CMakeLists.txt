@@ -6,6 +6,8 @@ set(NIM_CACHE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../build/android_cache
 
 file(GLOB_RECURSE NIM_SOURCES CONFIGURE_DEPENDS "${NIM_CACHE_DIR}/*.c")
 
+list(APPEND NIM_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../../../../bridge.c")
+
 add_library(
     manim
     SHARED

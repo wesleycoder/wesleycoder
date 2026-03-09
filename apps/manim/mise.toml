@@ -80,7 +80,7 @@ nohup emulator -avd Pixel_API_35 -qemu -append "hw.keyboard=yes hw.keyboard.lid=
 """
 
 [tasks.android_logs]
-run = "adb logcat | grep -i 'Manim'"
+run = "(adb logcat | grep -i 'Manim')"
 
 [tasks.android_install]
 run = "cd android && ./gradlew installDebug"

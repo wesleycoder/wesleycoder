@@ -19,11 +19,14 @@
       <input id="something" type="text" placeholder="Type something here..." />
     </fieldset>
 
+    <script src="../bridge.ts"></script>
     <script>
+      import { __MANIM__ } from '../bridge.ts'
+
       const somethingInput = document.getElementById('something')! as HTMLInputElement
       somethingInput.addEventListener('input', async (e) => {
         const response = await window.__MANIM__.send('something', { someInput: (e.target as HTMLInputElement).value })
-        console.log('Success!', response)
+        console.log(response)
       })
     </script>
 
@@ -31,76 +34,5 @@
       <label for="bg-color">Background color:</label>
       <input id="bg-color" type="color" value="#003300" />
     </fieldset>
-
-    <script>
-      function rgba2hex(rgbaString: string) {
-        const RGBA_RGX = /rgba\((\d+),\s?(\d+),\s?(\d+),\s?(\d*\.?\d*)\)/
-        let [, r, g, b, _a] = rgbaString.match(RGBA_RGX)!
-        r = parseInt(r).toString(16).padStart(2, '0')
-        g = parseInt(g).toString(16).padStart(2, '0')
-        b = parseInt(b).toString(16).padStart(2, '0')
-        return `#${r}${g}${b}`
-      }
-
-      const bgColorInput = document.getElementById('bg-color')! as HTMLInputElement
-      bgColorInput.value = rgba2hex(window.getComputedStyle(document.body).backgroundColor)
-      bgColorInput.addEventListener(
-        'input',
-        (e) => (document.body.style.backgroundColor = `${(e.target as HTMLInputElement).value}6b`),
-      )
-    </script>
-
-    <p id="host-os">Unknown OS</p>
-    <script>
-      const hostOS = JSON.stringify((navigator as any).userAgentData)
-      document.getElementById('host-os').textContent = hostOS
-    </script>
-    <script>
-      declare global {
-        interface Window {
-          _ManimNative?: { postMessage: (payload: String) => Promise<unknown> }
-          __MANIM__: {
-            callbacks: Record<string, Function[]>
-            on: (event: string, callback: Function) => void
-            send: (event: string, data?: any) => Promise<unknown>
-            emit: (event: string, data?: any) => void
-          }
-        }
-      }
-
-      window.__MANIM__ = {
-        callbacks: {},
-
-        on(event, callback) {
-          if (!this.callbacks[event]) this.callbacks[event] = []
-          this.callbacks[event].push(callback)
-        },
-
-        async send(event, data) {
-          const payload = JSON.stringify({ event, data })
-
-          if (window._ManimNative) {
-            const response = (await window._ManimNative.postMessage(payload)) as { event?: string; data?: any }
-            console.log('native response:', response)
-            if (response) {
-              try {
-                this.emit(response.event, response.data)
-                return response
-              } catch (e) {
-                console.error('Failed to parse native response', e)
-              }
-            }
-          } else {
-            console.log(`[Web Fallback] Sent: ${event}`, data)
-          }
-        },
-
-        emit(event, data) {
-          if (this.callbacks[event]) {
-            for (const cb of this.callbacks[event]) cb(data)
-          }
-        },
-      }
-    </script>
   </body>
 </html>
