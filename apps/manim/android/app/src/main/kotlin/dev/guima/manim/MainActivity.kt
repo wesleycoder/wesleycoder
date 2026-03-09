@@ -13,7 +13,6 @@ import android.webkit.WebViewClient
 class ManimNativeBridge(private val activity: MainActivity) {
   @JavascriptInterface
   fun postMessage(jsonPayload: String): String {
-    Log.e("ManimApp", "postMessage: $jsonPayload")
     return activity.sendNimMessage(jsonPayload)
   }
 }
@@ -50,24 +49,15 @@ class MainActivity : Activity() {
 
     val isDebug = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 
-    val url = if (isDebug) {
-      WebView.setWebContentsDebuggingEnabled(true)
-      "http://10.0.2.2:4321/"
-    } else {
-      "file:///android_asset/index.html"
-    }
+    val url = if (isDebug) "http://10.0.2.2:4321/" else "file:///android_asset/index.html"
+    if (isDebug) WebView.setWebContentsDebuggingEnabled(true)
 
     webView.loadUrl(url)
 
-    try {
-      startNimBackend()
-    } catch (e: UnsatisfiedLinkError) {
-      Log.e("ManimApp", "startNimBackend() not found in JNI. Skipping...", e)
-    }
+    startNimBackend()
   }
 
   fun evaluateJavascript(script: String) {
-    Log.e("ManimApp", "evaluateJavascript: $script")
     runOnUiThread {
       webView.evaluateJavascript(script, null)
     }
