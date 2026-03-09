@@ -7,6 +7,7 @@ switch("hints", "off")
 # switch("verbosity", "0")
 switch("threads", "on")
 switch("outdir", "build")
+switch("path", thisDir() & "/../../../webview")
 
 when hostOS == "macosx":
   switch("backend", "cpp")
@@ -19,6 +20,7 @@ when hostOS == "macosx":
 
 when hostOS == "android":
   switch("backend", "c")
+  switch("app", "lib")
   switch("cpu", "arm64")
   switch("compileOnly", "on")
   switch("nimcache", "build/android_cache")

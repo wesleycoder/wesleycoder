@@ -9,11 +9,26 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import java.util.concurrent.CountDownLatch
+import android.os.Looper
 
 class ManimNativeBridge(private val activity: MainActivity) {
   @JavascriptInterface
   fun postMessage(jsonPayload: String): String {
-    return activity.sendNimMessage(jsonPayload)
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+      return activity.sendNimMessage(jsonPayload)
+    }
+
+    var result = ""
+    val latch = CountDownLatch(1)
+
+    activity.runOnUiThread {
+      result = activity.sendNimMessage(jsonPayload)
+      latch.countDown()
+    }
+
+    latch.await()
+    return result
   }
 }
 

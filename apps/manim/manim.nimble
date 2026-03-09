@@ -8,11 +8,8 @@ srcDir        = "."
 bin           = @["manim"]
 binDir        = "build"
 
-
 # Dependencies
 
 requires "nim >= 2.2.6"
 
-requires "https://github.com/wesleycoder/webview#53feaea"
-
-requires "watchout >= 0.2.1"
+requires "webview >= 0.1.0"

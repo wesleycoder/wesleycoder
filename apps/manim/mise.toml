@@ -10,7 +10,8 @@ postinstall = "nimble install -yl --silent --depsOnly"
 [tasks.clear]
 run = """
 nimble clean --silent
-rm -rf build/ android/app/build android/app/.cxx android/.gradle
+rm -rf build/ android/.gradle android/app/.cxx android/app/build
+cd android && ./gradlew clean -q || true
 """
 
 [tasks.nim_android]
@@ -83,7 +84,11 @@ nohup emulator -avd Pixel_API_35 -qemu -append "hw.keyboard=yes hw.keyboard.lid=
 run = "(adb logcat | grep -i 'Manim')"
 
 [tasks.android_install]
-run = "cd android && ./gradlew installDebug"
+run = """
+cd android
+./gradlew installDebug -q
+adb shell am start -n dev.guima.manim/.MainActivity
+"""
 depends = ["nim_android"]
 
 [tasks.android_build]

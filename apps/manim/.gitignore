@@ -24,3 +24,6 @@ dist-ssr/
 *.njsproj
 *.sln
 *.sw?
+nimble.develop
+nimble.paths
+nimbledeps

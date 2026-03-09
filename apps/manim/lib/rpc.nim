@@ -1,11 +1,7 @@
 import std/[macros, json, jsonutils, tables, strformat]
 import ../lib/log
 
-type
-  EventHandler* = proc(data: JsonNode): JsonNode
-  RpcHandler* = proc(args: JsonNode): JsonNode
-  ManimApp* = ref object
-    handlers*: Table[string, EventHandler]
+type RpcHandler* = proc(args: JsonNode): JsonNode
 
 var rpcRegistry* = initTable[string, RpcHandler]()
 
@@ -13,8 +9,14 @@ macro expose*(body: untyped): untyped =
   ## Registers `proc` or `func` for RPC calls, wrapping it with JSON handling logic.
   expectKind(body, {nnkProcDef, nnkFuncDef})
 
+  let rawName = body.name
+  let procIdent =
+    if rawName.kind == nnkPostfix:
+      rawName[1]
+    else:
+      rawName
+  let procNameStr = newLit($procIdent)
   let procName = body.name
-  let procNameStr = newLit($procName)
   let params = body.params
   let returnType = params[0]
   let requiresArgs = params.len > 1
@@ -84,4 +86,4 @@ proc routeMessage*(payloadStr: string): string =
     else:
       return $ %*{"event": "error", "data": fmt"Method '{eventName}' not found"}
   except Exception as e:
-    return $ %*{"event": "error", "data": "RPC parsing error: " & e.msg}
+    return $ %*{"event": "error", "data": fmt"RPC parsing error: {e.msg}"}
