@@ -12,7 +12,7 @@ caddy = "latest"
 deno = "latest"
 flyctl = "latest"
 "http:speedtest" = { version = "1.2.0", url = "https://install.speedtest.net/app/cli/ookla-speedtest-{version}-macosx-universal.tgz" }
-pitchfork = "latest"
+nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
 rust = "latest"
 sops = "latest"
 usage = "latest"
@@ -27,13 +27,13 @@ postinstall = [
 
 [settings.sops]
 rops = false
-age_key_file = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
+age_key_file = "~/.config/wes/dev/dev-age-id.key"
 age_recipients = "age1yubikey1q2ku8pcyj4vnjs34lfzrw6q54z96anuxj69p3dpeyz9n7aa58733s58w20p"
 
 [env]
-SOPS_AGE_KEY_FILE = "{{env.HOME}}/.config/wes/dev/dev-age-id.key"
+SOPS_AGE_KEY_FILE = "~/.config/wes/dev/dev-age-id.key"
 '_'.file = { paths = [
-  "{{env.HOME}}/.config/wes/dev/wes-env.yaml",
+  "~/.config/wes/dev/wes-env.yaml",
   "./.env.yaml",
 ], redact = true }
 
@@ -42,13 +42,48 @@ deno = "deno"
 lint = "deno lint"
 caddy = "caddy run --config ./Caddyfile"
 
-[tasks.restart]
-usage = '''
-arg "<service>" help="Pitchfork service to restart"
-'''
-run = '''
-pitchfork stop {{usage.service}}
-pitchfork clean
-pitchfork logs -c {{usage.service}}
-pitchfork start {{usage.service}}
-'''
+[tasks.caddy_setup]
+run = """
+  OS="$(uname -s)"
+  export CADDY_BIN=$(mise which caddy)
+  export CADDY_CONFIG={{config_root}}/Caddyfile
+
+  if [ "$OS" = "Darwin" ]; then
+    PLIST_DEST=~/Library/LaunchAgents/dev.guima.caddy.plist
+    mkdir -p "$(dirname "$PLIST_DEST")"
+    envsubst < bin/dev.guima.caddy.plist > "$PLIST_DEST"
+    mise :caddy_restart
+  elif [ "$OS" = "Linux" ]; then
+    SERVICE_DEST=~/.config/systemd/user/caddy.service
+    mkdir -p "$(dirname "$SERVICE_DEST")"
+    envsubst < bin/caddy.service > "$SERVICE_DEST"
+    mise :caddy_restart
+  else
+    echo "❌ No config for OS: $OS"
+    echo "Check `bin/caddy.service` or `bin/dev.guima.caddy.plist` for examples"
+    exit 1
+  fi
+"""
+
+[tasks.caddy_stop]
+run = """
+  OS="$(uname -s)"
+  if [ "$OS" = "Darwin" ]; then
+    launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/dev.guima.caddy.plist || true
+  elif [ "$OS" = "Linux" ]; then
+    systemctl --user stop caddy
+  fi
+  echo "🛑 Caddy service stopped."
+"""
+
+[tasks.caddy_restart]
+run = """
+  OS="$(uname -s)"
+  if [ "$OS" = "Darwin" ]; then
+    launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/dev.guima.caddy.plist 2>/dev/null || true
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/dev.guima.caddy.plist
+  elif [ "$OS" = "Linux" ]; then
+    systemctl --user restart caddy
+  fi
+  echo "✅ Caddy service started."
+"""

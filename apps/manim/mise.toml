@@ -7,41 +7,11 @@ watchexec = "latest"
 [hooks]
 postinstall = "nimble install -yl --silent --depsOnly"
 
-[tasks.clear]
+# Nim only tasks
+[tasks.nim_clear]
 run = """
 nimble clean --silent
-rm -rf build/ android/.gradle android/app/.cxx android/app/build
-cd android && ./gradlew clean -q || true
 """
-
-[tasks.nim_android]
-run = """
-nim c --os:android manim.nim
-NIM_LIB_DIR=$(nim dump 2>&1 | tail -n 1)
-cp "$NIM_LIB_DIR/nimbase.h" build/android_cache/
-"""
-depends = ["clear", "web_build"]
-
-[tasks.nim_build]
-run = "nimble build --silent"
-depends = ["clear"]
-
-[tasks.macos_bundle]
-usage = """
-flag "-o --open" help="Open the app after bundling"
-"""
-run = """
-mkdir -p build/Manim.app/Contents/MacOS
-mv build/manim build/Manim.app/Contents/MacOS/manim
-cp -R macos/public/ build/Manim.app/
-if [ "${usage_open:-false}" = "true" ]; then
-  mise open
-fi
-"""
-depends = ["nim_build"]
-
-[tasks.bundle_all]
-depends = ["web_build", "macos_bundle"]
 
 [tasks.dev]
 usage = """
@@ -55,8 +25,73 @@ else
 fi
 """
 
+[tasks.nim_build]
+run = "nimble build --silent"
+depends = ["nim_clear"]
+
 [tasks.run]
-run = "clear;build/manim"
+run = """
+clear # clear the terminal
+build/manim
+jj describe -m "draft: run $(date +%H:%M)" --no-edit
+"""
+depends = ["nim_build"]
+
+# Cross platform tasks
+[tasks.clear]
+run = """
+nimble clean --silent
+"""
+depends = ["android_clear"]
+
+[tasks.bundle]
+run = """
+jj describe -m "draft: bundle $(date +%H:%M)" --no-edit
+"""
+depends = ["web_build", "macos_bundle", "android_bundle", "nim_build"]
+
+[tasks.web_dev]
+description = "Run web frontend and backend server in parallel"
+run = [{ tasks = ["web_dev_astro", "web_dev_server"] }]
+
+# Web tasks
+[tasks.web_dev_astro]
+raw = false
+run = "dx -A astro dev"
+
+[tasks.web_dev_server]
+usage = """
+flag "-w --watch" help="Watch for changes"
+"""
+raw = false
+run = """CMD="nim r -d:debug manim.nim serve"
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -c=reset -w manim.nim -qe nim "$CMD"
+else
+  $CMD
+fi
+"""
+
+[tasks.web_build]
+run = "dx -A astro build --silent"
+
+[tasks.astro]
+run = "dx -A astro"
+
+# MacOS tasks
+[tasks.macos_bundle]
+usage = """
+flag "-o --open" help="Open the app after bundling"
+"""
+run = """
+mkdir -p build/Manim.app/Contents/MacOS
+mv build/manim build/Manim.app/Contents/MacOS/manim
+cp -R macos/public/ build/Manim.app/
+jj describe -m "macos_bundle: run $(date +%H:%M)" --no-edit
+if [ "${usage_open:-false}" = "true" ]; then
+  mise open
+fi
+"""
 depends = ["nim_build"]
 
 [tasks.open]
@@ -69,16 +104,31 @@ sleep 0.2
 open build/Manim.app
 """
 
+# Android tasks
 [tasks.android_emulator_create]
 run = """
 sdkmanager "system-images;android-35;google_apis;arm64-v8a"
 avdmanager create avd -n Pixel_API_35 -k "system-images;android-35;google_apis;arm64-v8a" --device "pixel"
 """
 
-[tasks.android_run]
+[tasks.android_emulator_run]
 run = """
 nohup emulator -avd Pixel_API_35 -qemu -append "hw.keyboard=yes hw.keyboard.lid=no" > /dev/null 2>&1 &
 """
+
+[tasks.android_clear]
+run = """
+rm -rf android/build/ android/.gradle android/.kotlin android/app/.cxx android/app/build
+cd android && ./gradlew clean -q || true
+"""
+
+[tasks.android_nim]
+run = """
+nim c --os:android manim.nim
+NIM_LIB_DIR=$(nim dump 2>&1 | tail -n 1)
+cp "$NIM_LIB_DIR/nimbase.h" build/android_cache/
+"""
+depends = ["clear", "web_build"]
 
 [tasks.android_logs]
 run = "(adb logcat | grep -i 'Manim')"
@@ -88,18 +138,18 @@ run = """
 cd android
 ./gradlew installDebug -q
 adb shell am start -n dev.guima.manim/.MainActivity
+jj describe -m "draft: android_install $(date +%H:%M)" --no-edit
 """
-depends = ["nim_android"]
+depends = ["android_nim"]
 
 [tasks.android_build]
 run = "cd android && ./gradlew assembleDebug"
-depends = ["nim_android"]
+depends = ["android_nim"]
 
-[tasks.web_dev]
-run = "dx -A astro dev"
-
-[tasks.web_build]
-run = "dx -A astro build --silent"
-
-[tasks.astro]
-run = "dx -A astro"
+[tasks.android_bundle]
+run = """
+cd android
+./gradlew assembleRelease
+jj describe -m "draft: android_bundle $(date +%H:%M)" --no-edit
+"""
+depends = ["android_nim"]

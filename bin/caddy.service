@@ -1,0 +1,11 @@
+[Unit]
+Description=Caddy web server (User Level)
+After=network.target
+
+[Service]
+ExecStart=%h/.local/share/mise/installs/caddy/2.10.2/caddy run --config %h/dev/wesleycoder/Caddyfile
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

@@ -46,6 +46,7 @@ proc startServer*(port = 0) {.async.} =
   let port = server.getPort
 
   echo "Server running on http://localhost:" & $port.uint16
+  echo "Caddy proxy on https://rpc.guima.localhost"
 
   while true:
     if server.shouldAcceptRequest():

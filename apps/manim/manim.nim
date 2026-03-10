@@ -14,16 +14,16 @@ when hostOS == "android":
 const WEB_DIST_DIR = fmt"{currentSourcePath.parentDir}/dist"
 
 proc ctrlCHandler() {.noconv.} =
-  echo "\nGracefully shutting down..."
+  log "\nGracefully shutting down..."
   quit(0)
 
 proc main() =
   if paramCount() > 0 and paramStr(1) == "serve":
-    echo "Serving..."
+    log "Serving..."
     waitFor startServer(4567)
   else:
     when hostOS == "macosx":
-      runMacosApp("http://localhost:4321/")
+      runMacosApp("http://dev.guima.localhost/")
     elif hostOS == "android":
       discard # controlled by native Android lifecycle
 

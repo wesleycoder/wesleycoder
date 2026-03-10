@@ -1,14 +1,12 @@
-https:// {
-	tls internal {
-		on_demand
-	}
-}
-
 dev.guima.localhost {
 	reverse_proxy :4321
 }
 
-guimabook.local:6007, ui.guima.localhost {
+rpc.guima.localhost {
+	reverse_proxy :4567
+}
+
+ui.guima.localhost {
 	reverse_proxy :6006
 }
 

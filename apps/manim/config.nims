@@ -4,7 +4,7 @@ when withDir(thisDir(), system.fileExists("nimble.paths")):
 # end Nimble config
 
 switch("hints", "off")
-# switch("verbosity", "0")
+switch("verbosity", "0")
 switch("threads", "on")
 switch("outdir", "build")
 switch("path", thisDir() & "/../../../webview")
