@@ -27,3 +27,6 @@ dist-ssr/
 nimble.develop
 nimble.paths
 nimbledeps
+
+# Auto generated
+lib/rpc.ts

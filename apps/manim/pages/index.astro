@@ -14,25 +14,16 @@
   <body>
     <h1>Hello Manim</h1>
 
-    <fieldset>
-      <label for="something">Something:</label>
-      <input id="something" type="text" placeholder="Type something here..." />
-    </fieldset>
+    <input id="something" type="text" placeholder="Type something here..." />
 
-    <script src="../bridge.ts"></script>
     <script>
-      import { __MANIM__ } from '../bridge.ts'
+      import rpc from '../lib/rpc.ts'
 
       const somethingInput = document.getElementById('something')! as HTMLInputElement
       somethingInput.addEventListener('input', async (e) => {
-        const response = await window.__MANIM__.send('something', { someInput: (e.target as HTMLInputElement).value })
+        const response = await rpc.something((e.target as HTMLInputElement).value)
         console.log(response)
       })
     </script>
-
-    <fieldset>
-      <label for="bg-color">Background color:</label>
-      <input id="bg-color" type="color" value="#003300" />
-    </fieldset>
   </body>
 </html>

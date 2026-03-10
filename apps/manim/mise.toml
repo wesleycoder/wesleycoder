@@ -16,12 +16,14 @@ nimble clean --silent
 [tasks.dev]
 usage = """
 flag "-w --watch" help="Watch for changes"
+arg "[args]..." help="Arguments to pass to nim"
 """
 run = """# running nim r -d:debug manim.nim
+CMD="nim r -d:debug manim.nim $usage_args"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -w manim.nim -qe nim 'nim r -d:debug manim.nim'
+  watchexec -c=reset -qre nim "$CMD"
 else
-  nim r -d:debug manim.nim
+  $CMD
 fi
 """
 
@@ -33,7 +35,7 @@ depends = ["nim_clear"]
 run = """
 clear # clear the terminal
 build/manim
-jj describe -m "draft: run $(date +%H:%M)" --no-edit
+jj metaedit --quiet -m "draft: run $(date +%H:%M)"
 """
 depends = ["nim_build"]
 
@@ -46,7 +48,7 @@ depends = ["android_clear"]
 
 [tasks.bundle]
 run = """
-jj describe -m "draft: bundle $(date +%H:%M)" --no-edit
+jj metaedit --quiet -m "draft: bundle $(date +%H:%M)"
 """
 depends = ["web_build", "macos_bundle", "android_bundle", "nim_build"]
 
@@ -64,9 +66,9 @@ usage = """
 flag "-w --watch" help="Watch for changes"
 """
 raw = false
-run = """CMD="nim r -d:debug manim.nim serve"
+run = """CMD="nim r -d:debug -d:server manim.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -w manim.nim -qe nim "$CMD"
+  watchexec -c=reset -qre nim "$CMD"
 else
   $CMD
 fi
@@ -78,6 +80,20 @@ run = "dx -A astro build --silent"
 [tasks.astro]
 run = "dx -A astro"
 
+[tasks.gen]
+usage = """
+flag "-w --watch" help="Watch for changes"
+arg "[output]" help="Output file for typescript RPC bindings"
+"""
+run = """
+CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -c=reset -qre nim "$CMD"
+else
+  $CMD
+fi
+"""
+
 # MacOS tasks
 [tasks.macos_bundle]
 usage = """
@@ -87,7 +103,7 @@ run = """
 mkdir -p build/Manim.app/Contents/MacOS
 mv build/manim build/Manim.app/Contents/MacOS/manim
 cp -R macos/public/ build/Manim.app/
-jj describe -m "macos_bundle: run $(date +%H:%M)" --no-edit
+jj metaedit --quiet -m "macos_bundle: run $(date +%H:%M)"
 if [ "${usage_open:-false}" = "true" ]; then
   mise open
 fi
@@ -118,7 +134,7 @@ nohup emulator -avd Pixel_API_35 -qemu -append "hw.keyboard=yes hw.keyboard.lid=
 
 [tasks.android_clear]
 run = """
-rm -rf android/build/ android/.gradle android/.kotlin android/app/.cxx android/app/build
+rm -rf android/build/ android/.gradle android/.kotlin android/app/.cxx android/app/build build/android_cache
 cd android && ./gradlew clean -q || true
 """
 
@@ -138,7 +154,7 @@ run = """
 cd android
 ./gradlew installDebug -q
 adb shell am start -n dev.guima.manim/.MainActivity
-jj describe -m "draft: android_install $(date +%H:%M)" --no-edit
+jj metaedit --quiet -m "draft: android_install $(date +%H:%M)"
 """
 depends = ["android_nim"]
 
@@ -150,6 +166,6 @@ depends = ["android_nim"]
 run = """
 cd android
 ./gradlew assembleRelease
-jj describe -m "draft: android_bundle $(date +%H:%M)" --no-edit
+jj metaedit --quiet -m "draft: android_bundle $(date +%H:%M)"
 """
 depends = ["android_nim"]

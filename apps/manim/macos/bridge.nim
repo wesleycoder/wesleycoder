@@ -1,3 +1,4 @@
+{.used.}
 import webview
 import std/[json, strformat]
 import ./[hotkeys, style, tray]

@@ -20,7 +20,7 @@ proc handleRequest(req: Request) {.async, gcsafe.} =
       return
 
     if req.url.path == "/rpc" and req.reqMethod == HttpGet:
-      let connected = %*{"event": "connected"}
+      let connected = %*{"rpc_event": "connected"}
       await req.respond(Http200, $connected, getCorsHeaders())
       return
     elif req.url.path == "/rpc" and req.reqMethod == HttpPost:
@@ -46,7 +46,7 @@ proc startServer*(port = 0) {.async.} =
   let port = server.getPort
 
   echo "Server running on http://localhost:" & $port.uint16
-  echo "Caddy proxy on https://rpc.guima.localhost"
+  echo "Local proxy on https://rpc.guima.localhost"
 
   while true:
     if server.shouldAcceptRequest():
