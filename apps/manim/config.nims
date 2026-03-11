@@ -42,3 +42,8 @@ when defined(ios):
   let targetFlags = "-isysroot " & sysroot & " -target arm64-apple-ios16.0-simulator"
   switch("passC", targetFlags & " -Wno-duplicate-decl-specifier")
   switch("passL", targetFlags)
+
+when defined(linux):
+  switch("backend", "cpp")
+  # switch("passC", "-DWEBVIEW_GTK=1 $(pkg-config --cflags gtk+-3.0 webkit2gtk-4.0)")
+  # switch("passL", "$(pkg-config --libs gtk+-3.0 webkit2gtk-4.0)")

@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  pkg-config \
+  libgtk-3-dev \
+  libwebkit2gtk-4.0-dev \
+  curl \
+  git \
+  xz-utils \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV PATH=/root/.nimble/bin:$PATH
+RUN curl -sSf https://codeberg.org/janAkali/grabnim/raw/branch/master/misc/install.sh | sh -s -- -y
+RUN grabnim
+
+WORKDIR /app

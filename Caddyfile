@@ -2,7 +2,17 @@ dev.guima.localhost {
 	reverse_proxy :4321
 }
 
+guimabook.local:4322 {
+	tls internal
+	reverse_proxy :4321
+}
+
 rpc.guima.localhost {
+	reverse_proxy :4567
+}
+
+guimabook.local:4568 {
+	tls internal
 	reverse_proxy :4567
 }
 
@@ -10,7 +20,7 @@ ui.guima.localhost {
 	reverse_proxy :6006
 }
 
-db.guima.localhost {
+pdb.guima.localhost {
 	request_body {
 		max_size 10MB
 	}

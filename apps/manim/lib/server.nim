@@ -70,7 +70,7 @@ proc startServer*(port = 0) {.async.} =
   let port = server.getPort
 
   log "Server running on http://localhost:" & $port.uint16
-  log "Local proxy on https://rpc.guima.localhost"
+  log "Local proxy on https://guimabook.local:4568"
 
   while true:
     if server.shouldAcceptRequest():

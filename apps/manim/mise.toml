@@ -61,9 +61,11 @@ description = "Run web frontend and backend server in parallel"
 run = """
 mise run web_dev_astro &
 if [ "${usage_watch:-false}" = "true" ]; then
-  mise run web_dev_server -w &
+  mise web_gen -w &
+  mise web_dev_server -w &
 else
-  mise run web_dev_server &
+  mise web_gen -w &
+  mise web_dev_server &
 fi
 wait
 """
@@ -249,13 +251,18 @@ xcrun simctl create "Manim_iOS" "iPhone 15" || {
 """
 
 [tasks.ios_install]
+usage = """
+flag "-d --debug" help="Opens Safari Web Inspector after install"
+"""
 description = "Install and launch the app on the Manim simulator"
 run = """
 xcrun simctl install "Manim_iOS" build/ios/ManimApp.app
 xcrun simctl launch "Manim_iOS" dev.guima.manim
 jj metaedit --quiet -m "draft: ios_install $(date +%H:%M)"
-sleep .5
-mise ios_debug
+if [ "${usage_debug:-false}" = "true" ]; then
+  sleep .5
+  mise ios_debug
+fi
 """
 depends = ["ios_build"]
 
@@ -265,31 +272,16 @@ run = """
 xcrun simctl spawn "Manim_iOS" log stream --predicate 'processImagePath ENDSWITH "ManimApp" AND NOT subsystem BEGINSWITH "com.apple."'
 """
 
-[tasks.ios_debug]
-description = "Automatically opens the Safari Web Inspector for the running iOS app"
+[tasks.linux_build]
+description = "Compiles the Linux binary using a headless Docker container"
 run = """
-osascript <<'EOF'
-try
-  activate application "Safari"
-  tell application "System Events"
-    tell process "Safari"
-      set frontmost to true
-      set devMenu to menu "Develop" of menu bar item "Develop" of menu bar 1
-      set simItem to first menu item of devMenu whose name contains "Simulator"
-      set pageItem to first menu item of menu 1 of simItem whose name contains "Manim!"
-      click pageItem
-    end tell
-    tell process "Safari"
-      set frontmost to true
-      set devMenu to menu "Develop" of menu bar item "Develop" of menu bar 1
-      set simItem to first menu item of devMenu whose name contains "Simulator"
-      set pageItem to second menu item of menu 1 of simItem whose name contains "Manim!"
-      click pageItem
-    end tell
-  end tell
-  return "✅ Safari Web Inspector opened!"
-on error errMsg
-  return "❌ Could not open Inspector. Ensure the app is running. Error: " & errMsg
-end try
-EOF
+docker build -t manim-linux-builder -f Dockerfile.linux .
+docker run --rm -v "$(pwd):/app" manim-linux-builder \
+  bash -c "nim cpp -d:release \
+  --passC:\\"\\$(pkg-config --cflags gtk+-3.0 webkit2gtk-4.0)\\" \
+  --passL:\\"\\$(pkg-config --libs gtk+-3.0 webkit2gtk-4.0)\\" \
+  --out:build/manim-linux \
+  main.nim"
+
+echo "✅ Linux binary compiled at build/manim-linux"
 """

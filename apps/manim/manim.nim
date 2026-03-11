@@ -4,8 +4,9 @@ import api/something
 import lib/[log, rpc]
 
 const WEB_DIST_DIR = fmt"{currentSourcePath.parentDir}/dist"
+const DEV_URL = "https://guimabook.local:4322/"
 
-proc ctrlCHandler() {.noconv.} =
+proc gracefullShutdown() {.noconv.} =
   echo "\nManimApp: Gracefully shutting down..."
   quit(0)
 
@@ -27,7 +28,7 @@ elif defined(server):
   import std/asyncdispatch
   import lib/server
 
-  setControlCHook(ctrlCHandler)
+  setControlCHook(gracefullShutdown)
   waitFor startServer(4567)
 elif defined(android):
   import android/bridge
@@ -42,6 +43,23 @@ elif defined(ios):
   discard # controlled by iOS lifecycle
 elif defined(macosx) and isMainModule:
   import webview
-  import macos/[bridge, hotkeys, style, tray]
-  setControlCHook(ctrlCHandler)
-  runMacosApp("http://dev.guima.localhost/")
+  import macos/bridge
+  setControlCHook(gracefullShutdown)
+  runMacosApp(DEV_URL)
+elif defined(linux) and isMainModule:
+  echo "[Linux] Booting up native wrapper..."
+  import webview
+  import linux/bridge
+  setControlCHook(gracefullShutdown)
+
+  echo "[Linux] Calling runLinuxApp..."
+  runLinuxApp(DEV_URL)
+  echo "[Linux] App closed gracefully."
+elif defined(windows) and isMainModule:
+  import webview
+  import windows/bridge
+  setControlCHook(gracefullShutdown)
+  runWindowsApp(DEV_URL)
+else:
+  echo "Unsupported platform"
+  discard

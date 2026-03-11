@@ -85,7 +85,11 @@
         "!eslint",
         "!biome"
       ],
-      "formatter": "language_server"
+      "formatter": {
+        "language_server": {
+          "name": "deno"
+        }
+      }
     },
     "TypeScript": {
       "language_servers": [
@@ -96,7 +100,11 @@
         "!eslint",
         "!biome"
       ],
-      "formatter": "language_server"
+      "formatter": {
+        "language_server": {
+          "name": "deno"
+        }
+      }
     },
     "TSX": {
       "language_servers": [
@@ -107,7 +115,11 @@
         "!eslint",
         "!biome"
       ],
-      "formatter": "language_server"
+      "formatter": {
+        "language_server": {
+          "name": "deno"
+        }
+      }
     },
     "Nim": {
       "formatter": {

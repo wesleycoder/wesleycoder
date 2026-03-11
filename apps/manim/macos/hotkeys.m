@@ -10,7 +10,8 @@ static CGFloat userRelX = 0.5;
 static CGFloat userRelY = 1.0 / 1.5;
 
 void applyPositionToActiveScreen(NSWindow *window) {
-  if (!window) return;
+  if (!window)
+    return;
   NSPoint mouseLoc = [NSEvent mouseLocation];
   NSScreen *activeScreen = [NSScreen mainScreen];
 
@@ -27,8 +28,10 @@ void applyPositionToActiveScreen(NSWindow *window) {
   CGFloat availableWidth = screenRect.size.width - windowRect.size.width;
   CGFloat availableHeight = screenRect.size.height - windowRect.size.height;
 
-  if (availableWidth < 0) availableWidth = 0;
-  if (availableHeight < 0) availableHeight = 0;
+  if (availableWidth < 0)
+    availableWidth = 0;
+  if (availableHeight < 0)
+    availableHeight = 0;
 
   CGFloat newX = screenRect.origin.x + (availableWidth * userRelX);
   CGFloat newY = screenRect.origin.y + (availableHeight * userRelY);
@@ -37,7 +40,8 @@ void applyPositionToActiveScreen(NSWindow *window) {
 }
 
 void centerWindow(NSWindow *window) {
-  if (!window) return;
+  if (!window)
+    return;
   NSPoint mouseLoc = [NSEvent mouseLocation];
   NSScreen *activeScreen = [NSScreen mainScreen];
 
@@ -50,16 +54,19 @@ void centerWindow(NSWindow *window) {
 
   NSRect screenRect = [activeScreen visibleFrame];
   NSRect windowRect = [window frame];
-  CGFloat newX = screenRect.origin.x + (screenRect.size.width - windowRect.size.width) / 2.0;
+  CGFloat newX = screenRect.origin.x +
+                 (screenRect.size.width - windowRect.size.width) / 2.0;
 
   CGFloat posYRatio = 1.5; // Strict center use 2.0. Little higher use 1.5
-  CGFloat newY = screenRect.origin.y + (screenRect.size.height - windowRect.size.height) / posYRatio;
+  CGFloat newY = screenRect.origin.y +
+                 (screenRect.size.height - windowRect.size.height) / posYRatio;
 
   [window setFrameOrigin:NSMakePoint(newX, newY)];
 }
 
 void openWindow() {
-  if (!targetWindow) return;
+  if (!targetWindow)
+    return;
 
   if (!hasManuallyMoved) {
     userRelX = 0.5;
@@ -71,24 +78,34 @@ void openWindow() {
   [targetWindow makeKeyAndOrderFront:nil];
   [NSApp activateIgnoringOtherApps:YES];
 
-  if (nimVisibilityCallback) nimVisibilityCallback(YES);
+  if (nimVisibilityCallback)
+    nimVisibilityCallback(YES);
 }
 
 void closeWindow() {
-  if (!targetWindow) return;
+  if (!targetWindow)
+    return;
   [targetWindow orderOut:nil];
-  if (nimVisibilityCallback) nimVisibilityCallback(NO);
+  if (nimVisibilityCallback)
+    nimVisibilityCallback(NO);
 }
 
 void toggleWindowVisible() {
-  if (!targetWindow) return;
+  if (!targetWindow)
+    return;
   BOOL isCurrentlyVisible = [targetWindow isVisible];
-  if (isCurrentlyVisible) { closeWindow(); } else { openWindow(); }
+  if (isCurrentlyVisible) {
+    closeWindow();
+  } else {
+    openWindow();
+  }
 }
 
-OSStatus OnGlobalHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData) {
+OSStatus OnGlobalHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent,
+                             void *userData) {
   EventHotKeyID hotKeyID;
-  GetEventParameter(theEvent, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(hotKeyID), NULL, &hotKeyID);
+  GetEventParameter(theEvent, kEventParamDirectObject, typeEventHotKeyID, NULL,
+                    sizeof(hotKeyID), NULL, &hotKeyID);
   if (hotKeyID.signature == 'togl') {
     toggleWindowVisible();
   }
@@ -96,47 +113,57 @@ OSStatus OnGlobalHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent,
 }
 
 @interface HotkeyManager : NSObject
-+ (void)setupWithWindow:(NSWindow*)win callback:(VisibilityCallback)cb;
++ (void)setupWithWindow:(NSWindow *)win callback:(VisibilityCallback)cb;
 @end
 
 @implementation HotkeyManager
-+ (void)setupWithWindow:(NSWindow*)win callback:(VisibilityCallback)cb {
++ (void)setupWithWindow:(NSWindow *)win callback:(VisibilityCallback)cb {
   targetWindow = win;
   nimVisibilityCallback = cb;
 
-  [
-    [NSNotificationCenter defaultCenter]
-    addObserverForName:NSWindowDidMoveNotification
-    object:targetWindow
-    queue:[NSOperationQueue mainQueue]
-    usingBlock:^(NSNotification *note) {
+  [[NSNotificationCenter defaultCenter]
+      addObserverForName:NSWindowDidMoveNotification
+                  object:targetWindow
+                   queue:[NSOperationQueue mainQueue]
+              usingBlock:^(NSNotification *note) {
+                if (!hasManuallyMoved)
+                  return;
 
-    if (!hasManuallyMoved) return;
+                NSScreen *currentScreen = [targetWindow screen];
+                if (currentScreen) {
+                  NSRect screenRect = [currentScreen visibleFrame];
+                  NSRect windowRect = [targetWindow frame];
 
-    NSScreen *currentScreen = [targetWindow screen];
-    if (currentScreen) {
-        NSRect screenRect = [currentScreen visibleFrame];
-        NSRect windowRect = [targetWindow frame];
+                  CGFloat availableWidth =
+                      screenRect.size.width - windowRect.size.width;
+                  CGFloat availableHeight =
+                      screenRect.size.height - windowRect.size.height;
 
-        CGFloat availableWidth = screenRect.size.width - windowRect.size.width;
-        CGFloat availableHeight = screenRect.size.height - windowRect.size.height;
+                  if (availableWidth > 0) {
+                    userRelX = (windowRect.origin.x - screenRect.origin.x) /
+                               availableWidth;
+                  }
+                  if (availableHeight > 0) {
+                    userRelY = (windowRect.origin.y - screenRect.origin.y) /
+                               availableHeight;
+                  }
 
-        if (availableWidth > 0) {
-            userRelX = (windowRect.origin.x - screenRect.origin.x) / availableWidth;
-        }
-        if (availableHeight > 0) {
-            userRelY = (windowRect.origin.y - screenRect.origin.y) / availableHeight;
-        }
-
-        if (userRelX < 0.0) userRelX = 0.0; if (userRelX > 1.0) userRelX = 1.0;
-        if (userRelY < 0.0) userRelY = 0.0; if (userRelY > 1.0) userRelY = 1.0;
-    }
-  }];
+                  if (userRelX < 0.0)
+                    userRelX = 0.0;
+                  if (userRelX > 1.0)
+                    userRelX = 1.0;
+                  if (userRelY < 0.0)
+                    userRelY = 0.0;
+                  if (userRelY > 1.0)
+                    userRelY = 1.0;
+                }
+              }];
   // Global Hotkeys
   EventTypeSpec eventType;
   eventType.eventClass = kEventClassKeyboard;
   eventType.eventKind = kEventHotKeyPressed;
-  InstallApplicationEventHandler(&OnGlobalHotKeyEvent, 1, &eventType, NULL, NULL);
+  InstallApplicationEventHandler(&OnGlobalHotKeyEvent, 1, &eventType, NULL,
+                                 NULL);
 
   EventHotKeyID hotKeyID;
   hotKeyID.signature = 'togl';
@@ -144,57 +171,69 @@ OSStatus OnGlobalHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent,
   EventHotKeyRef hotKeyRef;
 
   int SpaceKeyCode = 49;
-  RegisterEventHotKey(SpaceKeyCode, optionKey, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef);
+  RegisterEventHotKey(SpaceKeyCode, optionKey, hotKeyID,
+                      GetApplicationEventTarget(), 0, &hotKeyRef);
 
   // Local Hotkeys and Mouse Events
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    [
-      [NSNotificationCenter defaultCenter]
-      addObserverForName:NSApplicationDidResignActiveNotification
-      object:nil
-      queue:[NSOperationQueue mainQueue]
-      usingBlock:^(NSNotification *note) {
-      if ([targetWindow isVisible]) closeWindow();
-    }];
+    [[NSNotificationCenter defaultCenter]
+        addObserverForName:NSApplicationDidResignActiveNotification
+                    object:nil
+                     queue:[NSOperationQueue mainQueue]
+                usingBlock:^(NSNotification *note) {
+                  if ([targetWindow isVisible])
+                    closeWindow();
+                }];
 
-    [NSEvent addLocalMonitorForEventsMatchingMask:(NSEventMaskKeyDown | NSEventMaskLeftMouseDown) handler:^NSEvent* (NSEvent* event) {
-      if (event.type == NSEventTypeLeftMouseDown) {
-        if ([event modifierFlags] & NSEventModifierFlagCommand) {
-          [targetWindow performWindowDragWithEvent:event];
-          hasManuallyMoved = YES;
-          return nil;
-        }
-        return event;
-      }
+    [NSEvent
+        addLocalMonitorForEventsMatchingMask:(NSEventMaskKeyDown |
+                                              NSEventMaskLeftMouseDown)
+                                     handler:^NSEvent *(NSEvent *event) {
+                                       if (event.type ==
+                                           NSEventTypeLeftMouseDown) {
+                                         if ([event modifierFlags] &
+                                             NSEventModifierFlagCommand) {
+                                           [targetWindow
+                                               performWindowDragWithEvent:
+                                                   event];
+                                           hasManuallyMoved = YES;
+                                           return nil;
+                                         }
+                                         return event;
+                                       }
 
-      int EscKeyCode = 53;
-      if ([event keyCode] == EscKeyCode) {
-        closeWindow();
-        return nil;
-      }
+                                       int EscKeyCode = 53;
+                                       if ([event keyCode] == EscKeyCode) {
+                                         closeWindow();
+                                         return nil;
+                                       }
 
-      if ([event modifierFlags] & NSEventModifierFlagCommand) {
-        NSString* chars = [[event charactersIgnoringModifiers] lowercaseString];
+                                       if ([event modifierFlags] &
+                                           NSEventModifierFlagCommand) {
+                                         NSString *chars = [[event
+                                             charactersIgnoringModifiers]
+                                             lowercaseString];
 
-        if ([chars isEqualToString:@"q"]) {
-          [NSApp terminate:nil];
-          return nil;
-        }
-        if ([chars isEqualToString:@"w"]) {
-          closeWindow();
-          return nil;
-        }
-        if ([chars isEqualToString:@"r"]) {
-          userRelX = 0.5;
-          userRelY = 1.0 / 1.5;
-          applyPositionToActiveScreen(targetWindow);
-          hasManuallyMoved = NO;
-          return nil;
-        }
-      }
-      return event;
-    }];
+                                         if ([chars isEqualToString:@"q"]) {
+                                           [NSApp terminate:nil];
+                                           return nil;
+                                         }
+                                         if ([chars isEqualToString:@"w"]) {
+                                           closeWindow();
+                                           return nil;
+                                         }
+                                         if ([chars isEqualToString:@"r"]) {
+                                           userRelX = 0.5;
+                                           userRelY = 1.0 / 1.5;
+                                           applyPositionToActiveScreen(
+                                               targetWindow);
+                                           hasManuallyMoved = NO;
+                                           return nil;
+                                         }
+                                       }
+                                       return event;
+                                     }];
   });
 }
 @end
@@ -203,16 +242,19 @@ OSStatus OnGlobalHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent,
 extern "C" {
 #endif
 
-void setup_global_hotkeys(void* handle, VisibilityCallback callback) {
-  if (!handle) return;
+void setup_global_hotkeys(void *handle, VisibilityCallback callback) {
+  if (!handle)
+    return;
 
-  NSWindow* win = nil;
+  NSWindow *win = nil;
   id obj = (__bridge id)handle;
-  if ([obj isKindOfClass:[NSWindow class]]) win = (NSWindow*)obj;
-    else if ([obj isKindOfClass:[NSView class]]) win = [((NSView*)obj) window];
+  if ([obj isKindOfClass:[NSWindow class]])
+    win = (NSWindow *)obj;
+  else if ([obj isKindOfClass:[NSView class]])
+    win = [((NSView *)obj) window];
 
   if (win) {
-     [[HotkeyManager class] setupWithWindow:win callback:callback];
+    [[HotkeyManager class] setupWithWindow:win callback:callback];
   }
 }
 

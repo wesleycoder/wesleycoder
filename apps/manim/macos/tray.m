@@ -3,8 +3,8 @@
 extern void toggleWindowVisible();
 
 @interface TrayManager : NSObject
-@property (strong, nonatomic) NSStatusItem *statusItem;
-@property (assign, nonatomic) NSWindow *appWindow;
+@property(strong, nonatomic) NSStatusItem *statusItem;
+@property(assign, nonatomic) NSWindow *appWindow;
 @end
 
 @implementation TrayManager
@@ -13,14 +13,15 @@ extern void toggleWindowVisible();
   static TrayManager *instance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-     instance = [[TrayManager alloc] init];
+    instance = [[TrayManager alloc] init];
   });
   return instance;
 }
 
 - (void)setupWithWindow:(NSWindow *)window {
   self.appWindow = window;
-  self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+  self.statusItem = [[NSStatusBar systemStatusBar]
+      statusItemWithLength:NSVariableStatusItemLength];
 
   NSSize iconSize = NSMakeSize(24, 24);
   NSImage *icon = [[NSImage alloc] initWithSize:iconSize];
@@ -34,14 +35,19 @@ extern void toggleWindowVisible();
 
   NSMenu *menu = [[NSMenu alloc] init];
 
-  NSMenuItem *toggleItem = [[NSMenuItem alloc] initWithTitle:@"Toggle Window" action:@selector(toggleWindow:) keyEquivalent:@" "];
+  NSMenuItem *toggleItem =
+      [[NSMenuItem alloc] initWithTitle:@"Toggle Window"
+                                 action:@selector(toggleWindow:)
+                          keyEquivalent:@" "];
   [toggleItem setKeyEquivalentModifierMask:NSEventModifierFlagOption];
   [toggleItem setTarget:self];
   [menu addItem:toggleItem];
 
   [menu addItem:[NSMenuItem separatorItem]];
 
-  NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quitApp:) keyEquivalent:@"q"];
+  NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit"
+                                                    action:@selector(quitApp:)
+                                             keyEquivalent:@"q"];
   [quitItem setTarget:self];
   [menu addItem:quitItem];
 
@@ -62,22 +68,23 @@ extern void toggleWindowVisible();
 extern "C" {
 #endif
 
-void setup_system_tray(void* handle) {
-  if (!handle) return;
+void setup_system_tray(void *handle) {
+  if (!handle)
+    return;
 
-  NSWindow* win = nil;
+  NSWindow *win = nil;
   id obj = (__bridge id)handle;
 
   if ([obj isKindOfClass:[NSWindow class]]) {
-     win = (NSWindow*)obj;
+    win = (NSWindow *)obj;
   } else if ([obj isKindOfClass:[NSView class]]) {
-     win = [((NSView*)obj) window];
+    win = [((NSView *)obj) window];
   }
 
   if (win) {
-     dispatch_async(dispatch_get_main_queue(), ^{
-       [[TrayManager shared] setupWithWindow:win];
-     });
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[TrayManager shared] setupWithWindow:win];
+    });
   }
 }
 

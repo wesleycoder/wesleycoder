@@ -1,4 +1,4 @@
-import std/[json, strformat]
+import std/[json]
 
 when defined(server):
   import ./server
@@ -8,6 +8,13 @@ elif defined(ios):
   import ../ios/bridge
 elif defined(macosx):
   import ../macos/bridge
+elif defined(linux):
+  import ../linux/bridge
+elif defined(windows):
+  import ../windows/bridge
+
+when not defined(server):
+  import std/strformat
 
 proc emit*(eventName: string, payload: JsonNode = newJObject()) =
   when defined(server):
@@ -16,6 +23,4 @@ proc emit*(eventName: string, payload: JsonNode = newJObject()) =
     let jsPayload = $payload
     let jsCode =
       fmt"window.dispatchEvent(new CustomEvent('manim:{eventName}', {{ detail: {jsPayload} }}));"
-
-    when hostOS in ["macosx", "android", "ios"]:
-      executeJS(jsCode)
+    executeJS(jsCode)
