@@ -1,6 +1,7 @@
 {.used.}
-import ../lib/[log, rpc]
+import std/[json]
+import ../lib/[events, log, rpc]
 
 proc something*(someInput: string): string {.expose.} =
-  echo "something: " & someInput
+  emit("ping", %*{"message": "Nim saw you type: " & someInput})
   "here goes anything: " & someInput

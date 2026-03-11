@@ -12,12 +12,17 @@
     <link rel="stylesheet" href="../global.css" />
   </head>
   <body>
-    <h1>Hello Manim</h1>
-
-    <input id="something" type="text" placeholder="Type something here..." />
+    <fieldset>
+      <label for="something">Testing something:</label>
+      <input id="something" type="text" placeholder="Type something here..." />
+    </fieldset>
 
     <script>
-      import rpc from '../lib/rpc.ts'
+      import { rpc, listen } from '../lib/rpc.ts'
+
+      listen('ping', (data) => {
+        console.log('RPC ping:', data.message)
+      })
 
       const somethingInput = document.getElementById('something')! as HTMLInputElement
       somethingInput.addEventListener('input', async (e) => {

@@ -1,5 +1,5 @@
-import std/[asyncdispatch, asynchttpserver, json, strformat]
-import ./rpc
+import std/[asyncdispatch, asynchttpserver, asyncnet, json, strutils]
+import ./[log, rpc]
 
 proc getCorsHeaders(): HttpHeaders =
   newHttpHeaders(
@@ -11,17 +11,41 @@ proc getCorsHeaders(): HttpHeaders =
     ]
   )
 
-proc handleRequest(req: Request) {.async, gcsafe.} =
-  echo fmt"{req.reqMethod}: {req.url.path}{req.url.query}"
+var sseClients*: seq[AsyncSocket]
 
+proc broadcastSse*(eventName: string, payload: JsonNode) =
+  let msg = "event: " & eventName & "\ndata: " & $payload & "\n\n"
+  var activeSockets: seq[AsyncSocket]
+
+  for client in sseClients:
+    if not client.isClosed():
+      try:
+        asyncCheck client.send(msg)
+        activeSockets.add(client)
+      except:
+        client.close()
+
+  sseClients = activeSockets
+
+proc handleRequest(req: Request) {.async, gcsafe.} =
   {.cast(gcsafe).}:
     if req.reqMethod == HttpOptions:
       await req.respond(Http204, "", getCorsHeaders())
       return
 
     if req.url.path == "/rpc" and req.reqMethod == HttpGet:
-      let connected = %*{"rpc_event": "connected"}
-      await req.respond(Http200, $connected, getCorsHeaders())
+      let headers = """
+        HTTP/1.1 200 OK
+        Content-Type: text/event-stream
+        Cache-Control: no-cache
+        Connection: keep-alive
+        Access-Control-Allow-Origin: *
+
+      """.dedent
+        .strip(leading = true, trailing = false)
+        .replace("\n", "\r\n")
+      await req.client.send(headers)
+      sseClients.add(req.client)
       return
     elif req.url.path == "/rpc" and req.reqMethod == HttpPost:
       try:
@@ -45,8 +69,8 @@ proc startServer*(port = 0) {.async.} =
   server.listen(Port(port))
   let port = server.getPort
 
-  echo "Server running on http://localhost:" & $port.uint16
-  echo "Local proxy on https://rpc.guima.localhost"
+  log "Server running on http://localhost:" & $port.uint16
+  log "Local proxy on https://rpc.guima.localhost"
 
   while true:
     if server.shouldAcceptRequest():

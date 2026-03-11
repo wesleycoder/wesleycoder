@@ -30,3 +30,11 @@ nimbledeps
 
 # Auto generated
 lib/rpc.ts
+
+# android files
+android/**/.gradle/
+android/**/build/
+android/**/gradle-wrapper.jar
+android/**/.cxx/
+android/**/.kotlin/
+android/**/local.properties

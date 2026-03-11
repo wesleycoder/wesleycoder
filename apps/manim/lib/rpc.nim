@@ -121,14 +121,35 @@ declare global {{
   }}
 }}
 
+const RPC_ENDPOINT = 'https://rpc.guima.localhost/rpc';
+
 async function rpcCall<T>(payload: string): Promise<T> {{
   if (globalThis.window.__ManimNative) {{
     return await globalThis.window.__ManimNative.postMessage<T>(payload);
   }} else {{
-    const res = await fetch("https://rpc.guima.localhost/rpc", {{ method: 'POST', body: payload }})
+    const res = await fetch(RPC_ENDPOINT, {{ method: 'POST', body: payload }})
     const json = await res.json();
     return json as T;
   }}
+}}
+
+export function listen(eventName: string, callback: (payload: any) => void) {{
+  if (!globalThis.window.__ManimNative) {{
+    if (!(globalThis.window as any).__ManimSSE) {{
+      (globalThis.window as any).__ManimSSE = new EventSource(RPC_ENDPOINT);
+    }}
+
+    const evtSource = (globalThis.window as any).__ManimSSE as EventSource;
+    evtSource.addEventListener(eventName, (e: MessageEvent) => {{
+      callback(JSON.parse(e.data));
+    }});
+    return;
+  }}
+
+  const manimEvent = `manim:${{eventName}}`;
+  window.addEventListener(manimEvent, ((e: CustomEvent) => {{
+    callback(e.detail);
+  }}) as EventListener);
 }}
 
 export const rpc = {{

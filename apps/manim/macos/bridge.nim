@@ -1,15 +1,14 @@
 {.used.}
 import webview
-import std/[json, strformat]
+import std/[json]
 import ./[hotkeys, style, tray]
 import ../lib/[log, noop, rpc]
 
 var globalWebview: Webview
 
-proc emit*(event: string, data: JsonNode) =
+proc executeJS*(code: string) =
   if globalWebview != nil:
-    let jsCode = fmt"window.__MANIM__.emit('{event}', {data});"
-    globalWebview.eval(cstring jsCode)
+    globalWebview.eval(cstring code)
 
 proc runMacosApp*(url: string) =
   globalWebview = newWebview(debug = true)

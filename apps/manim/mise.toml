@@ -21,15 +21,16 @@ arg "[args]..." help="Arguments to pass to nim"
 run = """# running nim r -d:debug manim.nim
 CMD="nim r -d:debug manim.nim $usage_args"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -qre nim "$CMD"
+  watchexec -c=reset -qre nim -i "build/**" "$CMD"
 else
   $CMD
 fi
 """
+depends = ["web_gen"]
 
 [tasks.nim_build]
 run = "nimble build --silent"
-depends = ["nim_clear"]
+depends = ["nim_clear", "web_gen"]
 
 [tasks.run]
 run = """
@@ -53,8 +54,20 @@ jj metaedit --quiet -m "draft: bundle $(date +%H:%M)"
 depends = ["web_build", "macos_bundle", "android_bundle", "nim_build"]
 
 [tasks.web_dev]
+usage = """
+flag "-w --watch" help="Watch for changes"
+"""
 description = "Run web frontend and backend server in parallel"
-run = [{ tasks = ["web_dev_astro", "web_dev_server"] }]
+run = """
+mise run web_dev_astro &
+if [ "${usage_watch:-false}" = "true" ]; then
+  mise run web_dev_server -w &
+else
+  mise run web_dev_server &
+fi
+wait
+"""
+depends = ["web_gen"]
 
 # Web tasks
 [tasks.web_dev_astro]
@@ -68,7 +81,7 @@ flag "-w --watch" help="Watch for changes"
 raw = false
 run = """CMD="nim r -d:debug -d:server manim.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -qre nim "$CMD"
+  watchexec -c=reset -qre nim -i "build/**" "$CMD"
 else
   $CMD
 fi
@@ -80,7 +93,7 @@ run = "dx -A astro build --silent"
 [tasks.astro]
 run = "dx -A astro"
 
-[tasks.gen]
+[tasks.web_gen]
 usage = """
 flag "-w --watch" help="Watch for changes"
 arg "[output]" help="Output file for typescript RPC bindings"
@@ -88,7 +101,7 @@ arg "[output]" help="Output file for typescript RPC bindings"
 run = """
 CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -qre nim "$CMD"
+  watchexec -c=reset -qre nim -i "build/**" "$CMD"
 else
   $CMD
 fi
@@ -147,7 +160,7 @@ cp "$NIM_LIB_DIR/nimbase.h" build/android_cache/
 depends = ["clear", "web_build"]
 
 [tasks.android_logs]
-run = "(adb logcat | grep -i 'Manim')"
+run = "(adb logcat | grep --line-buffered -i 'ManimApp')"
 
 [tasks.android_install]
 run = """

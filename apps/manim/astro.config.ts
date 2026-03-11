@@ -13,6 +13,15 @@ export default defineConfig({
           '../../node_modules',
         ],
       },
+      watch: {
+        ignored: [
+          '**/android/build/**',
+          '**/android/app/build/**',
+          '**/android/.gradle/**',
+          '**/android/app/.cxx/**',
+          '**/build/**',
+        ],
+      },
     },
   },
 })
