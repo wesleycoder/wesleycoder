@@ -1,6 +1,6 @@
 import webview
 
-when hostOS == "macosx":
+when defined(macosx):
   {.compile: "style.m".}
 
   proc update_macos_style(
@@ -8,7 +8,7 @@ when hostOS == "macosx":
   ) {.importc, cdecl.}
 
 proc applyStyle*(w: Webview, r, g, b, a: float, vibrant: bool = false) =
-  when hostOS == "macosx":
+  when defined(macosx):
     let h = w.getWindow()
     if h != nil:
       let v = if vibrant: 1.cint else: 0.cint

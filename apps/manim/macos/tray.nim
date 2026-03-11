@@ -1,6 +1,6 @@
 import webview
 
-when hostOS == "macosx":
+when defined(macosx):
   {.compile: "tray.m".}
 
   proc setup_system_tray*(handle: pointer) {.importc, cdecl.}

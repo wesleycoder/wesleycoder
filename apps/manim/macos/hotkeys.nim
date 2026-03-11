@@ -1,6 +1,6 @@
 import webview
 
-when hostOS == "macosx":
+when defined(macosx):
   {.compile: "hotkeys.m".}
   type VisibilityCallback = proc(isVisible: bool) {.cdecl.}
   proc setup_global_hotkeys(
@@ -12,7 +12,7 @@ proc visibilityChange(isVisible: bool) {.cdecl.} =
   discard
 
 proc setupHotkeys*(w: Webview) =
-  when hostOS == "macosx":
+  when defined(macosx):
     let h = w.getWindow()
     setup_global_hotkeys(h, visibilityChange)
   discard

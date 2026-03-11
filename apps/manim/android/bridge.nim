@@ -1,3 +1,4 @@
+{.used.}
 import std/[json]
 import ../lib/[log, rpc]
 

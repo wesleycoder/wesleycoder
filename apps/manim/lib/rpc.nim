@@ -126,6 +126,8 @@ const RPC_ENDPOINT = 'https://rpc.guima.localhost/rpc';
 async function rpcCall<T>(payload: string): Promise<T> {{
   if (globalThis.window.__ManimNative) {{
     return await globalThis.window.__ManimNative.postMessage<T>(payload);
+  }} else if (globalThis.window.webkit?.messageHandlers?.manim) {{
+    return await globalThis.window.webkit.messageHandlers.manim.postMessage(payload) as T;
   }} else {{
     const res = await fetch(RPC_ENDPOINT, {{ method: 'POST', body: payload }})
     const json = await res.json();
@@ -134,7 +136,8 @@ async function rpcCall<T>(payload: string): Promise<T> {{
 }}
 
 export function listen(eventName: string, callback: (payload: any) => void) {{
-  if (!globalThis.window.__ManimNative) {{
+  const isNative = globalThis.window.__ManimNative || globalThis.window.webkit?.messageHandlers?.manim;
+  if (!isNative) {{
     if (!(globalThis.window as any).__ManimSSE) {{
       (globalThis.window as any).__ManimSSE = new EventSource(RPC_ENDPOINT);
     }}

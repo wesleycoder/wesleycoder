@@ -89,6 +89,7 @@ fi
 
 [tasks.web_build]
 run = "dx -A astro build --silent"
+depends = ["web_gen"]
 
 [tasks.astro]
 run = "dx -A astro"
@@ -134,13 +135,13 @@ open build/Manim.app
 """
 
 # Android tasks
-[tasks.android_emulator_create]
+[tasks.android_setup]
 run = """
 sdkmanager "system-images;android-35;google_apis;arm64-v8a"
 avdmanager create avd -n Pixel_API_35 -k "system-images;android-35;google_apis;arm64-v8a" --device "pixel"
 """
 
-[tasks.android_emulator_run]
+[tasks.android_run]
 run = """
 nohup emulator -avd Pixel_API_35 -qemu -append "hw.keyboard=yes hw.keyboard.lid=no" > /dev/null 2>&1 &
 """
@@ -182,3 +183,113 @@ cd android
 jj metaedit --quiet -m "draft: android_bundle $(date +%H:%M)"
 """
 depends = ["android_nim"]
+
+[tasks.ios_clear]
+run = """
+rm -rf build/ios build/ios_cache
+"""
+
+[tasks.ios_nim]
+run = """
+mkdir -p build/ios
+nim c --os:ios manim.nim
+cp build/ios_cache/manim.h build/ios/
+sed -i '' 's/extern "C" //g' build/ios/manim.h
+NIM_LIB_DIR=$(nim dump 2>&1 | tail -n 1)
+cp "$NIM_LIB_DIR/nimbase.h" build/ios/
+"""
+depends = ["ios_clear", "web_build"]
+
+[tasks.ios_build]
+description = "Compiles Swift and packages the raw iOS App Bundle"
+run = """
+APP_DIR="build/ios/ManimApp.app"
+mkdir -p "$APP_DIR"
+SDK_PATH=$(xcrun --sdk iphonesimulator --show-sdk-path)
+export SDKROOT="$SDK_PATH"
+unset LIBRARY_PATH
+unset CPATH
+swiftc \
+  -parse-as-library \
+  -sdk "$SDK_PATH" \
+  -target arm64-apple-ios16.0-simulator \
+  -import-objc-header ios/Bridging-Header.h \
+  -I build/ios \
+  -lc++ \
+  ios/Main.swift build/ios/libmanim.a \
+  -o "$APP_DIR/ManimApp"
+
+sed -i '' 's|href="/|href="./|g' dist/index.html
+sed -i '' 's|src="/|src="./|g' dist/index.html
+
+
+cp -r dist/** "$APP_DIR/"
+cp -r ios/public/** "$APP_DIR/"
+"""
+depends = ["ios_nim"]
+
+[tasks.ios_run]
+description = "Boot iOS Simulator and launch the app"
+run = """
+xcrun simctl boot "Manim_iOS" || true
+open -a Simulator
+"""
+
+[tasks.ios_setup]
+description = "Creates a dedicated iOS Simulator for Manim"
+run = """
+if xcrun simctl list devices | grep -q "Manim_iOS"; then
+  exit 0
+fi
+
+xcrun simctl create "Manim_iOS" "iPhone 15" || {
+  echo "❌ Could not create simulator. Make sure you have downloaded an iOS simulator in Xcode!"
+  exit 1
+}
+"""
+
+[tasks.ios_install]
+description = "Install and launch the app on the Manim simulator"
+run = """
+xcrun simctl install "Manim_iOS" build/ios/ManimApp.app
+xcrun simctl launch "Manim_iOS" dev.guima.manim
+jj metaedit --quiet -m "draft: ios_install $(date +%H:%M)"
+sleep .5
+mise ios_debug
+"""
+depends = ["ios_build"]
+
+[tasks.ios_logs]
+description = "Stream live logs from the iOS app"
+run = """
+xcrun simctl spawn "Manim_iOS" log stream --predicate 'processImagePath ENDSWITH "ManimApp" AND NOT subsystem BEGINSWITH "com.apple."'
+"""
+
+[tasks.ios_debug]
+description = "Automatically opens the Safari Web Inspector for the running iOS app"
+run = """
+osascript <<'EOF'
+try
+  activate application "Safari"
+  tell application "System Events"
+    tell process "Safari"
+      set frontmost to true
+      set devMenu to menu "Develop" of menu bar item "Develop" of menu bar 1
+      set simItem to first menu item of devMenu whose name contains "Simulator"
+      set pageItem to first menu item of menu 1 of simItem whose name contains "Manim!"
+      click pageItem
+    end tell
+    tell process "Safari"
+      set frontmost to true
+      set devMenu to menu "Develop" of menu bar item "Develop" of menu bar 1
+      set simItem to first menu item of devMenu whose name contains "Simulator"
+      set pageItem to second menu item of menu 1 of simItem whose name contains "Manim!"
+      click pageItem
+    end tell
+  end tell
+  return "✅ Safari Web Inspector opened!"
+on error errMsg
+  return "❌ Could not open Inspector. Ensure the app is running. Error: " & errMsg
+end try
+EOF
+"""

@@ -2,10 +2,12 @@ import std/[json, strformat]
 
 when defined(server):
   import ./server
-elif hostOS == "macosx":
-  import ../macos/bridge
-elif hostOS == "android":
+elif defined(android):
   import ../android/bridge
+elif defined(ios):
+  import ../ios/bridge
+elif defined(macosx):
+  import ../macos/bridge
 
 proc emit*(eventName: string, payload: JsonNode = newJObject()) =
   when defined(server):
@@ -15,5 +17,5 @@ proc emit*(eventName: string, payload: JsonNode = newJObject()) =
     let jsCode =
       fmt"window.dispatchEvent(new CustomEvent('manim:{eventName}', {{ detail: {jsPayload} }}));"
 
-    when hostOS == "macosx" or hostOS == "android":
+    when hostOS in ["macosx", "android", "ios"]:
       executeJS(jsCode)

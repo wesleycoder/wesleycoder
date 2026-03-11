@@ -9,7 +9,10 @@
     <meta name="generator" content={Astro.generator} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Manim!!!</title>
-    <link rel="stylesheet" href="../global.css" />
+    <link rel="stylesheet" href="/global.css" />
+    <script>
+      window.onunload = function () {}
+    </script>
   </head>
   <body>
     <fieldset>
@@ -27,7 +30,7 @@
       const somethingInput = document.getElementById('something')! as HTMLInputElement
       somethingInput.addEventListener('input', async (e) => {
         const response = await rpc.something((e.target as HTMLInputElement).value)
-        console.log(response)
+        console.log(`somethingInput response: ${response}`)
       })
     </script>
   </body>
