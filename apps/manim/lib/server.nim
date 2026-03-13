@@ -1,5 +1,5 @@
 import std/[asyncdispatch, asynchttpserver, asyncnet, json, strutils]
-import ./[log, rpc]
+import ./[logger, rpc]
 
 proc getCorsHeaders(): HttpHeaders =
   newHttpHeaders(

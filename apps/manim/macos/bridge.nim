@@ -2,7 +2,7 @@
 import webview
 import std/[json]
 import ./[hotkeys, style, tray]
-import ../lib/[log, noop, rpc]
+import ../lib/[logger, noop, rpc]
 
 var globalWebview: Webview
 

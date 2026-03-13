@@ -1,0 +1,19 @@
+/* TEAM */
+Software Artisan: Wésley Guimarães
+Site: https://guima.dev
+E-mail: wes@guima.dev
+Location: 🇧🇷 Brazil
+
+/* SOCIAL */
+Codeberg: https://codeberg.org/wesleycoder
+Github: https://github.com/wesleycoder
+Bluesky: https://bsky.app/profile/guima.dev
+Twitter: https://x.com/wesleycoder
+
+/* SITE */
+Last updated: 2026/03/12
+Tech stack:
+  - A lot of: Nim, Typescript
+  - Also some: Deno, Astro
+  - A little bit of: Jujutsu, Git, Mise, Docker
+  - Just what is needed of: Kotlin, Java, Swift, Objective-C, C++, C

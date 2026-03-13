@@ -1,6 +1,6 @@
 import webview
 import std/json
-import ../lib/[log, noop, rpc]
+import ../lib/[logger, noop, rpc]
 
 var globalWebview: Webview
 

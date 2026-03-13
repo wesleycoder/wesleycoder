@@ -1,6 +1,6 @@
 {.used.}
 import std/[macros, json, jsonutils, tables, strutils, strformat]
-import ../lib/log
+import ../lib/logger
 
 type RpcHandler* = proc(args: JsonNode): JsonNode
 
