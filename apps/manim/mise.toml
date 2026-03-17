@@ -18,10 +18,9 @@ usage = """
 flag "-w --watch" help="Watch for changes"
 arg "[args]..." help="Arguments to pass to nim"
 """
-run = """# running nim r -d:debug manim.nim
-CMD="nim r -d:debug manim.nim $usage_args"
+run = """CMD="nim r -d:debug manim.nim $usage_args"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -qre nim -i "build/**" "$CMD"
+  watchexec -qrc -e=nim -i="build/**" "$CMD"
 else
   $CMD
 fi
@@ -83,7 +82,7 @@ flag "-w --watch" help="Watch for changes"
 raw = false
 run = """CMD="nim r -d:debug -d:server manim.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -qre nim -i "build/**" "$CMD"
+  watchexec -qrc -e=nim -i "build/**" "$CMD"
 else
   $CMD
 fi
@@ -101,10 +100,9 @@ usage = """
 flag "-w --watch" help="Watch for changes"
 arg "[output]" help="Output file for typescript RPC bindings"
 """
-run = """
-CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
+run = """CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
-  watchexec -c=reset -qre nim -i "build/**" "$CMD"
+  watchexec -qrc -e=nim -i "build/**" "$CMD"
 else
   $CMD
 fi
