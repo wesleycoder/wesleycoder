@@ -23,8 +23,8 @@ import '../global.css'
     <script>
       import { rpc, listen } from '../lib/rpc.ts'
 
-      listen<{ message: string }>('ping', (data) => {
-        console.log('RPC ping:', data.message)
+      listen<boolean>('connected', (data) => {
+        console.log('RPC connected:', data)
       })
 
       const somethingInput = document.getElementById('something')! as HTMLInputElement
