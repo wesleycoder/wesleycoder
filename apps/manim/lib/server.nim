@@ -46,6 +46,7 @@ proc handleRequest(req: Request) {.async, gcsafe.} =
         .replace("\n", "\r\n")
       await req.client.send(headers)
       sseClients.add(req.client)
+      asyncCheck req.client.send("event: connected\ndata: true\n\n")
       return
     elif req.url.path == "/rpc" and req.reqMethod == HttpPost:
       try:

@@ -6,8 +6,8 @@ Location: 🇧🇷 Brazil
 
 /* SOCIAL */
 Codeberg: https://codeberg.org/wesleycoder
-Github: https://github.com/wesleycoder
 Bluesky: https://bsky.app/profile/guima.dev
+Github: https://github.com/wesleycoder
 Twitter: https://x.com/wesleycoder
 
 /* SITE */
