@@ -1,0 +1,48 @@
+[tools]
+"github:exercism/cli" = "latest"
+nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
+watchexec = "latest"
+
+[hooks]
+postinstall = "nimble install -yl --silent --depsOnly"
+
+[tasks.pull]
+usage = """
+arg "<exercise>" help="exercise name/id"
+"""
+run = "exercism download --track=nim --exercise=${usage_exercise}"
+
+[tasks.dev]
+usage = """
+flag "-w --watch" help="watch for changes"
+arg "<exercise>" help="exercise name/id"
+"""
+run = """
+cd nim/${usage_exercise}
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -c=reset -qre nim 'nim r ${usage_exercise}.nim'
+else
+  nim r ${usage_exercise}.nim
+fi
+"""
+
+[tasks.test]
+usage = """
+flag "-w --watch" help="watch for changes"
+flag "-a --auto" help="auto-submit on success"
+arg "<exercise>" help="exercise name/id"
+"""
+run = """
+cd nim/${usage_exercise}
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -c=reset -qe nim 'exercism test && if [ "${usage_auto:-false}" = "true" ]; then mise done ${usage_exercise}; fi'
+else
+  exercism test && if [ "${usage_auto:-false}" = "true" ]; then mise done ${usage_exercise}; fi
+fi
+"""
+
+[tasks.done]
+usage = """
+arg "<exercise>" help="exercise name/id"
+"""
+run = "cd nim/${usage_exercise} && exercism submit ${usage_exercise//-/_}.nim"

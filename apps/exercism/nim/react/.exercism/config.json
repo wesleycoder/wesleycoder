@@ -1,0 +1,21 @@
+{
+  "authors": [
+    "pminten"
+  ],
+  "contributors": [
+    "ee7",
+    "petertseng"
+  ],
+  "files": {
+    "solution": [
+      "react.nim"
+    ],
+    "test": [
+      "test_react.nim"
+    ],
+    "example": [
+      ".meta/example.nim"
+    ]
+  },
+  "blurb": "Implement a basic reactive system."
+}

@@ -1,0 +1,21 @@
+type Allergen* = enum
+  Eggs = 1
+  Peanuts = 2
+  Shellfish = 4
+  Strawberries = 8
+  Tomatoes = 16
+  Chocolate = 32
+  Pollen = 64
+  Cats = 128
+
+const Allergens =
+  {Eggs, Peanuts, Shellfish, Strawberries, Tomatoes, Chocolate, Pollen, Cats}
+
+proc isAllergicTo*(score: int, allergen: Allergen): bool =
+  (score and int(allergen)) == int(allergen)
+
+proc allergies*(score: int): set[Allergen] =
+  result = {}
+  for item in Allergens:
+    if score.isAllergicTo(item):
+      result.incl(item)

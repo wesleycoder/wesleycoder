@@ -1,0 +1,5 @@
+[tools]
+gradle = "latest"
+java = "17"
+nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
+watchexec = "latest"
