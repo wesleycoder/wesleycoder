@@ -1,26 +1,16 @@
-import std/[json]
+import std/json
+import nimoy
 
 when defined(server):
   import ./server
-elif defined(android):
-  import ../android/bridge
-elif defined(ios):
-  import ../ios/bridge
-elif defined(macosx):
-  import ../macos/bridge
-elif defined(linux):
-  import ../linux/bridge
-elif defined(windows):
-  import ../windows/bridge
 
-when not defined(server):
-  import std/strformat
-
-proc emit*(eventName: string, payload: JsonNode = newJObject()) =
+proc emit*(eventName: string, payload: JsonNode = newJObject()) {.inline.} =
   when defined(server):
-    broadcastSse(eventName, payload)
+    emitSSE(eventName, payload)
   else:
-    let jsPayload = $payload
-    let jsCode =
-      fmt"window.dispatchEvent(new CustomEvent('manim:{eventName}', {{ detail: {jsPayload} }}));"
-    executeJS(jsCode)
+    let eventStr = "_RPC:" & eventName
+    let payloadStr = "{ detail: " & $ %*payload & " }"
+    executeJS(
+      "window.dispatchEvent(new CustomEvent(" & $ %eventStr & ", " & payloadStr & "));"
+    )
+  discard

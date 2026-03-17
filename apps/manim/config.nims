@@ -35,9 +35,9 @@ when defined(ios):
   switch("cpu", "arm64")
   switch("app", "staticlib")
   switch("noMain", "on")
-  switch("header", "manim.h")
+  switch("header", "nimoy.h")
   switch("nimcache", "build/ios_cache")
-  switch("out", "build/ios/libmanim.a")
+  switch("out", "build/ios/libnimoy.a")
   let sysroot = gorge("xcrun --sdk iphonesimulator --show-sdk-path").strip()
   let targetFlags = "-isysroot " & sysroot & " -target arm64-apple-ios16.0-simulator"
   switch("passC", targetFlags & " -Wno-duplicate-decl-specifier")

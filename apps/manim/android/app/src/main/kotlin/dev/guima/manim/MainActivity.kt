@@ -12,7 +12,7 @@ import android.webkit.WebViewClient
 import java.util.concurrent.CountDownLatch
 import android.os.Looper
 
-class ManimNativeBridge(private val activity: MainActivity) {
+class NimoyNativeBridge(private val activity: MainActivity) {
   @JavascriptInterface
   fun postMessage(jsonPayload: String): String {
     if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -41,9 +41,9 @@ class MainActivity : Activity() {
   companion object {
     init {
       try {
-        System.loadLibrary("manim")
+        System.loadLibrary("nimoy")
       } catch (e: UnsatisfiedLinkError) {
-        Log.e("ManimApp", "Failed to load libmanim.so", e)
+        Log.e("nimoy", "Failed to load libnimoy.so", e)
       }
     }
   }
@@ -57,7 +57,7 @@ class MainActivity : Activity() {
       settings.domStorageEnabled = true
       webViewClient = WebViewClient()
       webChromeClient = WebChromeClient()
-      addJavascriptInterface(ManimNativeBridge(this@MainActivity), "__ManimNative")
+      addJavascriptInterface(NimoyNativeBridge(this@MainActivity), "__ManimNative")
     }
 
     setContentView(webView)

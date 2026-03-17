@@ -9,7 +9,7 @@ file(GLOB_RECURSE NIM_SOURCES CONFIGURE_DEPENDS "${NIM_CACHE_DIR}/*.c")
 list(APPEND NIM_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/../../../../bridge.c")
 
 add_library(
-    manim
+    nimoy
     SHARED
     ${NIM_SOURCES}
 )
@@ -20,6 +20,6 @@ find_library(
 )
 
 target_link_libraries(
-    manim
+    nimoy
     ${log-lib}
 )

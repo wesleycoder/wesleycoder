@@ -100,7 +100,8 @@ usage = """
 flag "-w --watch" help="Watch for changes"
 arg "[output]" help="Output file for typescript RPC bindings"
 """
-run = """CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
+run = """
+CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
   watchexec -qrc -e=nim -i "build/**" "$CMD"
 else
@@ -161,7 +162,7 @@ cp "$NIM_LIB_DIR/nimbase.h" build/android_cache/
 depends = ["clear", "web_build"]
 
 [tasks.android_logs]
-run = "(adb logcat | grep --line-buffered -i 'ManimApp')"
+run = "(adb logcat | grep --line-buffered -i 'Manim')"
 
 [tasks.android_install]
 run = """
@@ -203,7 +204,7 @@ depends = ["ios_clear", "web_build"]
 [tasks.ios_build]
 description = "Compiles Swift and packages the raw iOS App Bundle"
 run = """
-APP_DIR="build/ios/ManimApp.app"
+APP_DIR="build/ios/Manim.app"
 mkdir -p "$APP_DIR"
 SDK_PATH=$(xcrun --sdk iphonesimulator --show-sdk-path)
 export SDKROOT="$SDK_PATH"
@@ -217,7 +218,7 @@ swiftc \
   -I build/ios \
   -lc++ \
   ios/Main.swift build/ios/libmanim.a \
-  -o "$APP_DIR/ManimApp"
+  -o "$APP_DIR/Manim"
 
 sed -i '' 's|href="/|href="./|g' dist/index.html
 sed -i '' 's|src="/|src="./|g' dist/index.html
@@ -254,7 +255,7 @@ flag "-d --debug" help="Opens Safari Web Inspector after install"
 """
 description = "Install and launch the app on the Manim simulator"
 run = """
-xcrun simctl install "Manim_iOS" build/ios/ManimApp.app
+xcrun simctl install "Manim_iOS" build/ios/Manim.app
 xcrun simctl launch "Manim_iOS" dev.guima.manim
 jj metaedit --quiet -m "draft: ios_install $(date +%H:%M)"
 if [ "${usage_debug:-false}" = "true" ]; then
@@ -267,7 +268,7 @@ depends = ["ios_build"]
 [tasks.ios_logs]
 description = "Stream live logs from the iOS app"
 run = """
-xcrun simctl spawn "Manim_iOS" log stream --predicate 'processImagePath ENDSWITH "ManimApp" AND NOT subsystem BEGINSWITH "com.apple."'
+xcrun simctl spawn "Manim_iOS" log stream --predicate 'processImagePath ENDSWITH "Manim" AND NOT subsystem BEGINSWITH "com.apple."'
 """
 
 [tasks.linux_build]

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define LOG(...)                                                               \
-  __android_log_print(ANDROID_LOG_INFO, "ManimApp:bridge.c", __VA_ARGS__)
+  __android_log_print(ANDROID_LOG_INFO, "nimoy:bridge.c", __VA_ARGS__)
 
 extern void NimMain(void);
 extern char *handleNativeMessage(const char *msg);

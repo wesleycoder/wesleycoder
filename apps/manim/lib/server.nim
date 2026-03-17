@@ -1,19 +1,9 @@
 import std/[asyncdispatch, asynchttpserver, asyncnet, json, strutils]
 import ./[logger, rpc]
 
-proc getCorsHeaders(): HttpHeaders =
-  newHttpHeaders(
-    [
-      ("Access-Control-Allow-Origin", "*"),
-      ("Access-Control-Allow-Methods", "POST, GET, OPTIONS"),
-      ("Access-Control-Allow-Headers", "Content-Type"),
-      ("Content-Type", "application/json; charset=utf-8"),
-    ]
-  )
+var sseClients: seq[AsyncSocket]
 
-var sseClients*: seq[AsyncSocket]
-
-proc broadcastSse*(eventName: string, payload: JsonNode) =
+proc emitSSE*(eventName: string, payload: JsonNode) =
   let msg = "event: " & eventName & "\ndata: " & $payload & "\n\n"
   var activeSockets: seq[AsyncSocket]
 
@@ -26,6 +16,16 @@ proc broadcastSse*(eventName: string, payload: JsonNode) =
         client.close()
 
   sseClients = activeSockets
+
+proc getCorsHeaders(): HttpHeaders =
+  newHttpHeaders(
+    [
+      ("Access-Control-Allow-Origin", "*"),
+      ("Access-Control-Allow-Methods", "POST, GET, OPTIONS"),
+      ("Access-Control-Allow-Headers", "Content-Type"),
+      ("Content-Type", "application/json; charset=utf-8"),
+    ]
+  )
 
 proc handleRequest(req: Request) {.async, gcsafe.} =
   {.cast(gcsafe).}:
@@ -45,8 +45,8 @@ proc handleRequest(req: Request) {.async, gcsafe.} =
         .strip(leading = true, trailing = false)
         .replace("\n", "\r\n")
       await req.client.send(headers)
-      sseClients.add(req.client)
       asyncCheck req.client.send("event: connected\ndata: true\n\n")
+      sseClients.add(req.client)
       return
     elif req.url.path == "/rpc" and req.reqMethod == HttpPost:
       try:
@@ -64,17 +64,17 @@ proc handleRequest(req: Request) {.async, gcsafe.} =
     let notFound = %*{"error": true, "message": "Not Found"}
     await req.respond(Http404, $notFound, getCorsHeaders())
 
-proc startServer*(port = 0) {.async.} =
+when isMainModule:
   var server = newAsyncHttpServer()
 
-  server.listen(Port(port))
+  server.listen(Port(4567))
   let port = server.getPort
 
-  log "Server running on http://localhost:" & $port.uint16
-  log "Local proxy on https://guimabook.local:4568"
+  log.info "Server running on http://localhost:" & $port.uint16
+  log.info "Local proxy on https://guimabook.local:4568"
 
   while true:
     if server.shouldAcceptRequest():
-      await server.acceptRequest(handleRequest)
+      waitFor server.acceptRequest(handleRequest)
     else:
-      await sleepAsync(500)
+      waitFor sleepAsync(500)

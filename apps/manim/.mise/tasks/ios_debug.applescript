@@ -26,7 +26,7 @@ try
       set currentSimItem to first menu item of menu "Develop" of devMenuBarItem whose name contains "Simulator"
       select currentSimItem
       key code 124 -- Right Arrow
-      set allMatches to (every menu item of menu 1 of currentSimItem whose name contains "Manim!!!")
+      set allMatches to (every menu item of menu 1 of currentSimItem whose name contains "Manim")
       set matchCount to count of allMatches
       key code 53 -- Escape
       delay 0.2

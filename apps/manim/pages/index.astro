@@ -16,7 +16,7 @@ import '../global.css'
   </head>
   <body>
     <fieldset>
-      <label for="something">Testing something:!!!</label>
+      <label for="something">Testing something:</label>
       <input id="something" type="text" placeholder="Type something here..." />
     </fieldset>
 
@@ -25,6 +25,10 @@ import '../global.css'
 
       listen<boolean>('connected', (data) => {
         console.log('RPC connected:', data)
+      })
+
+      listen<{ message: string }>('ping', (data) => {
+        console.log('RPC message:', data.message)
       })
 
       const somethingInput = document.getElementById('something')! as HTMLInputElement

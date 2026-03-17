@@ -12,4 +12,6 @@ binDir        = "build"
 
 requires "nim >= 2.2.6"
 
-requires "webview >= 0.1.0"
+requires "nimoy"
+
+requires "webview"

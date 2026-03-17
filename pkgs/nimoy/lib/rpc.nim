@@ -1,6 +1,6 @@
 {.used.}
 import std/[os, macros, json, jsonutils, tables, strutils, strformat]
-import ../lib/logger
+import ./logger
 
 type RpcHandler* = proc(args: JsonNode): JsonNode
 
@@ -8,7 +8,7 @@ var rpcRegistry* = initTable[string, RpcHandler]()
 
 var tsMethods {.compileTime.}: seq[string]
 
-func nimTypeToTs(nimType: string): string {.compileTime.} =
+proc nimTypeToTs(nimType: string): string {.compileTime.} =
   ## Helper to map Nim types to TS types
   case nimType
   of "string": "string"

@@ -3,14 +3,14 @@ import ../lib/rpc
 
 type ExecuteJsCallback = proc(script: cstring) {.cdecl.}
 
-var swiftExecuteJs: ExecuteJsCallback
-
-proc initManimIos*(callback: ExecuteJsCallback) {.exportc, dynlib.} =
-  swiftExecuteJs = callback
+var executeJS_Swift: ExecuteJsCallback
 
 proc executeJS*(script: string) =
-  if swiftExecuteJs != nil:
-    swiftExecuteJs(cstring script)
+  if executeJS_Swift != nil:
+    executeJS_Swift(cstring script)
+
+proc initIos*(callback: ExecuteJsCallback) {.exportc, dynlib.} =
+  executeJS_Swift = callback
 
 var lastResponse: string
 proc handleNativeMessage*(msg: cstring): cstring {.exportc, dynlib.} =

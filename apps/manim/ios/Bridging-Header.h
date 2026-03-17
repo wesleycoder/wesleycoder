@@ -6,6 +6,6 @@
 #endif
 
 #include "nimbase.h"
-#include "manim.h"
+#include "nimoy.h"
 
 #endif
