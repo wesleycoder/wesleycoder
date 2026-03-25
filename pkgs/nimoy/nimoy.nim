@@ -1,21 +1,24 @@
 #!/usr/bin/env nim r -f
-import webview
-import ./lib/[logger, rpc]
+import ./lib/logger
+import ./lib/rpc
 
 when defined(android):
   import ./android/bridge
 elif defined(ios):
   import ./ios/bridge
 elif defined(macosx):
-  import webview
   import ./macos/bridge
 elif defined(linux):
-  import webview
   import ./linux/bridge
 elif defined(windows):
-  import webview
   import ./windows/bridge
 
-export initNimoy
 export executeJS
-export webview
+export initNimoy
+export routeMessage
+
+when defined(macosx) or defined(linux) or defined(windows):
+  import webview
+  export webview
+  export expose
+  export generateTsBindings

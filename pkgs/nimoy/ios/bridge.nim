@@ -16,3 +16,6 @@ var lastResponse: string
 proc handleNativeMessage*(msg: cstring): cstring {.exportc, dynlib.} =
   lastResponse = routeMessage($msg)
   return cstring lastResponse
+
+proc initNimoy*[T](app: T = nil): T =
+  return app

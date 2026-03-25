@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Extended Jujutsu Config",
+  "description": "Jujutsu configuration extended with gg (GUI/Web) settings",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://docs.jj-vcs.dev/latest/config-schema.json"
+    }
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "gg": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Configuration for the gg Jujutsu GUI",
+      "properties": {
+        "default-mode": {
+          "type": "string",
+          "enum": [
+            "gui",
+            "web"
+          ],
+          "default": "gui",
+          "description": "Choose between the native GUI or the Web-based interface."
+        },
+        "queries": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "log-page-size": {
+              "type": "integer",
+              "default": 1000,
+              "description": "Number of commits to load per call"
+            },
+            "large-repo-heuristic": {
+              "type": "integer",
+              "default": 100000,
+              "description": "Threshold where some query settings default to false for performance."
+            },
+            "auto-snapshot": {
+              "type": "boolean",
+              "description": "Take a snapshot when the window gains focus; slow in large checkouts."
+            }
+          }
+        },
+        "ui": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recent-workspaces": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of recently opened directories for shell integration."
+            },
+            "track-recent-workspaces": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to update recent-workspaces or system jump lists."
+            },
+            "mark-unpushed-bookmarks": {
+              "type": "boolean",
+              "default": true,
+              "description": "Visually indicate bookmarks that are local-only or remote-only."
+            },
+            "theme-override": {
+              "type": "string",
+              "enum": [
+                "light",
+                "dark",
+                ""
+              ],
+              "default": "",
+              "description": "Override system theme. Leave empty to use OS settings."
+            }
+          }
+        },
+        "web": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "default-port": {
+              "type": "integer",
+              "default": 0,
+              "description": "Port to bind to in web mode (0 = random)."
+            },
+            "client-timeout": {
+              "type": "string",
+              "pattern": "^[0-9]+[smh]$",
+              "description": "Disconnect clients after this duration of inactivity (e.g., '10m')."
+            },
+            "launch-browser": {
+              "type": "boolean",
+              "default": true,
+              "description": "Open browser automatically when starting web mode."
+            }
+          }
+        },
+        "presets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Custom presets for the log pane. 'kebab-case' keys become 'Title Case' entries."
+        }
+      }
+    }
+  }
+}

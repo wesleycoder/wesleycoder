@@ -61,10 +61,10 @@ run = """
 mise run web_dev_astro &
 if [ "${usage_watch:-false}" = "true" ]; then
   mise web_gen -w &
-  mise web_dev_server -w &
+  mise web_server -w &
 else
   mise web_gen -w &
-  mise web_dev_server &
+  mise web_server &
 fi
 wait
 """
@@ -75,7 +75,7 @@ depends = ["web_gen"]
 raw = false
 run = "dx -A astro dev"
 
-[tasks.web_dev_server]
+[tasks.web_server]
 usage = """
 flag "-w --watch" help="Watch for changes"
 """
@@ -214,7 +214,7 @@ swiftc \
   -parse-as-library \
   -sdk "$SDK_PATH" \
   -target arm64-apple-ios16.0-simulator \
-  -import-objc-header ios/Bridging-Header.h \
+  -import-objc-header ios/bridge.h \
   -I build/ios \
   -lc++ \
   ios/Main.swift build/ios/libmanim.a \

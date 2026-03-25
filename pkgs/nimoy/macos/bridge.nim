@@ -17,10 +17,10 @@ proc nativeIPC(id: string, req: JsonNode): string =
       return routeMessage(payloadStr)
   return $ %*{"error": true, "data": "Invalid IPC payload: " & $ %*req}
 
-proc initNimoy*(app: Webview) =
-  log.debug "initNimoy"
+proc initNimoy*(app: Webview = newWebview(debug = not defined(release))): Webview =
   app.setupHotkeys()
   app.applyStyle(0, 0, 0, 0.5)
   app.initTray()
-  app.bind("__nativeIPC", nativeIPC)
+  app.bindCallback("__nativeIPC", nativeIPC)
   app.init(cstring js"window.__Native = { postMessage: window.__nativeIPC }")
+  return app

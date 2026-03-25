@@ -20,3 +20,6 @@ proc handleNativeMessage(msg: cstring): cstring {.exportc, cdecl.} =
     var errorNode = %*{"error": true, "data": "🤖 handleNativeMessage:" & errStr}
     result = cast[cstring](alloc0(errStr.len + 1))
     copyMem(result, cstring(errStr), errStr.len + 1)
+
+proc initNimoy*[T](app: T = nil): T =
+  return app

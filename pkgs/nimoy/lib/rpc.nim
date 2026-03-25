@@ -1,5 +1,5 @@
 {.used.}
-import std/[os, macros, json, jsonutils, tables, strutils, strformat]
+import std/[os, macros, json, jsonutils, tables, strformat, strutils]
 import ./logger
 
 type RpcHandler* = proc(args: JsonNode): JsonNode
@@ -23,17 +23,14 @@ macro expose*(body: untyped): untyped =
   ## Registers `proc` or `func` for RPC calls, wrapping it with JSON handling logic.
   expectKind(body, {nnkProcDef, nnkFuncDef})
 
-  let rawName = body.name
   let procIdent =
-    if rawName.kind == nnkPostfix:
-      rawName[1]
+    if body.name.kind == nnkPostfix:
+      body.name[1]
     else:
-      rawName
+      body.name
   let procNameStr = newLit($procIdent)
-  let procName = body.name
   let params = body.params
   let returnType = params[0]
-  let requiresArgs = params.len > 1
   let isVoid = returnType.kind == nnkEmpty or $returnType == "void"
 
   var tsArgs = newSeq[string]()
@@ -84,7 +81,7 @@ macro expose*(body: untyped): untyped =
         let `paramName` = jsonTo(`argsIdent`[`paramNameStr`], `paramType`)
       callArgs.add paramName
 
-  let callExpr = newCall(procName, callArgs)
+  let callExpr = newCall(body.name, callArgs)
 
   let executeAndReturn =
     if isVoid: # void vs data
@@ -96,7 +93,7 @@ macro expose*(body: untyped): untyped =
         toJson(`callExpr`)
 
   let argsCheck =
-    if requiresArgs:
+    if params.len > 1:
       quote:
         if `argsIdent` == nil or `argsIdent`.kind != JObject:
           return %*{
@@ -122,6 +119,12 @@ macro generateTsBindings*(outputPath: static[string]): untyped =
   let temp = slurp("./rpc.temp.ts")
   let fileContent = temp.replace("  // RPC methods", tsMethods.join("\n").indent(2))
   writeFile(outputPath, fileContent)
+  let displayPath =
+    if outputPath.startsWith(getHomeDir()):
+      "~/" & outputPath[getHomeDir().len .. ^1]
+    else:
+      outputPath
+  log.info fmt"⚙️  RPC bindings generated at {displayPath}."
   return newStmtList()
 
 proc routeMessage*(payloadStr: string): string =
