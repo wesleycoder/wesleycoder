@@ -112,11 +112,13 @@ macro expose*(body: untyped): untyped =
         `extractStmts`
         return `executeAndReturn`
       except CatchableError as e:
-        return %*{"error": true, "message": e.msg}
+        emit("error", %*{"message": "Error in `" & `procNameStr` & "`: " & e.msg})
+        return
+          %*{"error": true, "message": "Error in `" & `procNameStr` & "`: " & e.msg}
 
 macro generateTsBindings*(outputPath: static[string]): untyped =
   ## Generates TypeScript bindings for RPC methods registered with `expose`.
-  let temp = slurp("./rpc.temp.ts")
+  let temp = slurp("./rpc.tmpl.ts")
   let fileContent = temp.replace("  // RPC methods", tsMethods.join("\n").indent(2))
   writeFile(outputPath, fileContent)
   let displayPath =
@@ -127,30 +129,41 @@ macro generateTsBindings*(outputPath: static[string]): untyped =
   log.info fmt"⚙️  RPC bindings generated at {displayPath}."
   return newStmtList()
 
-proc routeMessage*(payloadStr: string): string =
+proc routeMessage*(payloadStr: string): JsonNode =
   ## Routes an incoming JSON RPC message to the appropriate RPC handler
+  ## Returns a JSON response node.
   try:
     let payload = parseJson(payloadStr)
 
-    if payload.kind != JObject or not payload.hasKey("cmd"):
-      return $ %*{
+    log.debug "rpc.nim received: " & payloadStr
+
+    if payload.kind != JObject:
+      return %*{
         "event": "error",
         "data": "Invalid payload format. Expected JSON object with a 'cmd' key.",
       }
+
+    if payload.hasKey("event"):
+      case payload["event"].getStr()
+      of "ping":
+        return %*{"event": "pong"}
+      of "pong":
+        return
+      else:
+        let event = payload["event"].getStr()
+        return %*{"event": "error", "data": fmt"Unknown event '{event}'"}
 
     let command = payload["cmd"].getStr()
     payload.delete("cmd")
     let args = payload
 
-    log.info "received: " & command & ", " & $(%*args)
-
     if rpcRegistry.hasKey(command):
       let dataNode = rpcRegistry[command](args)
       if dataNode.kind == JObject and dataNode.hasKey("error"):
-        return $ %*{"event": "error", "data": dataNode["message"]}
+        return %*{"event": "error", "data": dataNode["message"]}
       else:
-        return $ %*dataNode
+        return %*dataNode
     else:
-      return $ %*{"event": "error", "data": fmt"Command '{command}' not found"}
+      return %*{"event": "error", "data": fmt"Command '{command}' not found"}
   except Exception as e:
-    return $ %*{"event": "error", "data": fmt"RPC parsing error: {e.msg}"}
+    return %*{"event": "error", "data": fmt"RPC parsing error: {e.msg}"}

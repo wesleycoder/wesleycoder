@@ -14,7 +14,7 @@ proc nativeIPC(id: string, req: JsonNode): string =
   if req.kind == JArray and req.len > 0:
     for item in req:
       let payloadStr = item.getStr()
-      return routeMessage(payloadStr)
+      return $routeMessage(payloadStr)
   return $ %*{"error": true, "data": "Invalid IPC payload: " & $ %*req}
 
 proc initNimoy*(app: Webview = newWebview(debug = not defined(release))): Webview =

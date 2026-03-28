@@ -24,7 +24,7 @@ async function _rpcCall<T>(payload: unknown): Promise<T> {
   if (globalThis.window.__Native) {
     return await globalThis.window.__Native.postMessage<T>(body)
   } else if (globalThis.window.webkit?.messageHandlers?.nimoy) {
-    return await globalThis.window.webkit.messageHandlers.nimoy.postMessage(body) as T
+    return await globalThis.window.webkit.messageHandlers.nimoy.postMessage<T>(body)
   } else {
     const res = await fetch(RPC_ENDPOINT, { method: 'POST', body })
     return (await res.json()) as T
@@ -48,6 +48,10 @@ export function listen<T extends unknown>(eventName: string, callback: (payload:
     (e: Event) => callback((e as CustomEvent<T>).detail),
   )
 }
+
+listen('_RPC:ping', () => {
+  _rpcCall({ event: 'pong' })
+})
 
 export const rpc = {
   // RPC methods

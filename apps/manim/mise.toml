@@ -1,4 +1,5 @@
 [tools]
+"github:xtool-org/xtool" = { version = "1.16.1", asset_pattern = "xtool.app.zip", bin_path = "xtool.app/Contents/MacOS", strip_components = 0 }
 gradle = "latest"
 java = "17"
 nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }

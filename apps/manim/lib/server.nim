@@ -51,13 +51,17 @@ proc handleRequest(req: Request) {.async.} =
         await req.client.send(SSE_HEADERS)
         asyncCheck req.client.send("event: connected\ndata: true\n\n")
         sseClients.add(req.client)
+        return
       of HttpPost:
+        var status = Http500
+        var response = %*{"error": true, "message": "Unknown error"}
         try:
-          let responseStr = routeMessage(req.body)
-          await req.respond(Http200, responseStr, getCorsHeaders())
+          response = routeMessage(req.body)
+          status = Http200
         except Exception as e:
-          let error = %*{"error": true, "message": e.msg}
-          await req.respond(Http500, $error, getCorsHeaders())
+          status = Http500
+          response = %*{"error": true, "message": e.msg}
+        await req.respond(status, $response, getCorsHeaders())
         return
       else:
         await req.respond(Http405, "", getCorsHeaders())

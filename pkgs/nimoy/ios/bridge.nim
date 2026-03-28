@@ -14,7 +14,7 @@ proc initIos*(callback: ExecuteJsCallback) {.exportc, dynlib.} =
 
 var lastResponse: string
 proc handleNativeMessage*(msg: cstring): cstring {.exportc, dynlib.} =
-  lastResponse = routeMessage($msg)
+  lastResponse = $routeMessage($msg)
   return cstring lastResponse
 
 proc initNimoy*[T](app: T = nil): T =

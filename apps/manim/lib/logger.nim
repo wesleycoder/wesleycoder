@@ -12,19 +12,19 @@ proc log*(msg: string) =
     debugEcho "nimoy: " & msg
 
 proc ok*(logFn: proc(msg: string), msg: string) =
-  logFn "✅: " & msg
+  logFn "✅ : " & msg
 
 proc debug*(logFn: proc(msg: string), msg: string) =
-  logFn "🔍: " & msg
+  logFn "🔍 : " & msg
 
 proc info*(logFn: proc(msg: string), msg: string) =
-  logFn "ℹ️: " & msg
+  logFn "ℹ️ : " & msg
 
 proc warn*(logFn: proc(msg: string), msg: string) =
-  logFn "⚠️: " & msg
+  logFn "⚠️ : " & msg
 
 proc error*(logFn: proc(msg: string), msg: string) =
-  logFn "‼️: " & msg
+  logFn "‼️ : " & msg
 
 template err*(msg: string) =
   log.error(msg)

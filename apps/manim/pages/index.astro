@@ -34,7 +34,7 @@ import '../global.css'
       const somethingInput = document.getElementById('something')! as HTMLInputElement
       somethingInput.addEventListener('input', async (e) => {
         const response = await rpc.something((e.target as HTMLInputElement).value)
-        console.log(`somethingInput response: ${response}`)
+        console.log(`rpc.something:`, response)
       })
     </script>
   </body>

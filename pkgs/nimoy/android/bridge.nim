@@ -1,5 +1,5 @@
 {.used.}
-import std/[json]
+import std/[json, strformat]
 import ../lib/[logger, rpc]
 
 {.compile: "bridge.c".}
@@ -11,13 +11,14 @@ proc executeJS*(script: string) =
 
 proc handleNativeMessage(msg: cstring): cstring {.exportc, cdecl.} =
   try:
-    let jsonStr = routeMessage($msg)
+    let jsonStr = $routeMessage($msg)
     result = cast[cstring](alloc0(jsonStr.len + 1))
     if jsonStr.len > 0:
       copyMem(result, jsonStr[0].unsafeAddr, jsonStr.len)
   except Exception as e:
     let errStr = $e.msg
-    var errorNode = %*{"error": true, "data": "🤖 handleNativeMessage:" & errStr}
+    var errorNode =
+      %*{"error": true, "message": fmt"🤖 handleNativeMessage: {$msg}\n\n{errStr}"}
     result = cast[cstring](alloc0(errStr.len + 1))
     copyMem(result, cstring(errStr), errStr.len + 1)
 
