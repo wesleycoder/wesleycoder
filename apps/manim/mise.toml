@@ -36,7 +36,7 @@ depends = ["nim_clear", "web_gen"]
 run = """
 clear # clear the terminal
 build/manim
-jj metaedit --quiet -m "draft: run $(date +%H:%M)"
+jj metaedit --quiet -m "draft: run $(date -u +"%FT%TZ")"
 """
 depends = ["nim_build"]
 
@@ -49,7 +49,7 @@ depends = ["android_clear"]
 
 [tasks.bundle]
 run = """
-jj metaedit --quiet -m "draft: bundle $(date +%H:%M)"
+jj metaedit --quiet -m "draft: bundle $(date -u +"%FT%TZ")"
 """
 depends = ["web_build", "macos_bundle", "android_bundle", "nim_build"]
 
@@ -119,7 +119,7 @@ run = """
 mkdir -p build/Manim.app/Contents/MacOS
 mv build/manim build/Manim.app/Contents/MacOS/manim
 cp -R macos/public/ build/Manim.app/
-jj metaedit --quiet -m "macos_bundle: run $(date +%H:%M)"
+jj metaedit --quiet -m "macos_bundle: run $(date -u +"%FT%TZ")"
 if [ "${usage_open:-false}" = "true" ]; then
   mise open
 fi
@@ -170,7 +170,7 @@ run = """
 cd android
 ./gradlew installDebug -q
 adb shell am start -n dev.guima.manim/.MainActivity
-jj metaedit --quiet -m "draft: android_install $(date +%H:%M)"
+jj metaedit --quiet -m "draft: android_install $(date -u +"%FT%TZ")"
 """
 depends = ["android_nim"]
 
@@ -182,7 +182,7 @@ depends = ["android_nim"]
 run = """
 cd android
 ./gradlew assembleRelease
-jj metaedit --quiet -m "draft: android_bundle $(date +%H:%M)"
+jj metaedit --quiet -m "draft: android_bundle $(date -u +"%FT%TZ")"
 """
 depends = ["android_nim"]
 
@@ -258,7 +258,7 @@ description = "Install and launch the app on the Manim simulator"
 run = """
 xcrun simctl install "Manim_iOS" build/ios/Manim.app
 xcrun simctl launch "Manim_iOS" dev.guima.manim
-jj metaedit --quiet -m "draft: ios_install $(date +%H:%M)"
+jj metaedit --quiet -m "draft: ios_install $(date -u +"%FT%TZ")"
 if [ "${usage_debug:-false}" = "true" ]; then
   sleep .5
   mise ios_debug

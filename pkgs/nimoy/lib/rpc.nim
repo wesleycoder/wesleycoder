@@ -135,8 +135,6 @@ proc routeMessage*(payloadStr: string): JsonNode =
   try:
     let payload = parseJson(payloadStr)
 
-    log.debug "rpc.nim received: " & payloadStr
-
     if payload.kind != JObject:
       return %*{
         "event": "error",
@@ -145,10 +143,10 @@ proc routeMessage*(payloadStr: string): JsonNode =
 
     if payload.hasKey("event"):
       case payload["event"].getStr()
-      of "ping":
-        return %*{"event": "pong"}
-      of "pong":
-        return
+      of "_RPC:ping":
+        return %*{"event": "_RPC:pong"}
+      of "_RPC:pong":
+        return newJNull()
       else:
         let event = payload["event"].getStr()
         return %*{"event": "error", "data": fmt"Unknown event '{event}'"}

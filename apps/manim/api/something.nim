@@ -4,7 +4,7 @@ import std/[json, strformat]
 import ../lib/[events, logger]
 
 proc something*(someInput: string) {.expose.} =
-  emit("ping", %*{"message": "Nim saw you type: " & someInput})
+  emit("_RPC:ping", %*{"message": "Nim saw you type: " & someInput})
 
   if someInput.len > 10:
     raise newException(

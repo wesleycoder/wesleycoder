@@ -50,7 +50,7 @@ export function listen<T extends unknown>(eventName: string, callback: (payload:
 }
 
 listen('_RPC:ping', () => {
-  _rpcCall({ event: 'pong' })
+  _rpcCall({ event: '_RPC:pong' })
 })
 
 export const rpc = {

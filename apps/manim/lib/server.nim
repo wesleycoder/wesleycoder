@@ -19,56 +19,58 @@ proc emitSSE*(eventName: string, payload: JsonNode) =
   sseClients = activeSockets
 
 proc getCorsHeaders(): HttpHeaders =
-  newHttpHeaders(
-    [
-      ("Access-Control-Allow-Origin", "*"),
-      ("Access-Control-Allow-Methods", "POST, GET, OPTIONS"),
-      ("Access-Control-Allow-Headers", "Content-Type"),
-      ("Content-Type", "application/json; charset=utf-8"),
-    ]
-  )
+  let h = newHttpHeaders()
+  h.add("Access-Control-Allow-Origin", "*")
+  h.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+  h.add("Access-Control-Allow-Headers", "Content-Type")
+  h.add("Content-Type", "application/json; charset=utf-8")
+  h
 
-const SSE_HEADERS = """
+proc http(payload: string): string =
+  (payload.dedent.strip() & "\n\n").replace("\n", "\r\n")
+
+const SSE_PAYLOAD = """
   HTTP/1.1 200 OK
   Content-Type: text/event-stream
   Cache-Control: no-cache
   Connection: keep-alive
   Access-Control-Allow-Origin: *
-
-""".dedent
-  .strip(leading = true, trailing = false)
-  .replace("\n", "\r\n")
+""".http
 
 proc handleRequest(req: Request) {.async.} =
   {.cast(gcsafe).}:
-    if req.reqMethod == HttpOptions:
-      await req.respond(Http204, "", getCorsHeaders())
-      return
+    try:
+      if req.reqMethod == HttpOptions:
+        await req.respond(Http204, "", getCorsHeaders())
+        return
 
-    if req.url.path == "/rpc":
-      case req.reqMethod
-      of HttpGet:
-        await req.client.send(SSE_HEADERS)
-        asyncCheck req.client.send("event: connected\ndata: true\n\n")
-        sseClients.add(req.client)
-        return
-      of HttpPost:
-        var status = Http500
-        var response = %*{"error": true, "message": "Unknown error"}
-        try:
-          response = routeMessage(req.body)
-          status = Http200
-        except Exception as e:
-          status = Http500
-          response = %*{"error": true, "message": e.msg}
-        await req.respond(status, $response, getCorsHeaders())
-        return
+      if req.url.path == "/rpc":
+        case req.reqMethod
+        of HttpGet:
+          await req.client.send(SSE_PAYLOAD)
+          asyncCheck req.client.send("event: connected\ndata: true\n\n")
+          sseClients.add(req.client)
+          return
+        of HttpPost:
+          var status = Http500
+          var response = %*{"error": true, "message": "Unknown error"}
+          try:
+            response = routeMessage(req.body)
+            status = Http200
+          except Exception as e:
+            status = Http500
+            response = %*{"error": true, "message": e.msg}
+          await req.respond(status, $response, getCorsHeaders())
+          return
+        else:
+          await req.respond(Http405, "", getCorsHeaders())
+          return
       else:
-        await req.respond(Http405, "", getCorsHeaders())
+        await req.respond(Http404, "Not Found", getCorsHeaders())
         return
-    else:
-      await req.respond(Http404, "Not Found", getCorsHeaders())
-      return
+    except CatchableError as e:
+      log.error "Unknown Error: " & $e.msg
+      await req.respond(Http500, $e.msg, getCorsHeaders())
 
 proc startServer*() {.async.} =
   var server = newAsyncHttpServer()
