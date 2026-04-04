@@ -18,36 +18,27 @@ proc emitSSE*(eventName: string, payload: JsonNode) =
 
   sseClients = activeSockets
 
-proc getCorsHeaders(): HttpHeaders =
-  let h = newHttpHeaders()
-  h.add("Access-Control-Allow-Origin", "*")
-  h.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-  h.add("Access-Control-Allow-Headers", "Content-Type")
-  h.add("Content-Type", "application/json; charset=utf-8")
-  h
-
 proc http(payload: string): string =
   (payload.dedent.strip() & "\n\n").replace("\n", "\r\n")
-
-const SSE_PAYLOAD = """
-  HTTP/1.1 200 OK
-  Content-Type: text/event-stream
-  Cache-Control: no-cache
-  Connection: keep-alive
-  Access-Control-Allow-Origin: *
-""".http
 
 proc handleRequest(req: Request) {.async.} =
   {.cast(gcsafe).}:
     try:
       if req.reqMethod == HttpOptions:
-        await req.respond(Http204, "", getCorsHeaders())
+        await req.respond(Http204, "")
         return
 
       if req.url.path == "/rpc":
         case req.reqMethod
         of HttpGet:
-          await req.client.send(SSE_PAYLOAD)
+          await req.client.send(
+            """
+            HTTP/1.1 200 OK
+            Content-Type: text/event-stream
+            Cache-Control: no-cache
+            Connection: keep-alive
+          """.http
+          )
           asyncCheck req.client.send("event: connected\ndata: true\n\n")
           sseClients.add(req.client)
           return
@@ -60,17 +51,17 @@ proc handleRequest(req: Request) {.async.} =
           except Exception as e:
             status = Http500
             response = %*{"error": true, "message": e.msg}
-          await req.respond(status, $response, getCorsHeaders())
+          await req.respond(status, $response)
           return
         else:
-          await req.respond(Http405, "", getCorsHeaders())
+          await req.respond(Http405, "")
           return
       else:
-        await req.respond(Http404, "Not Found", getCorsHeaders())
+        await req.respond(Http404, "Not Found")
         return
     except CatchableError as e:
       log.error "Unknown Error: " & $e.msg
-      await req.respond(Http500, $e.msg, getCorsHeaders())
+      await req.respond(Http500, $e.msg)
 
 proc startServer*() {.async.} =
   var server = newAsyncHttpServer()

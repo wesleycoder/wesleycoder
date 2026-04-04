@@ -1,28 +1,31 @@
 dev.guima.localhost {
 	reverse_proxy :4321
+	header {
+		Accept-CH "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Sec-CH-Prefers-Contrast, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Form-Factors, Sec-CH-Device-Memory, Sec-CH-DPR, Sec-CH-Viewport-Width, ECT, Downlink, RTT"
+		Critical-CH "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Sec-CH-Prefers-Contrast"
+		Vary "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Sec-CH-Prefers-Contrast, Save-Data"
+	}
 }
 
 guimabook.local:4322 {
 	tls internal
 	reverse_proxy :4321
+	header {
+		Accept-CH "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Sec-CH-Prefers-Contrast, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Form-Factors, Sec-CH-Device-Memory, Sec-CH-DPR, Sec-CH-Viewport-Width, ECT, Downlink, RTT"
+		Vary "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Save-Data"
+	}
 }
 
 rpc.guima.localhost {
 	reverse_proxy :4567
 }
 
-guimabook.local:4568 {
-	tls internal
-	header {
-		Access-Control-Allow-Origin *
-		Access-Control-Allow-Methods "POST, GET, OPTIONS"
-		Access-Control-Allow-Headers "Content-Type"
-	}
-	reverse_proxy :4567
-}
-
 ui.guima.localhost {
 	reverse_proxy :6006
+	header {
+		Accept-CH "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Sec-CH-Prefers-Contrast, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Form-Factors, Sec-CH-Device-Memory, Sec-CH-DPR, Sec-CH-Viewport-Width, ECT, Downlink, RTT"
+		Vary "Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Save-Data"
+	}
 }
 
 pdb.guima.localhost {
@@ -33,5 +36,20 @@ pdb.guima.localhost {
 		transport http {
 			read_timeout 360s
 		}
+	}
+}
+
+guimabook.local:4568 {
+	tls internal
+	reverse_proxy :4567 {
+		header_down -Access-Control-Allow-Origin
+		header_down -Access-Control-Allow-Methods
+		header_down -Access-Control-Allow-Headers
+	}
+	header {
+		Access-Control-Allow-Origin *
+		Access-Control-Allow-Methods "POST, GET, PUT, PATCH, DELETE, OPTIONS"
+		Access-Control-Allow-Headers "Authorization, Content-Type, X-Requested-With, X-XSRF-TOKEN"
+		defer
 	}
 }

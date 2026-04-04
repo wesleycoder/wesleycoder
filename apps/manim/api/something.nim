@@ -10,5 +10,3 @@ proc something*(someInput: string) {.expose.} =
     raise newException(
       ValueError, fmt"Input too long: {someInput}, expected max 10 characters"
     )
-
-  return
