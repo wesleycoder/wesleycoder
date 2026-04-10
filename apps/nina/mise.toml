@@ -3,7 +3,14 @@
 "github:nats-io/natscli" = "latest"
 
 [hooks]
-postinstall = "curl -CLs https://sqlite.org/src/tarball/sqlite.tar.gz?r=release | tar -xzf - -C .temp"
+postinstall = "mise run pull_sqlite"
+
+[tasks.pull_sqlite]
+run = """
+curl -sLo .temp/sqlite-amalgamation.zip "https://www.sqlite.org/2026/sqlite-amalgamation-3530000.zip" && unzip -quj .temp/sqlite-amalgamation.zip "*/sqlite3.c" "*/sqlite3.h" -d .temp && rm .temp/sqlite-amalgamation.zip
+curl -sLo .temp/sqlite-wasm.zip "https://www.sqlite.org/2026/sqlite-wasm-3530000.zip" && unzip -quj .temp/sqlite-wasm.zip "*/sqlite3.wasm" -d .temp && rm .temp/sqlite-wasm.zip
+ls .temp
+"""
 
 [tasks.server]
 run = """
