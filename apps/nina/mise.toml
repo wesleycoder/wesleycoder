@@ -1,0 +1,11 @@
+[tools]
+"github:nats-io/nats-server" = "latest"
+"github:nats-io/natscli" = "latest"
+
+[hooks]
+postinstall = "curl -CLs https://sqlite.org/src/tarball/sqlite.tar.gz?r=release | tar -xzf - -C .temp"
+
+[tasks.server]
+run = """
+nats-server -c nats.conf
+"""

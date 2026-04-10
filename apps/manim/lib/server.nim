@@ -33,11 +33,11 @@ proc handleRequest(req: Request) {.async.} =
         of HttpGet:
           await req.client.send(
             """
-            HTTP/1.1 200 OK
-            Content-Type: text/event-stream
-            Cache-Control: no-cache
-            Connection: keep-alive
-          """.http
+              HTTP/1.1 200 OK
+              Content-Type: text/event-stream
+              Cache-Control: no-cache
+              Connection: keep-alive
+            """.http
           )
           asyncCheck req.client.send("event: connected\ndata: true\n\n")
           sseClients.add(req.client)
