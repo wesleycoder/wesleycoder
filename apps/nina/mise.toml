@@ -1,17 +1,5 @@
 [tools]
+nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
+watchexec = "latest"
 "github:nats-io/nats-server" = "latest"
 "github:nats-io/natscli" = "latest"
-
-[hooks]
-postinstall = "mise run pull_sqlite"
-
-[tasks.pull_sqlite]
-run = """
-curl -sLo .temp/sqlite-amalgamation.zip "https://www.sqlite.org/2026/sqlite-amalgamation-3530000.zip" && unzip -quj .temp/sqlite-amalgamation.zip "*/sqlite3.c" "*/sqlite3.h" -d .temp && rm .temp/sqlite-amalgamation.zip
-curl -sLo .temp/sqlite-wasm.zip "https://www.sqlite.org/2026/sqlite-wasm-3530000.zip" && unzip -quj .temp/sqlite-wasm.zip "*/sqlite3.wasm" -d .temp && rm .temp/sqlite-wasm.zip
-"""
-
-[tasks.server]
-run = """
-nats-server -c nats.conf
-"""

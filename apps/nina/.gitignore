@@ -1,3 +1,2 @@
-.jetstream/**
-.temp/**
+.nats/**
 !**/.gitkeep

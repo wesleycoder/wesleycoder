@@ -2,3 +2,6 @@ build/
 nimble.develop
 nimble.paths
 nimbledeps
+.temp/
+.nats/
+!**/.gitkeep
