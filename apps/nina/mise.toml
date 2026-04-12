@@ -3,3 +3,23 @@ nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlan
 watchexec = "latest"
 "github:nats-io/nats-server" = "latest"
 "github:nats-io/natscli" = "latest"
+
+[env]
+LIBRARY_PATH = "/opt/homebrew/opt/llvm/lib"
+DYLD_LIBRARY_PATH = "/opt/homebrew/opt/llvm/lib"
+
+[hooks]
+postinstall = "nimble install -yl --silent --depsOnly"
+
+[tasks.dev]
+usage = """
+flag "-w --watch" help="Watch for changes"
+arg "[args]..." help="Arguments to pass to nim"
+"""
+run = """CMD="nim r -d:debug nina.nim $usage_args"
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -qrc -e=nim -i="build/**" "$CMD"
+else
+  $CMD
+fi
+"""
