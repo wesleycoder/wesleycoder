@@ -1,3 +1,4 @@
 .nats/
 vendor/
+build/
 !**/.gitkeep

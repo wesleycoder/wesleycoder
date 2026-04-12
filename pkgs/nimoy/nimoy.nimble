@@ -9,6 +9,6 @@ srcDir        = "."
 
 # Dependencies
 
+requires "nina"
 requires "nim >= 2.2.8"
-
 requires "webview"
