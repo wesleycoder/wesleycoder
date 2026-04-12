@@ -2,7 +2,7 @@ import futhark
 import std/strutils
 
 importc:
-  outputPath "nats_raw.nim"
+  outputPath "src/nats_raw.nim"
   path "vendor/cnats/src"
 
   renameCallback proc(

@@ -2,11 +2,9 @@
 
 version       = "0.0.1"
 author        = "Wésley Guimarães"
-description   = "A nats wrapper for nim (via futhark)"
+description   = "A NATS wrapper for nim (via futhark)"
 license       = "MIT"
-srcDir        = "."
-bin           = @["nina"]
-binDir        = "build"
+srcDir        = "src"
 
 # Dependencies
 
