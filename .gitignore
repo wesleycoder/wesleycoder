@@ -26,3 +26,6 @@ node_modules/
 
 # speedtest output
 /speedtest_output*
+
+# until I figure out what to do with this
+apps/one_br/
