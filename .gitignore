@@ -29,3 +29,6 @@ node_modules/
 
 # until I figure out what to do with this
 apps/one_br/
+
+# knowledge resources
+.sources/

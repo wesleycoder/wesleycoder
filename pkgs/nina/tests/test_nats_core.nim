@@ -1,6 +1,6 @@
-import std/unittest
-import std/os
-import nina
+import
+  nina
+  std/[os, unittest]
 
 suite "NATS Core API":
   setup:

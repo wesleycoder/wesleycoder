@@ -1,5 +1,6 @@
-import futhark
-import std/strutils
+import
+  futhark
+  std/[strutils]
 
 importc:
   outputPath "src/nats_raw.nim"

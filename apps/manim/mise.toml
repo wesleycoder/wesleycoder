@@ -2,7 +2,7 @@
 "github:xtool-org/xtool" = { version = "1.16.1", asset_pattern = "xtool.app.zip", bin_path = "xtool.app/Contents/MacOS", strip_components = 0 }
 gradle = "latest"
 java = "17"
-nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
+nim = { version = "latest", postinstall = "nimble install -y --silent -d:release nimlsp" }
 watchexec = "latest"
 
 [hooks]
@@ -12,6 +12,18 @@ postinstall = "nimble install -yl --silent --depsOnly"
 [tasks.nim_clear]
 run = """
 nimble clean --silent
+rm -rf build/nimcache
+"""
+
+[tasks.touch_wrappers]
+description = "Smart cache invalidation: Touch wrapper .nim files if native files are newer"
+run = """
+find . -type f \\( -name "*.m" -o -name "*.c" -o -name "*.h" \\) | while read -r native_file; do
+  wrapper="${native_file%.*}.nim"
+  if [ -f "$wrapper" ] && [ "$native_file" -nt "$wrapper" ]; then
+    touch "$wrapper"
+  fi
+done
 """
 
 [tasks.dev]
@@ -19,14 +31,14 @@ usage = """
 flag "-w --watch" help="Watch for changes"
 arg "[args]..." help="Arguments to pass to nim"
 """
-run = """CMD="nim r -d:debug manim.nim $usage_args"
+run = """CMD="nim r -d:debug --nimcache:build/nimcache src/manim.nim $usage_args"
 if [ "${usage_watch:-false}" = "true" ]; then
   watchexec -qrc -e=nim -i="build/**" "$CMD"
 else
   $CMD
 fi
 """
-depends = ["web_gen"]
+depends = ["web_gen", "touch_wrappers"]
 
 [tasks.nim_build]
 run = "nimble build --silent"
@@ -59,7 +71,6 @@ flag "-w --watch" help="Watch for changes"
 """
 description = "Run web frontend and backend server in parallel"
 run = """
-mise run web_dev_astro &
 if [ "${usage_watch:-false}" = "true" ]; then
   mise web_gen -w &
   mise web_server -w &
@@ -67,21 +78,17 @@ else
   mise web_gen -w &
   mise web_server &
 fi
+mise astro dev &
 wait
 """
-depends = ["web_gen"]
 
 # Web tasks
-[tasks.web_dev_astro]
-raw = false
-run = "dx -A astro dev"
-
 [tasks.web_server]
 usage = """
 flag "-w --watch" help="Watch for changes"
 """
 raw = false
-run = """CMD="nim r -d:debug -d:server manim.nim"
+run = """CMD="nim r -d:debug -d:server --nimcache:build/nimcache src/manim-server.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
   watchexec -qrc -e=nim -i "build/**" "$CMD"
 else
@@ -102,7 +109,7 @@ flag "-w --watch" help="Watch for changes"
 arg "[output]" help="Output file for typescript RPC bindings"
 """
 run = """
-CMD="nim r -d:gen ${usage_output:+"-d:output=$usage_output"} manim.nim"
+CMD="nim r -d:gen --nimcache:build/nimcache ${usage_output:+"-d:output=$usage_output"} src/manim-server.nim"
 if [ "${usage_watch:-false}" = "true" ]; then
   watchexec -qrc -e=nim -i "build/**" "$CMD"
 else
@@ -156,7 +163,7 @@ cd android && ./gradlew clean -q || true
 
 [tasks.android_nim]
 run = """
-nim c --os:android manim.nim
+nim c --os:android src/manim.nim
 NIM_LIB_DIR=$(nim dump 2>&1 | tail -n 1)
 cp "$NIM_LIB_DIR/nimbase.h" build/android_cache/
 """
@@ -194,7 +201,7 @@ rm -rf build/ios build/ios_cache
 [tasks.ios_nim]
 run = """
 mkdir -p build/ios
-nim c --os:ios manim.nim
+nim c --os:ios src/manim.nim
 cp build/ios_cache/manim.h build/ios/
 sed -i '' 's/extern "C" //g' build/ios/manim.h
 NIM_LIB_DIR=$(nim dump 2>&1 | tail -n 1)

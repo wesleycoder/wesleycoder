@@ -41,7 +41,7 @@ class ViewController: UIViewController, WKScriptMessageHandlerWithReply {
     config.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
     config.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
 
-    contentController.addScriptMessageHandler(self, contentWorld: .page, name: "nimoy")
+    contentController.addScriptMessageHandler(self, contentWorld: .page, name: "__Nimoy")
     config.userContentController = contentController
 
     webView = WKWebView(frame: .zero, configuration: config)
@@ -65,8 +65,8 @@ class ViewController: UIViewController, WKScriptMessageHandlerWithReply {
     didReceive message: WKScriptMessage,
     replyHandler: @escaping (Any?, String?) -> Void
   ) {
-    guard message.name == "nimoy", let body = message.body as? String else {
-      replyHandler(nil, "Unknown message")
+    guard message.name == "__Nimoy", let body = message.body as? String else {
+      replyHandler(nil, "Unknown message handler")
       return
     }
     body.withCString { cStr in
@@ -75,6 +75,7 @@ class ViewController: UIViewController, WKScriptMessageHandlerWithReply {
       if let resultPtr {
         let resultString = String(cString: resultPtr)
         replyHandler(resultString, nil)
+        free(resultPtr)
       } else {
         replyHandler(nil, nil)
       }

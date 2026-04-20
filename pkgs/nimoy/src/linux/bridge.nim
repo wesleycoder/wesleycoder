@@ -1,6 +1,7 @@
-import webview
-import std/json
-import ../lib/[logger, noop, rpc]
+import
+  webview
+  std/json
+  ../lib/[logger, noop, rpc]
 
 var app: Webview
 
@@ -16,5 +17,5 @@ proc nativeIPC(id: string, req: JsonNode): string =
   return $ %*{"error": true, "data": "Invalid IPC payload: " & $ %*req}
 
 proc initNimoy*(app: Webview) =
-  app.bind("__nativeIPC", nativeIPC)
-  app.init(cstring js"window.__Native = { postMessage: window.__nativeIPC }")
+  app.bind("__nimoyIPC", nativeIPC)
+  app.init(cstring js"window.__Nimoy = { postMessage: window.__nimoyIPC }")

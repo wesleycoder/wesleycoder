@@ -64,26 +64,24 @@ If you think something here is of higher importance please let me know so I can 
 
 ## Software crafted with ❤️ by human hands
 
-> My software is made with the passion and care of a dedicated artisan.
->
-> This is why I use the word `craft` instead of `made` because I value the process, the craft itself.
->
-> I value my skills and hone my ability to stay useful to society, solving problems with my own effort is part of what makes me who I am.
->
-> I am not opposed to using AI as a tool and do reach to it when learning new skills or tackling challenging issues, but I do refuse to be lazy and let it take the wheel.
->
-> With that I do take ownership and responsibility for my work, it's results and effects in it's entirety, the *good* parts **and** the *bad* parts too.
->
-> If/when you find something wrong contained in my work, it either is on purpose or a genuine mistake on my part an it is directly my fault and responsibility do handle any effects it causes in the way I can as a human.
+My software is made with the passion and care of a dedicated artisan.
 
-- [Brain Made](https://brainmade.org)
+This is why I use the word `craft` instead of `made` because I value the process, the craft itself.
 
-  - <img alt="Brain Made" width="88" height="31" src="https://brainmade.org/88x31-light.png" />
+I value my skills and hone my ability to stay useful to society, solving problems with my own effort is part of what makes me who I am.
 
-- [Made by Human](https://madebyhuman.iamjarl.com)
+I am not opposed to using AI as a tool and do reach to it when learning new skills or tackling challenging issues, but I do refuse to be lazy and let it take the wheel.
 
-  - <img alt="Crafted by Human" width="93" height="31" src="https://madebyhuman.iamjarl.com/badges/crafted-white.svg" />
+With that I do take ownership and responsibility for my work, it's results and effects in it's entirety, the *good* parts **and** the *bad* parts too.
 
-- [Not by AI](https://notbyai.fyi)
+If/when you find something wrong contained in my work, it either is on purpose or a genuine mistake on my part an it is directly my fault and responsibility do handle any effects it causes in the way I can as a human.
 
-  - <img alt="Not by AI" width="96.5" height="31" src="./by-human.svg" />
+<a href="https://brainmade.org" target="_blank">
+  <img alt="Brain Made"  src="./public/brain-made.svg" style="width: 150px;">
+</a>
+<a href="https://madebyhuman.iamjarl.com" target="_blank">
+  <img alt="Made by Human" src="./public/made-by-human.svg" style="width: 150px;">
+</a>
+<a href="https://notbyai.fyi" target="_blank">
+  <img alt="Not by AI" src="./public/by-human.svg" style="width: 150px;">
+</a>

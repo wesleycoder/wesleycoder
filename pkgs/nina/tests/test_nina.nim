@@ -1,5 +1,6 @@
-import nina
-import std/os
+import
+  nina
+  std/os
 
 let conn = connect("nats://127.0.0.1:4222")
 

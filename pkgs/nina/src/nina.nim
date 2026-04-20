@@ -1,6 +1,6 @@
-import std/options
-
-import nats_raw
+import
+  nats_raw
+  std/[options, strutils]
 export nats_raw
 
 type

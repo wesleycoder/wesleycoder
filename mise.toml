@@ -12,7 +12,7 @@ caddy = "latest"
 deno = "latest"
 flyctl = "latest"
 "http:speedtest" = { version = "1.2.0", url = "https://install.speedtest.net/app/cli/ookla-speedtest-{version}-macosx-universal.tgz" }
-nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
+nim = { version = "latest", postinstall = "nimble install -y --silent nimlsp" }
 rust = "latest"
 sops = "latest"
 usage = "latest"

@@ -1,15 +1,15 @@
-# begin Nimble config (version 2)
-when withDir(thisDir(), system.fileExists("nimble.paths")):
-  include "nimble.paths"
-# end Nimble config
+import std/os
 
-import std/strutils
+when not defined(nimscript):
+  import system/nimscript
 
 switch("hints", "off")
 switch("verbosity", "0")
 switch("threads", "on")
 switch("outdir", "build")
-switch("path", thisDir() & "/../../../webview")
+switch("path", thisDir() / ".." / ".." / ".." / "webview")
+switch("path", thisDir() / ".." / ".." / "pkgs" / "nimoy" / "src")
+switch("path", thisDir() / ".." / ".." / "pkgs" / "nina" / "src")
 
 when defined(macosx):
   switch("backend", "cpp")

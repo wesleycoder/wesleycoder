@@ -1,5 +1,5 @@
 [tools]
-nim = { version = "latest", postinstall = "nimble install -y --silent nph nimlangserver" }
+nim = { version = "latest", postinstall = "nimble install -y --silent nimlsp" }
 watchexec = "latest"
 "github:nats-io/nats-server" = "latest"
 "github:nats-io/natscli" = "latest"

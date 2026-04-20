@@ -4,8 +4,8 @@ version       = "0.0.1"
 author        = "Wésley Guimarães"
 description   = "A sandbox for learning Nim"
 license       = "MIT"
-srcDir        = "."
-bin           = @["manim"]
+srcDir        = "src"
+bin           = @["manim", "manim-server"]
 binDir        = "build"
 
 # Dependencies

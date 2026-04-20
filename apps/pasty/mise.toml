@@ -1,0 +1,37 @@
+[tools]
+nim = { version = "latest", postinstall = "nimble install -y --silent -d:release nimlsp" }
+watchexec = "latest"
+
+[hooks]
+postinstall = "nimble install -yl --silent --depsOnly"
+
+[tasks.metaedit]
+run = """
+jj metaedit --quiet -m "🚧 draft: $(date -u +"%FT%TZ")"
+"""
+
+[tasks.clear]
+run = """
+nimble clean --silent
+rm -rf build/nimcache
+"""
+
+[tasks.dev]
+usage = """
+flag "-w --watch" help="Watch for changes"
+arg "[args]..." help="Arguments to pass to nim"
+"""
+run = """CMD="echo 'hello pasty' | nim r -d:debug --nimcache:build/nimcache $usage_args src/pasty.nim"
+if [ "${usage_watch:-false}" = "true" ]; then
+  watchexec -qrc -e=nim -i="build/**" "$CMD"
+else
+  eval $CMD
+fi
+"""
+
+[tasks.build]
+depends = ["clear"]
+run = """
+nimble build --silent
+mise metaedit
+"""

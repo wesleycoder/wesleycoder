@@ -17,11 +17,11 @@ import '../global.css'
   <body>
     <fieldset>
       <label for="something">Testing something:</label>
-      <input id="something" type="text" placeholder="Type something here..." />
+      <input id="something" type="text" placeholder="Type something here..." autofocus />
     </fieldset>
 
     <script>
-      import { rpc, listen } from '../lib/rpc.ts'
+      import { rpc, listen } from '../src/lib/rpc.ts'
 
       listen<boolean>('connected', (data) => {
         console.log('RPC connected:', data)

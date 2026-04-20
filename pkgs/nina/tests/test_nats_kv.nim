@@ -1,6 +1,6 @@
-import std/unittest
-import std/options
-import nina
+import
+  nina
+  std/[options, unittest]
 
 suite "NATS Key-Value Store API":
   setup:

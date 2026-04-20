@@ -1,6 +1,6 @@
-import std/unittest
-import std/os
-import nina
+import
+  std/[os, unittest]
+  nina
 
 suite "NATS Connection Options":
   test "Connect with custom options":

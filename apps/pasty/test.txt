@@ -1,0 +1,3 @@
+hello pasty!
+from test.txt
+now with an update

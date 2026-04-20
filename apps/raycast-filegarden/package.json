@@ -1,0 +1,86 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "raycast-filegarden",
+  "title": "FileGarden",
+  "description": "Raycast extension for managing FileGarden uploads",
+  "icon": "icon.png",
+  "author": "wesleycoder",
+  "access": "public",
+  "keywords": [
+    "screenshot",
+    "filegarden",
+    "upload",
+    "files"
+  ],
+  "categories": [
+    "Applications",
+    "Productivity"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "screenshot",
+      "title": "Take Screenshot",
+      "subtitle": "Upload screenshot to FileGarden",
+      "description": "Take a screenshot, upload it to FileGarden and copy the URL to the clipboard",
+      "mode": "no-view"
+    },
+    {
+      "name": "browse",
+      "title": "Browse FileGarden",
+      "subtitle": "View all uploaded files",
+      "description": "Browse all uploaded files on FileGarden",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "type": "textfield",
+      "name": "email",
+      "title": "Email",
+      "description": "Your FileGarden email",
+      "required": true
+    },
+    {
+      "type": "password",
+      "name": "password",
+      "title": "Password",
+      "description": "Your FileGarden password",
+      "placeholder": "●●●●●●●●●●●●●●●●●●●",
+      "required": true
+    },
+    {
+      "type": "textfield",
+      "name": "screenshotsFolderId",
+      "title": "Screenshots Folder ID",
+      "description": "The ID of the folder where screenshots will be uploaded",
+      "placeholder": "Optional ('Screenshots' by default)",
+      "required": false
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "latest",
+    "@raycast/utils": "^1.4.7",
+    "node-fetch": "^3.2.10",
+    "react": "^19.2.5"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
+    "@types/bun": "latest",
+    "@types/node": "18.18.4",
+    "@types/react": "18.2.27",
+    "eslint": "^8.51.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "ray publish"
+  }
+}
