@@ -1,14 +1,12 @@
-#!/usr/bin/env nim r -f
-import std/[options, os, parseopt, parsecfg, strformat, strutils, terminal]
-import ./lib/[pasty]
+#!/usr/bin/env nim r -f -d:debug
+import std/[browsers, httpclient, os, osproc, strformat, strutils, terminal]
+import parsetoml
+import ./lib/[api, logger]
 
 const
   CLI_NAME = "pasty"
   PASTY_URL = "https://pasty.ee"
-  CONFIG_FILE = "config.cfg"
-
-let CONFIG_PATH = getConfigDir() / CLI_NAME / CONFIG_FILE
-let KEYS_PATH = getConfigDir() / CLI_NAME / CLI_NAME & "_keys.csv"
+  CONFIG_FILE = "config.toml"
 
 type
   Context = object
@@ -20,56 +18,15 @@ type
     verbose: bool
     client: PastyClient
 
+let CONFIG_PATH = getConfigDir() / CLI_NAME / CONFIG_FILE
+let KEYS_PATH = getConfigDir() / CLI_NAME / CLI_NAME & "_keys.csv"
 var ctx: Context = Context(url: PASTY_URL, path: KEYS_PATH, verbose: false)
 
-proc printHelp() =
-  echo fmt"""
-    {CLI_NAME} - A command-line wrapper for {PASTY_URL}
-
-    Usage:
-      {CLI_NAME} [action] [pastyId] [options]
-      echo "<data>" | {CLI_NAME} [options]
-      {CLI_NAME} [options] < input_file.txt
-
-    Actions:
-      create                 Create a new paste on the server (default)
-      list                   List pasties stored locally
-      open-list              Open all pasties stored locally in the default editor
-      add <pastyId> <key>    Add/update a new pastyId/key pair to the local list
-      get <pastyId>          Get the content of a paste from the server
-      open <pastyId>         Open a paste in the default browser
-      update <pastyId> <key> Update an existing paste by ID on the server
-      delete <pastyId>       Delete an existing paste by ID on the server
-
-    Options:
-      -f, --file:<path>      Input file path. Required
-      -p, --path:<path>      Where to save pasty ids and edit keys. Default: {KEYS_PATH}
-      -u, --url:<url>        Set alternative pasty instance. Default: {PASTY_URL}
-      -v, --verbose          Enable verbose mode
-      -h, --help             Show this help message
-
-    Examples:
-    echo "hello world" | {CLI_NAME} create
-    {CLI_NAME} update VOZbqsTy tRulgY8snwxb2WVg0CpIfI7ODG72hsOp < test.txt
-    {CLI_NAME} delete VOZbqsTy
-
-    Configuration File ({CONFIG_PATH}):
-      [settings]
-      url = https://pasty.ee
-      path = /path/to/keys.csv
-      verbose = true
-  """.dedent()
-
-proc getInputData(): string =
-  if ctx.file.len > 0: result = readFile(ctx.file)
-  elif isatty(stdin):
-    printHelp()
-    raise newException(ValueError, "Error: No input data detected via stdin.")
-  else: result = stdin.readAll()
-
-  if result.len == 0: raise newException(ValueError, "Error: Input data is empty.")
-
 proc saveKey(id: string, key: string) =
+  ## Saves a key locally to the path defined in the config
+  if defined(debug): return
+  if id.len <= 0 or key.len <= 0: quit(fmt"Error: Failed to save locally, invalid id/key pair: {id}/{key}", 1)
+
   var fileLines: seq[string]
   var updated = false
 
@@ -82,17 +39,49 @@ proc saveKey(id: string, key: string) =
 
   if not updated: fileLines.add(id & "," & key)
 
+  createDir(ctx.path.parentDir())
   writeFile(ctx.path, fileLines.join("\n") & "\n")
 
-proc createAction(input: Option[string] = none(string)) =
-  let data = if input.isSome: input.get else: getInputData()
+proc getClipboard(): string =
+  ## Attempts to read text from the system clipboard using native shell tools.
+  when defined(windows):
+    let (output, err) = execCmdEx("powershell -NoProfile -Command Get-Clipboard")
+    if err == 0: return output.strip(trailing = true)
+  elif defined(macosx):
+    let (output, err) = execCmdEx("pbpaste")
+    if err == 0: return output
+  else:
+    let (outputW, errW) = execCmdEx("wl-paste")
+    if errW == 0: return outputW
+
+    let (outputX, errX) = execCmdEx("xclip -selection clipboard -o")
+    if errX == 0: return outputX
+
+    let (outputS, errS) = execCmdEx("xsel --clipboard --output")
+    if errCS == 0: return outpS
+
+  return ""
+
+proc createAction(file: string = "") =
+  ## Submit a new paste to the server (`pastyUrl`)
+  ## Pass a file via `-f` or pipe content via `stdin`.
+  var data = ""
+  if not isatty(stdin): data = stdin.readAll()
+  elif file.len > 0:
+    if not fileExists(file): quit("Error: File not found: " & file, 1)
+    data = readFile(file)
+  else: data = getClipboard()
+
+  if data.len <= 0: quit("Error: Empty input. Use either -f <file> or pipe via stdin", 1)
   let (id, key) = ctx.client.createPasty(data)
-  if id.len > 0 and id != "mockedId": saveKey(id, key)
-  stdout.writeLine(ctx.url & "/" & id)
+  saveKey(id, key)
+  echo ctx.url
+  log.ok ctx.url / id
 
 proc listAction() =
+  ## List all pasties saved in the local store file
   if not fileExists(ctx.path):
-    echo "No pasties found. The key file does not exist. Default path at: ", ctx.path
+    log.error "No pasties found. The key file does not exist. Default path at: ", ctx.path
     return
 
   var count = 0
@@ -101,111 +90,160 @@ proc listAction() =
 
     if parts.len == 2:
       if count == 0:
-        echo "ID".alignLeft(12), " | ", "URL".alignLeft(35), " | Access Key"
-        echo "-".repeat(12), "-+-", "-".repeat(35), "-+-", "-".repeat(34)
+        log.info "ID".alignLeft(12), " | ", "URL".alignLeft(35), " | Access Key"
+        log.info "-".repeat(12), "-+-", "-".repeat(35), "-+-", "-".repeat(34)
 
       let id = parts[0].strip()
       let key = parts[1].strip()
       let url = fmt"{ctx.url}/{id}"
 
-      echo id.alignLeft(12), " | ", url.alignLeft(35), " | ", key
+      log.info id.alignLeft(12), " | ", url.alignLeft(35), " | ", key
 
       inc count
 
-  if count == 0: echo "No pasties saved."
+  if count == 0: log.error "No pasties saved."
 
-proc openListAction() = return
+proc openListAction() =
+  ## Open the local store file
+  if not fileExists(ctx.path):
+    createDir(ctx.path.parentDir())
+    writeFile(ctx.path, "")
+  openDefaultBrowser(ctx.path)
+  log.ok fmt"Opened `{ctx.path}` in the default editor"
 
-proc addAction() = saveKey(ctx.pastyId, ctx.pastyKey)
+proc openConfigAction() =
+  ## Opens the configuration file in the default editor
+  if not fileExists(CONFIG_PATH):
+    createDir(CONFIG_PATH.parentDir())
+    writeFile(CONFIG_PATH, "")
+  openDefaultBrowser(CONFIG_PATH)
+  log.ok fmt"Opened `{CONFIG_PATH}` in the default editor"
 
-proc getAction() =
-  let content = ctx.client.getPasty(ctx.pastyId)
+proc addAction(pastyId: string, accessKey: string) =
+  ## Adds a pastyId/accessKey pair to the local store file
+  saveKey(pastyId, accessKey)
+  log.ok fmt"Added {pastyId} to the local store file"
+
+proc getAction(pastyId: string) =
+  ## Retrieves the contents of an existing paste
+  let content = ctx.client.getPasty(pastyId)
   stdout.writeLine(content)
 
-proc openAction() = return
+proc openAction(pastyId: string) =
+  ## Opens a paste by its ID in the default browser
+  openDefaultBrowser(fmt"{ctx.url}/{pastyId}")
+  log.ok fmt"Opened `{ctx.url}/{pastyId}` in the default browser"
 
-proc updateAction() = return
+proc updateAction(pastyId: string, pastyKey: string, file: string = "") =
+  ## Replaces the contents of an existing paste
+  ## Pass a file via `-f` or pipe content via `stdin`.
+  var data = ""
+  if not isatty(stdin): data = stdin.readAll()
+  elif file.len > 0:
+    if not fileExists(file): quit("Error: File not found: " & file, 1)
+    data = readFile(file)
+  else: data = getClipboard()
 
-proc deleteAction() = return
+  if data.len <= 0: quit("Error: Empty input. Use either -f <file> or pipe via stdin", 1)
+  let resp = ctx.client.updatePasty(pastyId, pastyKey, data)
+  if resp.code.is2xx: log.ok fmt"Pasty {pastyId} updated successfully"
+  else: log.err resp.body
 
-proc loadContext() =
-  if not fileExists(CONFIG_PATH): return
+proc deleteAction(pastyId: string, pastyKey: string) =
+  ## Deletes a paste by its ID
+  let resp = ctx.client.deletePasty(pastyId, pastyKey)
+  if resp.code.is2xx: log.ok fmt"Pasty {pastyId} deleted successfully"
+  else: log.err resp.body
+
+let SCHEMA_PATH = CONFIG_PATH.parentDir() / "schema.json"
+const CONFIG_SCHEMA = """{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://codeberg.org/wesleycoder/pasty-cli",
+  "title": "pasty config schema",
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "description": "Settings for the pasty CLI",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The URL of the pasty instance to use"
+        },
+        "path": {
+          "type": "string",
+          "description": "The path to the pasty keys file"
+        },
+        "verbose": {
+          "type": "boolean",
+          "description": "Whether to enable verbose output"
+        }
+      }
+    }
+  }
+}
+"""
+
+proc loadConfig() =
+  if not fileExists(CONFIG_PATH):
+    createDir(CONFIG_PATH.parentDir())
+    writeFile(CONFIG_PATH, "")
+  if not fileExists(SCHEMA_PATH):
+    writeFile(SCHEMA_PATH, CONFIG_SCHEMA)
 
   try:
-    let cfg = parsecfg.loadConfig(CONFIG_PATH)
-    ctx.url = cfg.getSectionValue("settings", "url", PASTY_URL)
-    ctx.path = cfg.getSectionValue("settings", "path", KEYS_PATH)
-    ctx.verbose = cfg.getSectionValue("settings", "verbose", "false").parseBool()
-    ctx.client = newPastyClient(ctx.url)
+    let cfg = parsetoml.parsefile(CONFIG_PATH)
+    if not cfg.hasKey("settings"): return
+
+    let settings = cfg["settings"]
+    if settings.hasKey("url"): ctx.url = settings["url"].getStr()
+    if settings.hasKey("path"): ctx.path = settings["path"].getStr().expandTilde()
+    if settings.hasKey("verbose"): ctx.verbose = settings["verbose"].getBool()
   except CatchableError as e:
-    raise newException(IOError, "Error: Failed to load config file: " & e.msg)
+    quit("Error: Failed to load config file: " & e.msg, 1)
 
-proc readArgs(): seq[string] =
-  var p = initOptParser(mode = LaxMode)
-  var positionalArgs: seq[string]
-  var expectingFile = false
-  var expectingPath = false
+  ctx.client = newPastyClient(ctx.url)
 
-  for kind, key, val in p.getopt():
-    case kind
-    of cmdEnd: raise newException(AssertionDefect, "Unreachable")
-    of cmdLongOption, cmdShortOption:
-      case key
-      of "url", "u":
-        ctx.url = val
-      of "verbose", "v":
-        ctx.verbose = true
-      of "file", "f":
-        if val == "": expectingFile = true
-        else: ctx.file = val
-      of "path", "p":
-        if val == "": expectingPath = true
-        else: ctx.path = val
-      of "help", "h":
-        printHelp()
-        quit(0)
-      else:
-        printHelp()
-        raise newException(ValueError, "Unknown flag: " & key)
-    of cmdArgument:
-      if expectingFile:
-        ctx.file = val
-        expectingFile = false
-      elif expectingPath:
-        ctx.path = val
-        expectingPath = false
-      else:
-        positionalArgs.add(val)
-  result = positionalArgs
-
-proc getCmdArgs(defaultCmd: string): (string, seq[string]) =
-  let args = commandLineParams()
-  for i, arg in args:
-    if not arg.startsWith("-"): return (arg, args[0 ..< i] & args[i + 1 .. ^1])
-  return (defaultCmd, args)
+proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[string] =
+  ## cligen's hook to set a default command/action
+  result = cmdLine
+  if cmdNames.len != 1: return
+  if result.len == 0: result = @["create"]
 
 when isMainModule:
-  import cligen;
+  import cligen
 
-  dispatchGen(createAction, cmdName = "create")
-  dispatchGen(listAction, cmdName = "list")
-  dispatchGen(openListAction, cmdName = "open-list", dispatchName = "dispatchopenList")
-  dispatchGen(addAction, cmdName = "add")
-  dispatchGen(getAction, cmdName = "get")
-  dispatchGen(openAction, cmdName = "open")
-  dispatchGen(updateAction, cmdName = "update")
-  dispatchGen(deleteAction, cmdName = "delete")
+  loadConfig()
 
-  loadContext()
+  const noArgsUsage = "$command\n${doc}\n"
+  const simpleUsage = "$command\n${doc}Options:\n$options\n"
+  const pastyIdUsage = "$command <pastyId>\n${doc}\n"
 
-  let (cmd, rest) = getCmdArgs("create")
-  case cmd:
-    of "create": cligenQuit(dispatchcreate(rest))
-    of "list": cligenQuit(dispatchlist(rest))
-    of "open-list": cligenQuit(dispatchopenList(rest))
-    of "add": cligenQuit(dispatchadd(rest))
-    of "get": cligenQuit(dispatchget(rest))
-    of "open": cligenQuit(dispatchopen(rest))
-    of "update": cligenQuit(dispatchupdate(rest))
-    of "delete": cligenQuit(dispatchdelete(rest))
-    else: quit(fmt"Unknown command: `{cmd}`", 1)
+  dispatchMulti(
+    ["multi", doc = "pasty - A command-line client for pasty.ee\n\n"],
+    [createAction, cmdName = "create", usage = simpleUsage],
+    [listAction, cmdName = "list", usage = noArgsUsage],
+    [openListAction, cmdName = "open-list", usage = noArgsUsage],
+    [openConfigAction, cmdName = "open-config", usage = noArgsUsage],
+    [addAction,
+      cmdName = "add",
+      short = {"accessKey": 'k'},
+      help = {
+        "pastyId": "Pasty ID returned when creating a paste\neg: `VXObmsLy` for https://pasty.ee",
+        "accessKey": "Access Key returned when creating a paste\neg: EJ9uJ30jvbRbWOA2S1lBMYQnzWmsK5xw"
+      },
+      usage = simpleUsage
+    ],
+    [updateAction,
+      cmdName = "update",
+      short = {"pastyKey": 'k'},
+      help = {
+        "pastyId": "Pasty ID returned when creating a paste\neg: `VXObmsLy` for https://pasty.ee",
+        "pastyKey": "Access Key returned when creating a paste\neg: EJ9uJ30jvbRbWOA2S1lBMYQnzWmsK5xw"
+      },
+      usage = simpleUsage
+    ],
+    [getAction, cmdName = "get", usage = pastyIdUsage],
+    [openAction, cmdName = "open", usage = pastyIdUsage],
+    [deleteAction, cmdName = "delete", usage = pastyIdUsage]
+  )

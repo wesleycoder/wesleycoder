@@ -1,4 +1,4 @@
-import std/[httpclient, strutils]
+import std/[httpclient, strutils, uri]
 
 when defined(debug):
   import std/[streams, strformat]
@@ -11,10 +11,13 @@ when defined(debug):
 
 type PastyClient* = object
   http: HttpClient
-  url: string
+  url: Uri
 
 proc newPastyClient*(url: string): PastyClient =
-  PastyClient(http: newHttpClient(), url: url)
+  var normalizedUrl = url
+  normalizedUrl.removeSuffix('/')
+  echo "normalizedUrl: " & normalizedUrl
+  PastyClient(http: newHttpClient(), url: parseUri(normalizedUrl))
 
 proc close*(pc: PastyClient) =
   pc.http.close()
@@ -23,7 +26,7 @@ proc getPasty*(pc: PastyClient, id: string): string =
   try:
     var response: Response
     when not defined(debug):
-      response = pc.http.get(pc.url & "/" & id)
+      response = pc.http.get(pc.url / id)
     else:
       response = mockedResponse(fmt"Mocked content for pasty ID: {id}")
 
@@ -41,7 +44,7 @@ proc createPasty*(pc: PastyClient, body: string): (string, string) =
       response = pc.http.post(pc.url, body)
     else:
       response = mockedResponse(fmt"""
-        URL: {pc.url}/mockedId
+        URL: {pc.url / "mockedId"}
         Key: mockedKey
       """.dedent)
 
@@ -51,9 +54,15 @@ proc createPasty*(pc: PastyClient, body: string): (string, string) =
 
   let lines = response.body.strip().splitLines()
   if lines.len < 2: raise newException(ValueError, "Could not parse response: expected at least 2 lines, got: " & $lines.len)
-  let id = lines[0][pc.url.len + 6..^1].strip()
-  let key = lines[1][5..^1].strip()
+  let id = lines[0].replace("URL: " & $pc.url & "/", "").strip()
+  let key = lines[1].replace("Key: ", "").strip()
+  echo "id: " & id & " | key: " & key
   (id, key)
 
-proc delete*(pc: PastyClient, id: string): Response =
-  pc.http.delete(pc.url & "/" & id)
+proc updatePasty*(pc: PastyClient, id: string, key: string, body: string): Response =
+  pc.http.headers = newHttpHeaders({"X-Pasty-Access-Key": key})
+  pc.http.post(pc.url / id, body)
+
+proc deletePasty*(pc: PastyClient, id: string, key: string): Response =
+  pc.http.headers = newHttpHeaders({"X-Pasty-Access-Key": key})
+  pc.http.delete(pc.url / id)

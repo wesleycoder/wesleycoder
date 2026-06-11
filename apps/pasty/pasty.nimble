@@ -13,3 +13,4 @@ binDir        = "build"
 requires "nim >= 2.2.6"
 
 requires "cligen >= 1.9.6"
+requires "parsetoml >= 0.7.2"
